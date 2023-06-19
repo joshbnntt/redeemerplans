@@ -38,24 +38,26 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(pluginRss); // just includes absolute url helper function
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
   eleventyConfig.addPlugin(EleventyVitePlugin, {
-    plugins: [
-      {
-        name: "xml-loader",
-        async transform(_, id) {
-          const xmlRegEx = /\.xml$/;
-          if (xmlRegEx.test(id)) {
-            const xml = readFileSync(id).toString();
-            const parser = new XMLParser();
-            const convertedObj = await parser.parse(xml);
-            const buf = Buffer.from(JSON.stringify(convertedObj));
-            return {
-              code: `export default ${buf}`,
-            };
-          }
-          return {};
+    viteOptions: {
+      plugins: [
+        {
+          name: "xml-loader",
+          async transform(_, id) {
+            const xmlRegEx = /\.xml$/;
+            if (xmlRegEx.test(id)) {
+              const xml = readFileSync(id).toString();
+              const parser = new XMLParser();
+              const convertedObj = await parser.parse(xml);
+              const buf = Buffer.from(JSON.stringify(convertedObj));
+              return {
+                code: `export default ${buf}`,
+              };
+            }
+            return {};
+          },
         },
-      },
-    ],
+      ],
+    },
   });
 
   /* --- SHORTCODES --- */
