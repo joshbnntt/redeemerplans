@@ -9,3 +9,5 @@ window.Alpine = Alpine
 Alpine.start()
 
 console.log('hello from index.js')
+
+import * as Turbo from "@hotwired/turbo"
