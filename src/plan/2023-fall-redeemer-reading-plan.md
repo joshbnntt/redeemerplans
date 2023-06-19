@@ -1,6 +1,6 @@
 ---
 title: "2023 Fall Redeemer Reading Plan"
-description: "Reading plan for the fall"
+description: "Reading plan for the fall of 2023"
 plan:
   - "John 1,John 2"
   - "John 3,John 4"
