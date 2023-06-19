@@ -1,0 +1,32 @@
+---
+layout: base
+eleventyNavigation:
+  key: Home
+  order: 1
+pagination:
+  data: collections.plans
+  size: 12
+  alias: plans
+meta:
+  title: Bible Reading Plans Archive
+  description: this is where you can find all our Bible Reading Plans.
+---
+
+<main class="mx-auto w-full p-3 md:w-9/12 lg:w-8/12">
+  {% include "pagination.njk" %}
+  <div class="flex flex-col">
+    <h1 class="text-2xl font-bold">All Plans</h1>
+    <div class="flex w-full flex-col flex-wrap justify-center sm:flex-row lg:justify-start gap-3">
+      {% for plan in plans %}
+        <a class="card w-full md:w-80 bg-primary text-primary-content" href="{{ plan.url }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ plan.data.title }}</h5>
+            <div class="h-4"></div>
+            <p class="font-normal text-base-100">{{ plan.data.description }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% include "pagination.njk" %}
+</main>

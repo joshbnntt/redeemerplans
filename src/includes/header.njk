@@ -1,0 +1,29 @@
+<header class="w-full bg-primary  py-2 text-xl">
+  <div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
+    <div class="logo text-white">
+      <a href="/">Redeemer Bible Reading Plans</a>
+    </div>
+  </div>
+</header>
+<nav class="bg-accent text-white">
+  <div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-2">
+    {{ collections.all | eleventyNavigation | eleventyNavigationToHtml({
+
+        listElement: "ul",            
+        listItemElement: "li",        
+
+        listClass: "flex gap-4",  
+        listItemClass: "",  
+
+        listItemHasChildrenClass: "has-submenu", 
+        anchorClass: "",  
+        
+        activeListItemClass: "active",              
+        activeAnchorClass: "active",        
+
+        activeKey: eleventyNavigation.key,
+        showExcerpt: false
+
+      }) | safe }}
+  </div>
+</nav>

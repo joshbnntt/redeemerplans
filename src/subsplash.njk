@@ -1,0 +1,21 @@
+---
+eleventyImport:
+  collections: ["plans"]
+pagination:
+  data: collections.plans
+  size: 1
+  alias: plan
+permalink: "/subsplash/{{ plan.data.title | slugify}}.xml"
+---
+
+<plan>
+  {% for day in plan.data.plan %}
+    <reading>
+      <day>{{ loop.index }}</day>
+      {% set passages = day | split(",") %}
+      {% for passage in passages %}
+        <passage>{{ passage }}</passage>
+      {% endfor %}
+    </reading>
+  {% endfor %}
+</plan>

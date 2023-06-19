@@ -1,0 +1,8 @@
+<div class="w-full flex justify-center gap-4 py-4">
+  {% if pagination.href.previous %}
+    <a href="{{ pagination.href.previous }}">Previous Page</a>
+  {% endif %}
+  {% if pagination.href.next %}
+    <a href="{{ pagination.href.next }}">Next Page</a>
+  {% endif %}
+</div>
