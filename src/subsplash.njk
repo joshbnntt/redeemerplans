@@ -9,12 +9,12 @@ permalink: "/public/subsplash/{{ plan.data.title | slugify}}.xml"
 ---
 
 <plan>
-  {% for day in plan.data.plan %}
+  {% for reading in plan.data.plan %}
     <reading>
       <day>{{ loop.index }}</day>
-      {% set passages = day | split(",") %}
+      {% set passages = reading.day | split(",") %}
       {% for passage in passages %}
-        <passage>{{ passage }}</passage>
+        <passage>{{ passage | safe }}</passage>
       {% endfor %}
     </reading>
   {% endfor %}
