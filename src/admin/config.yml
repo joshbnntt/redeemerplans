@@ -15,4 +15,4 @@ collections:
         label: "Plan"
         widget: "list"
         fields:
-          - {name: "day", label: "Day", widget: "list"}
+          - {name: "day", label: "Day", widget: "string"}
