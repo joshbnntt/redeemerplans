@@ -24,8 +24,8 @@ layout: base
           </tr>
         </thead>
         <tbody>
-          {% for day in plan %}
-            {% if day === "Grace Day" or day === "Lord's Day"%}
+          {% for reading in plan %}
+            {% if reading.day === "Grace Day" or reading.day === "Lord's Day"%}
               <tr class="border-b border-sky-700 bg-accent text-white">
             {% else %}
               <tr class="border-b border-sky-700 bg-info text-white">
@@ -33,7 +33,7 @@ layout: base
                 <td class="px-6 py-4">{{ loop.index }}</td>
                 <td class="px-6 py-4">
                   <ul>
-                    <li>{{ day }}</li>
+                    <li>{{ reading.day | safe }}</li>
                   </ul>
                 </td>
               </tr>
