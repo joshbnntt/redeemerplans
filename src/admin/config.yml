@@ -11,4 +11,8 @@ collections:
     fields:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Description", name: "description", widget: "string"}
-      - {label: "Plan", name: "plan", widget: "list"}
+      - name: "plan" 
+        label: "Plan"
+        widget: "list"
+        fields:
+          - {name: "day", label: "Day", widget: "list"}
