@@ -31,6 +31,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets/css");
   eleventyConfig.addPassthroughCopy("src/assets/js");
   eleventyConfig.addPassthroughCopy({ "src/assets/images": "public/images" });
+  eleventyConfig.addPassthroughCopy({"src/admin": "public/admin"});
 
   /* --- PLUGINS --- */
 
