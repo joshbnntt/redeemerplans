@@ -6,7 +6,8 @@ layout: base
   <div class="flex flex-col">
     <div class="relative overflow-x-auto rounded-2xl">
       <table class="w-full rounded-lg text-left text-sm text-gray-500 dark:text-gray-400">
-        <caption class="bg-primary p-5 text-left text-lg font-semibold text-white dark:bg-primary dark:text-white">{{ title }}<p class="mt-1 text-sm font-normal text-stone-300 dark:text-stone-200">
+        <caption class="bg-primary p-5 text-left text-lg font-semibold text-white dark:bg-primary dark:text-white">{{ title }}
+          <p class="mt-1 text-sm font-normal text-stone-300 dark:text-stone-200">
             {{ description }}</p>
           <div class="mt-2 flex">
             <a
@@ -24,17 +25,21 @@ layout: base
         </thead>
         <tbody>
           {% for day in plan %}
-            <tr class="border-b bg-secondary text-stone-900 dark:border-sky-700 dark:bg-info dark:text-white">
-              <td class="px-6 py-4">{{ loop.index }}</td>
-              <td class="px-6 py-4">
-                <ul>
-                  <li>{{ day }}</li>
-                </ul>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+            {% if day === "Grace Day" or day === "Lord's Day"%}
+              <tr class="border-b border-sky-700 bg-accent text-white">
+            {% else %}
+              <tr class="border-b border-sky-700 bg-info text-white">
+            {% endif %}
+                <td class="px-6 py-4">{{ loop.index }}</td>
+                <td class="px-6 py-4">
+                  <ul>
+                    <li>{{ day }}</li>
+                  </ul>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-</main>
+  </main>
