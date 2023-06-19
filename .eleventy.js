@@ -5,6 +5,7 @@ const EleventyVitePlugin = require("@11ty/eleventy-plugin-vite");
 const Image = require("@11ty/eleventy-img");
 const yaml = require("js-yaml"); // Because yaml is nicer than json for editors
 require("dotenv").config();
+const XMLLoader = require("vite-plugin-xml-loader");
 
 const baseUrl = process.env.BASE_URL || "http://localhost:8080";
 console.log("baseUrl is set to ...", baseUrl);
@@ -36,7 +37,26 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addPlugin(pluginRss); // just includes absolute url helper function
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
-  eleventyConfig.addPlugin(EleventyVitePlugin, {});
+  eleventyConfig.addPlugin(EleventyVitePlugin, {
+    plugins: [
+      {
+        name: "xml-loader",
+        async transform(_, id) {
+          const xmlRegEx = /\.xml$/;
+          if (xmlRegEx.test(id)) {
+            const xml = readFileSync(id).toString();
+            const parser = new XMLParser();
+            const convertedObj = await parser.parse(xml);
+            const buf = Buffer.from(JSON.stringify(convertedObj));
+            return {
+              code: `export default ${buf}`,
+            };
+          }
+          return {};
+        },
+      },
+    ],
+  });
 
   /* --- SHORTCODES --- */
 
