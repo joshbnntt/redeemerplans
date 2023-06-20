@@ -40,7 +40,7 @@
                 <td class="px-6 py-4">
                   <ul>
                     <li>{{ reading.day | safe }}</li>
-                    {% if reading.alt %}
+                    {% if reading.alt !== "" %}
                         <li><span class="font-semibold">Alternate:</span> {{ reading.alt | safe }}</li>
                     {% endif %}
                   </ul>
