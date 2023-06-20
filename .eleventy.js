@@ -75,6 +75,20 @@ module.exports = function(eleventyConfig) {
   // Output year for copyright notices
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
+  eleventyConfig.addShortcode("date", (startdate, offset = 0) => {
+    const date = new Date(startdate)
+    date.setDate(date.getDate() + offset)
+    const day = date.toLocaleString("en-US", {day:"numeric"})
+    const month = date.toLocaleString("en-US", {month: "long"})
+
+    return `<div class="flex flex-col justify-center">
+    <span class="countdown font-mono text-2xl">
+      <span style="--value:${day};">${day}</span>
+    </span>
+    ${ month }
+  </div>`
+  })
+
   /* --- FILTERS --- */
 
   // Custom Random Helper Filter (useful for ID attributes)

@@ -30,7 +30,13 @@ layout: base
             {% else %}
               <tr class="border-b border-sky-700 bg-info text-white">
             {% endif %}
-                <td class="px-6 py-4">{{ loop.index }}</td>
+                {% if start !== "" %}
+                  <td class="px-6 py-4">
+                    {% date start, loop.index-1 %}
+                  </td>
+                {% else %}
+                  <td class="px-6 py-4">{{ loop.index }}</td>
+                {% endif %}
                 <td class="px-6 py-4">
                   <ul>
                     <li>{{ reading.day | safe }}</li>
