@@ -18,4 +18,4 @@ collections:
         widget: "list"
         fields:
           - {name: "day", label: "Passages", widget: "string"}
-          - {name: "alt", label: "Alternate", widget: "string", default: ""}
+          - {name: "alt", label: "Alternate", widget: "string", default: "", required: false}
