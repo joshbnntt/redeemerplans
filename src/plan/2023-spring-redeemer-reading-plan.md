@@ -166,15 +166,22 @@ plan:
   - day: Grace Day
   - day: Lord's Day
   - day: Leviticus 1, Leviticus 2, Leviticus 3, Leviticus 4
+    alt: Leviticus 8
   - day: Leviticus 5, Leviticus 6, Leviticus 7, Leviticus 8
+    alt: Leviticus 9
   - day: Leviticus 9, Leviticus 10, Leviticus 11, Leviticus 12
+    alt: Leviticus 10
   - day: Leviticus 13, Leviticus 14, Leviticus 15, Leviticus 16
+    alt: Leviticus 16
   - day: Psalm 15, Proverbs 24
   - day: Grace Day
   - day: Lord's Day
   - day: Leviticus 17, Leviticus 18, Leviticus 19
+    alt: Leviticus 19
   - day: Leviticus 20, Leviticus 21, Leviticus 22
+    alt: Leviticus 23
   - day: Leviticus 23, Leviticus 24, Leviticus 25, Luke 4:18-21
+    alt: Leviticus 25, Luke 4:18-21
   - day: Leviticus 26, Leviticus 27
     alt: Leviticus 26
   - day: Psalm 103, Proverbs 25
