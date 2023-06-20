@@ -1,11 +1,17 @@
 ---
 layout: empty
+eleventyNavigation:
+  key: Current Plan
+  order: 2
 eleventyImport:
   collections: ["currentPlan"]
 pagination:
   data: collections.currentPlan
   size: 1
   alias: readingPlan
+meta:
+  title: Redeemer's Current Bible Reading Plans
+  description: This is the Bible Reading Plan that Redeemer Church is currently working through.
 ---
 
 {% set title = readingPlan.data.title %}
