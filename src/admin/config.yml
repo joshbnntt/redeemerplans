@@ -17,5 +17,5 @@ collections:
         label: "Plan"
         widget: "list"
         fields:
-          - {name: "day", label: "Day", widget: "string"}
+          - {name: "day", label: "Passages", widget: "string"}
           - {name: "alt", label: "Alternate", widget: "string"}
