@@ -14,7 +14,7 @@ permalink: "/public/subsplash/{{ plan.data.title | slugify}}.xml"
       <day>{{ loop.index }}</day>
       {% set passages = reading.day | split(",") %}
       {% for passage in passages %}
-        <passage>{{ passage | safe }}</passage>
+        <passage>{{ passage | safe | trim }}</passage>
       {% endfor %}
     </reading>
   {% endfor %}

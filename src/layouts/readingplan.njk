@@ -26,9 +26,9 @@ layout: base
         <tbody>
           {% for reading in plan %}
             {% if reading.day === "Grace Day" or reading.day === "Lord's Day"%}
-              <tr class="border-b border-sky-700 bg-accent text-white">
+              <tr class="border-b border-sky-700 bg-accent text-white" data-date="{% readingdate start, loop.index-1 %}">
             {% else %}
-              <tr class="border-b border-sky-700 bg-info text-white">
+              <tr class="border-b border-sky-700 bg-info text-white" data-date="{% readingdate start, loop.index-1 %}">
             {% endif %}
                 {% if start !== "" %}
                   <td class="px-6 py-4">

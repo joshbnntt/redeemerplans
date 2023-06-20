@@ -76,17 +76,37 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
   eleventyConfig.addShortcode("date", (startdate, offset = 0) => {
+    if (startdate === "") return ""
     const date = new Date(startdate)
     date.setDate(date.getDate() + offset)
     const day = date.toLocaleString("en-US", {day:"numeric"})
-    const month = date.toLocaleString("en-US", {month: "long"})
+    const month = date.toLocaleString("en-US", {month: "short"})
 
     return `<div class="flex flex-col justify-center">
-    <span class="countdown font-mono text-2xl">
+    <span class="font-bold">${ month }</span>
+    <span class="countdown font-mono text-xl">
       <span style="--value:${day};">${day}</span>
     </span>
-    ${ month }
   </div>`
+  })
+
+  eleventyConfig.addShortcode("day", (startdate, offset = 0) => {
+    if (startdate === "") return ""
+    const date = new Date(startdate)
+    date.setDate(date.getDate() + offset)
+    return date.toLocaleString("en-US", {day:"numeric"})
+  })
+  eleventyConfig.addShortcode("month", (startdate, offset = 0) => {
+    if (startdate === "") return ""
+    const date = new Date(startdate)
+    date.setDate(date.getDate() + offset)
+    return date.toLocaleString("en-US", {month:"medium"})
+  })
+  eleventyConfig.addShortcode("readingdate", (startdate, offset = 0) => {
+    if (startdate === "") return ""
+    const date = new Date(startdate)
+    date.setDate(date.getDate() + offset)
+    return date.toLocaleString("en-US", {month:"numeric",day:"numeric",year:"numeric"})
   })
 
   /* --- FILTERS --- */
