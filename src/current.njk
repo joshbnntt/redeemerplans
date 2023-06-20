@@ -1,0 +1,16 @@
+---
+layout: empty
+eleventyImport:
+  collections: ["currentPlan"]
+pagination:
+  data: collections.currentPlan
+  size: 1
+  alias: readingPlan
+---
+
+{% set title = readingPlan.data.title %}
+{% set description = readingPlan.data.description %}
+{% set start = readingPlan.data.start %}
+{% set plan = readingPlan.data.plan %}
+
+{% include "readinglist.njk" %}

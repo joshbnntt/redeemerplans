@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="{{ meta.lang or site.lang }}">
+  {% include "head.njk" %}
+  <body>
+    <main>
+      {{ content | safe }}
+    </main>
+    {% include "footer.njk" %}
+    <script type="module" src="{{ '/assets/js/index.js' | url }}"></script>
+  </body>
+</html>

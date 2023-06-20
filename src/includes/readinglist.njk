@@ -1,0 +1,47 @@
+<main class="mx-auto w-full p-3 md:w-7/12 lg:w-5/12">
+  <div class="flex flex-col">
+    <div class="relative overflow-x-auto rounded-2xl">
+      <table class="w-full rounded-lg text-left text-sm text-gray-500 dark:text-gray-400">
+        <caption class="bg-primary p-5 text-left text-lg font-semibold text-white dark:bg-primary dark:text-white">{{ title }}
+          <p class="mt-1 text-sm font-normal text-stone-300 dark:text-stone-200">
+            {{ description }}</p>
+          <div class="mt-2 flex">
+            <a
+              href="/subsplash/{{ title | slugify }}.xml"
+              class="rounded-md border border-sky-500 px-3 py-2 text-center text-xs font-medium text-sky-500 hover:bg-sky-500
+                hover:text-white focus:outline-none focus:ring-4 focus:ring-sky-800"
+              target="_blank">Subsplash Link</a>
+          </div>
+        </caption>
+        <thead class="bg-accent text-xs uppercase text-white ">
+          <tr>
+            <th scope="col" class="px-6 py-3">Day</th>
+            <th scope="col" class="px-6 py-3">Passages</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for reading in plan %}
+            {% if reading.day === "Grace Day" or reading.day === "Lord's Day"%}
+              <tr class="border-b border-sky-700 bg-accent text-white" data-date="{% readingdate start, loop.index-1 %}">
+            {% else %}
+              <tr class="border-b border-sky-700 bg-info text-white" data-date="{% readingdate start, loop.index-1 %}">
+            {% endif %}
+                {% if start !== "" %}
+                  <td class="px-6 py-4">
+                    {% date start, loop.index-1 %}
+                  </td>
+                {% else %}
+                  <td class="px-6 py-4">{{ loop.index }}</td>
+                {% endif %}
+                <td class="px-6 py-4">
+                  <ul>
+                    <li>{{ reading.day | safe }}</li>
+                  </ul>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>

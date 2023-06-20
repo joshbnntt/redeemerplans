@@ -2,6 +2,7 @@
 title: "2023 Spring Redeemer Reading Plan"
 description: "Reading plan for the spring of 2023"
 start: "01-02-2023"
+current: true
 plan:
   - day: "1 John 1"
   - day: "1 John 2"

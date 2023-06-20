@@ -121,6 +121,14 @@ module.exports = function(eleventyConfig) {
     return string.split(separator);
   });
 
+  /* --- COLLECTIONS --- */
+  eleventyConfig.addCollection("currentPlan", function(collectionApi) {
+    return collectionApi.getFilteredByTag("plans").filter(function(item) {
+      console.log(item.data.title, item.data.current)
+      return item.data.current;
+    })
+  })
+
   /* --- BASE CONFIG --- */
 
   return {
