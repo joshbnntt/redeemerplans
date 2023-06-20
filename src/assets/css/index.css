@@ -15,6 +15,6 @@
   }
 
   li.active {
-    @apply underline;
+    @apply font-bold;
   }
 }

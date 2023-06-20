@@ -14,6 +14,7 @@ const globalSiteData = {
   description: "Bible Reading Plans for Redeemer Church in North Santa Rosa County, Florida",
   locale: "en",
   baseUrl: baseUrl,
+  lang: "en-US"
 };
 
 module.exports = function(eleventyConfig) {

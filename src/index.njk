@@ -15,7 +15,6 @@ meta:
 <main class="mx-auto w-full p-3 md:w-9/12 lg:w-8/12">
   {% include "pagination.njk" %}
   <div class="flex flex-col">
-    <h1 class="text-2xl font-bold">All Plans</h1>
     <div class="flex w-full flex-col flex-wrap justify-center sm:flex-row lg:justify-start gap-3">
       {% for plan in plans %}
         <a class="card w-full md:w-80 bg-primary text-primary-content" href="{{ plan.url }}">
