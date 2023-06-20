@@ -7,7 +7,11 @@
             {{ description }}</p>
           <div class="mt-2 flex">
             <a
+              {% if currentplan %}
+                href="/currentplan.xml"
+              {% else %}
               href="/subsplash/{{ title | slugify }}.xml"
+              {% endif %}
               class="rounded-md border border-sky-500 px-3 py-2 text-center text-xs font-medium text-sky-500 hover:bg-sky-500
                 hover:text-white focus:outline-none focus:ring-4 focus:ring-sky-800"
               target="_blank">Subsplash Link</a>
@@ -36,6 +40,9 @@
                 <td class="px-6 py-4">
                   <ul>
                     <li>{{ reading.day | safe }}</li>
+                    {% if reading.alt %}
+                        <li><span class="font-semibold">Alternate:</span> {{ reading.alt | safe }}</li>
+                    {% endif %}
                   </ul>
                 </td>
               </tr>

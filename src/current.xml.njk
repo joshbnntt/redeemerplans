@@ -1,0 +1,21 @@
+---
+eleventyImport:
+  collections: ["currentPlan"]
+pagination:
+  data: collections.currentPlan
+  size: 1
+  alias: plan
+permalink: "/public/currentplan.xml"
+---
+
+<plan>
+  {% for reading in plan.data.plan %}
+    <reading>
+      <day>{{ loop.index }}</day>
+      {% set passages = reading.day | split(",") %}
+      {% for passage in passages %}
+        <passage>{{ passage | safe | trim }}</passage>
+      {% endfor %}
+    </reading>
+  {% endfor %}
+</plan>
