@@ -138,9 +138,13 @@ plan:
   - day: Grace Day
   - day: Lord's Day
   - day: Exodus 21, Exodus 22, Exodus 23, Exodus 24, Exodus 25
+    alt: Exodus 24, Exodus 31
   - day: Exodus 26, Exodus 27, Exodus 28, Exodus 29, Exodus 30
+    alt: Exodus 32, Exodus 33
   - day: Exodus 31, Exodus 32, Exodus 33, Exodus 34, Exodus 35
+    alt: Exodus 34, Exodus 35
   - day: Exodus 36, Exodus 37, Exodus 38, Exodus 39, Exodus 40
+    alt: Exodus 36, Exodus 40
   - day: Psalm 30, Proverbs 20
   - day: Grace Day
   - day: Lord's Day
