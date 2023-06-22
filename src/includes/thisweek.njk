@@ -1,0 +1,44 @@
+<div x-data="{
+        readings: null,
+        currentWeek: '',
+        getWeekStart() {
+            const today = new Date();
+            const start = today.getDate() - today.getDay();
+            const weekStart = new Date(today.setDate(start));
+            return weekStart.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+        },
+        getWeekEnd() {
+            const weekStart = new Date(this.getWeekStart());
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6); // Assuming a week ends on the 7th day
+
+            return weekEnd.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+        },
+        fetchReadings() {
+            fetch('/api/masterplan.json')
+                .then(response => response.json())
+                .then(data => {
+                    this.readings = data.plan;
+                    this.currentWeek = this.getWeekStart();
+                    this.currentWeekEnd = this.getWeekEnd();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        },
+    }" x-init="fetchReadings()">
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold mb-4">Weekly Readings</h1>
+            <div x-show="readings" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <template x-for="reading in readings">
+                    <div x-show="reading.readingdate !== '' && reading.readingdate >= currentWeek && reading.readingdate <= currentWeekEnd" class="bg-white rounded shadow p-4">
+                        <h2 class="text-xl font-semibold" x-text="reading.day"></h2>
+                        <p class="text-gray-500" x-text="reading.alt"></p>
+                        <p class="text-gray-500" x-text="reading.readingdate"></p>
+                        <p class="text-gray-500" x-text="currentWeek"></p>
+                    </div>
+                </template>
+            </div>
+            <p x-show="!readings" class="text-gray-500">Loading...</p>
+        </div>
+    </div>
