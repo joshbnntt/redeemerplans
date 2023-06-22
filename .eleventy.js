@@ -42,7 +42,7 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addPlugin(pluginRss); // just includes absolute url helper function
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
-  eleventyConfig.addPlugin(EleventyVitePlugin, {});
+  // eleventyConfig.addPlugin(EleventyVitePlugin, {});
 
   /* --- SHORTCODES --- */
 
