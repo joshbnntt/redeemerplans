@@ -12,6 +12,6 @@ meta:
 
 {% edge "njk", readingPlan %}
 
-<h1>{{readingPlan.data.title | safe}}</h1>
-{% date readingPlan.data.start %}
+<h1>{{data.title | safe}}</h1>
+{% date data.start %}
 {% endedge %}
