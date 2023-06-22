@@ -62,11 +62,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template x-for="(reading, index) in readings" x-show="reading.readingdate !== '' && reading.readingdate >= currentWeek && reading.readingdate <= currentWeekEnd">
+                    <template x-for="(reading, index) in readings" >
                         <tr :class="{
                     'border-b border-sky-700 bg-accent text-white': isGraceOrLordsDay(reading.day),
                     'border-b border-sky-700 bg-info text-white': !isGraceOrLordsDay(reading.day)
-                }" :data-date="formatDate(reading.readingdate)">
+                }" :data-date="formatDate(reading.readingdate)" x-show="reading.readingdate !== '' && reading.readingdate >= currentWeek && reading.readingdate <= currentWeekEnd">
                             <td class="px-6 py-4" x-text="formatDate(reading.readingdate)"></td>
                             <td class="px-6 py-4">
                                 <h3 class="font-bold" x-text="getDayOfWeek(reading.readingdate)"></h3>
