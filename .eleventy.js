@@ -97,6 +97,12 @@ module.exports = function(eleventyConfig) {
     date.setDate(date.getDate() + offset)
     return date.toLocaleString("en-US", {day:"numeric"})
   })
+  eleventyConfig.addShortcode("weekday", (startdate, offset = 0) => {
+    if (startdate === "") return ""
+    const date = new Date(startdate)
+    date.setDate(date.getDate() + offset)
+    return date.toLocaleString("en-US", {weekday:"long"})
+  })
   eleventyConfig.addShortcode("month", (startdate, offset = 0) => {
     if (startdate === "") return ""
     const date = new Date(startdate)
