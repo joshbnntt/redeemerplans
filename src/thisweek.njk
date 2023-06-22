@@ -1,0 +1,18 @@
+---
+eleventyImport:
+  collections: ["currentPlan"]
+pagination:
+  data: collections.currentPlan
+  size: 1
+  alias: readingPlan
+meta:
+  title: This weeks readings
+  description: The current week in the Bible Reading Plan that Redeemer Church is currently working through.
+---
+
+{% edge "njk", readingPlan %}
+
+<h1>{{readingPlan.data.title | safe}}</h1>
+{% date readingPlan.data.start %}
+
+{% endedge %}

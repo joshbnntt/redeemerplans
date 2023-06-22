@@ -2,6 +2,7 @@ const path = require("path");
 const pluginRss = require("@11ty/eleventy-plugin-rss"); // needed for absoluteUrl SEO feature
 const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 const EleventyVitePlugin = require("@11ty/eleventy-plugin-vite");
+const { EleventyEdgePlugin } = require("@11ty/eleventy");
 const Image = require("@11ty/eleventy-img");
 const yaml = require("js-yaml"); // Because yaml is nicer than json for editors
 require("dotenv").config();
@@ -18,6 +19,9 @@ const globalSiteData = {
 };
 
 module.exports = function(eleventyConfig) {
+
+  eleventyConfig.addPlugin(EleventyEdgePlugin);
+
   /* --- GLOBAL DATA --- */
 
   eleventyConfig.addGlobalData("site", globalSiteData);
