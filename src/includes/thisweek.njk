@@ -12,9 +12,9 @@
                 hover:text-white focus:outline-none focus:ring-4 focus:ring-sky-800"
               >See the whole plan</a>
           </div>
-              <p x-show="isLoading && !readings" class="text-white">Loading...</p> 
-              <p x-show="!isLoading && !readings && !error" class="text-white">Nothing to read this week.</p> 
-              <p x-show="error" x-text="error" class="text-error"></p>
+              <p x-show="isLoading && !readings" class="text-white" x-cloak>Loading...</p> 
+              <p x-show="!isLoading && !readings && !error" class="text-white" x-cloak>Nothing to read this week.</p> 
+              <p x-show="error" x-text="error" class="text-error" x-cloak></p>
                  </caption> 
   
                  <tbody x-show="readings" x-cloak> 
