@@ -14,6 +14,7 @@ document.addEventListener('alpine:init', () => {
     console.log("alpine:init")
     Alpine.data('thisweek', () => ({ 
         isLoading: true,
+        error: null,
         readings: null, 
         title: null, 
         description: null, 
@@ -44,8 +45,10 @@ document.addEventListener('alpine:init', () => {
                     this.readings = data.plan.filter(reading => reading.readingdate !== '' && reading.readingdate >= this.currentWeek && reading.readingdate <= this.currentWeekEnd);
                     this.isLoading = false;
                 }) 
-                .catch(error => { 
-                    console.error('Error:', error); 
+                .catch(e => {
+                    this.isLoading = false; 
+                    console.error('Error:', e); 
+                    this.error = e.message;
                 }); 
         }, 
      

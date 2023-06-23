@@ -13,7 +13,8 @@
               >See the whole plan</a>
           </div>
               <p x-show="isLoading && !readings" class="text-white">Loading...</p> 
-              <p x-show="!isLoading && !readings" class="text-white">Nothing to read this week.</p> 
+              <p x-show="!isLoading && !readings && !error" class="text-white">Nothing to read this week.</p> 
+              <p x-show="error" x-text="error" class="text-error"></p>
                  </caption> 
   
                  <tbody x-show="readings" x-cloak> 
