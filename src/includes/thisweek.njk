@@ -46,13 +46,19 @@
      isGraceOrLordsDay(day) { 
          return day === 'Grace Day' || day === `Lord's Day`; 
      }, 
- }" x-init="fetchReadings()"> 
-     <div class="container mx-auto px-4 py-8 rounded-lg"> 
+ }" x-init="fetchReadings()" class="flex flex-col"> 
+     <div class="relative overflow-x-auto rounded-2xl"> 
   
              <table class="w-full rounded-lg text-left text-sm text-gray-500 dark:text-gray-400" x-show="readings"> 
                  <caption class="bg-primary p-5 text-left text-lg font-semibold text-white dark:bg-primary dark:text-white" 
              ><h1>This Week's Reading</h1> 
-  
+                    <div class="mt-2 flex">
+            <a
+                href="/current/"
+              class="rounded-md border border-sky-500 px-3 py-2 text-center text-xs font-medium text-sky-500 hover:bg-sky-500
+                hover:text-white focus:outline-none focus:ring-4 focus:ring-sky-800"
+              >See the whole plan</a>
+          </div>
                  </caption> 
   
                  <tbody> 
