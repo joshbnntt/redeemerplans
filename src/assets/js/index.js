@@ -13,6 +13,7 @@ import * as Turbo from "@hotwired/turbo"
 document.addEventListener('alpine:init', () => {
     console.log("alpine:init")
     Alpine.data('thisweek', () => ({ 
+        isLoading: true,
         readings: null, 
         title: null, 
         description: null, 
@@ -41,6 +42,7 @@ document.addEventListener('alpine:init', () => {
                     this.currentWeek = this.getWeekStart(); 
                     this.currentWeekEnd = this.getWeekEnd(); 
                     this.readings = data.plan.filter(reading => reading.readingdate !== '' && reading.readingdate >= this.currentWeek && reading.readingdate <= this.currentWeekEnd);
+                    this.isLoading = false;
                 }) 
                 .catch(error => { 
                     console.error('Error:', error); 
