@@ -6,13 +6,12 @@ window.Alpine = Alpine
 
 // Add Alpine extensions here
  
-Alpine.start()
-
 console.log('hello from index.js')
 
 import * as Turbo from "@hotwired/turbo"
 
 document.addEventListener('alpine:init', () => {
+    console.log("alpine:init")
     Alpine.data('thisweek', () => ({ 
         readings: null, 
         title: null, 
@@ -70,3 +69,5 @@ document.addEventListener('alpine:init', () => {
         }, 
     }))
 })
+
+Alpine.start()
