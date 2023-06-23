@@ -37,9 +37,10 @@ document.addEventListener('alpine:init', () => {
                 .then(data => { 
                     this.title = data.title; 
                     this.description = data.description; 
-                    this.readings = data.plan; 
+                     
                     this.currentWeek = this.getWeekStart(); 
                     this.currentWeekEnd = this.getWeekEnd(); 
+                    this.readings = data.plan.filter(reading => reading.readingdate !== '' && reading.readingdate >= this.currentWeek && reading.readingdate <= this.currentWeekEnd);
                 }) 
                 .catch(error => { 
                     console.error('Error:', error); 
