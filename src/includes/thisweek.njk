@@ -20,7 +20,7 @@
                          <tr :class="{ 
                      'border-b border-sky-700 bg-accent text-white': isGraceOrLordsDay(reading.day), 
                      'border-b border-sky-700 bg-info text-white': !isGraceOrLordsDay(reading.day) 
-                 }" :data-date="formatDate(reading.readingdate)" x-show="reading.readingdate !== '' && reading.readingdate >= currentWeek && reading.readingdate <= currentWeekEnd"> 
+                 }" :data-date="formatDate(reading.readingdate)"> 
                              <td class="px-6 py-4">
                              <div class="flex flex-col justify-center">
                                 <span class="font-bold" x-text="getMonthShort(reading.readingdate)"></span>
