@@ -66,9 +66,9 @@
                                 <h3 class="font-bold" x-text="getDayOfWeek(reading.readingdate)"></h3>
                                 <ul>
                                     <li x-text="reading.day"></li>
-                                    <li class="mt-2">
-                                        <span class="font-semibold" x-show="reading.alt !== ''"></span>>Alternate:</span>
-                                        <span x-text="reading.alt" 
+                                    <li x-show="reading.alt !== ''" class="mt-2">
+                                        <span class="font-semibold">Alternate:</span>
+                                        <span x-text="reading.alt"></span>
                                     </li>
                                 </ul>
                             </td>
