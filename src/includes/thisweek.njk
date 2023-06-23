@@ -1,7 +1,7 @@
 <div x-data="thisweek" x-init="fetchReadings()" class="flex flex-col"> 
      <div class="relative overflow-x-auto rounded-2xl"> 
   
-             <table class="w-full rounded-lg text-left text-sm text-gray-500 dark:text-gray-400" x-show="readings" x-cloak> 
+             <table class="w-full rounded-lg text-left text-sm text-gray-500 dark:text-gray-400" > 
                  <caption class="bg-primary p-5 text-left text-lg font-semibold text-white dark:bg-primary dark:text-white" 
              > 
                     <div class="mt-2 flex justify-between align-middle">
@@ -12,9 +12,10 @@
                 hover:text-white focus:outline-none focus:ring-4 focus:ring-sky-800"
               >See the whole plan</a>
           </div>
+              <p x-show="!readings" class="text-gray-500">Loading...</p> 
                  </caption> 
   
-                 <tbody> 
+                 <tbody x-show="readings" x-cloak> 
                      <template x-for="(reading, index) in readings" > 
                          <tr :class="{ 
                      'border-b border-sky-700 bg-accent text-white': isGraceOrLordsDay(reading.day), 
@@ -43,7 +44,6 @@
   
                  </tbody> 
              </table> 
-     <p x-show="!readings" class="text-gray-500">Loading...</p> 
   
  </div> 
  </div>
