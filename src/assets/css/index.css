@@ -17,4 +17,6 @@
   li.active {
     @apply font-bold;
   }
+
+  [x-cloak] { display: none !important; }
 }
