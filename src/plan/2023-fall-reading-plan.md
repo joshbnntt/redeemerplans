@@ -1,7 +1,7 @@
 ---
-title: 2023 Fall Reading Plan
-description: Our Fall reading plan is continuing where we left off from the Spring.
-start: "07-03-2023"
+title: 2023 July-December Reading Plan
+description: Our reading plan for the second half of 2023 (July-December).
+start: 07-03-2023
 current: false
 plan:
   - day: 2 Thessalonians 1
@@ -51,7 +51,8 @@ plan:
     alt: Deuteronomy 1, Deuteronomy 2, Deuteronomy 3
   - day: Deuteronomy 5, Deuteronomy 6, Deuteronomy 7, Deuteronomy 8
     alt: Deuteronomy 4, Deuteronomy 5, Deuteronomy 6
-  - day: Deuteronomy 9, Deuteronomy 10, Deuteronomy 11, Deuteronomy 12, Deuteronomy 13
+  - day: Deuteronomy 9, Deuteronomy 10, Deuteronomy 11, Deuteronomy 12, Deuteronomy
+      13
     alt: Deuteronomy 7, Deuteronomy 8, Deuteronomy 9
   - day: Deuteronomy 14, Deuteronomy 15, Deuteronomy 16, Deuteronomy 17
     alt: Deuteronomy 10, Deuteronomy 11
@@ -64,7 +65,8 @@ plan:
     alt: Deuteronomy 29, Deuteronomy 30
   - day: Deuteronomy 26, Deuteronomy 27, Deuteronomy 28, Deuteronomy 29
     alt: Deuteronomy 31, Deuteronomy 32
-  - day: Deuteronomy 30, Deuteronomy 31, Deuteronomy 32, Deuteronomy 33, Deuteronomy 34
+  - day: Deuteronomy 30, Deuteronomy 31, Deuteronomy 32, Deuteronomy 33, Deuteronomy
+      34
     alt: Deuteronomy 33, Deuteronomy 34
   - day: Psalm 19, Proverbs 2
   - day: Grace Day
