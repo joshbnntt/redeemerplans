@@ -17,11 +17,11 @@ meta:
   <div class="flex flex-col">
     <div class="flex w-full flex-col flex-wrap justify-center sm:flex-row lg:justify-start gap-3">
       {% for plan in plans %}
-        <a class="card w-full md:w-80 bg-primary text-primary-content" href="{{ plan.url }}">
+        <a class="card w-full md:w-80 bg-primary text-white" href="{{ plan.url }}">
           <div class="card-body">
             <h5 class="card-title">{{ plan.data.title }}</h5>
             <div class="h-4"></div>
-            <p class="font-normal text-base-100">{{ plan.data.description }}</p>
+            <p class="font-normal text-white">{{ plan.data.description }}</p>
           </div>
         </a>
       {% endfor %}
