@@ -1,5 +1,5 @@
 ---
-title: 2023 Spring Redeemer Reading Plan
+title: 2023 January-June Reading Plan
 description: Reading plan for the spring of 2023
 start: 01-02-2023
 current: true
