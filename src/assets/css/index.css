@@ -3,11 +3,10 @@
 @tailwind utilities;
 
 @layer base {
-
   body {
     min-height: 100dvh;
     display: flex;
-    flex-direction: column
+    flex-direction: column;
   }
 
   #main {
@@ -18,5 +17,19 @@
     @apply font-bold;
   }
 
-  [x-cloak] { display: none !important; }
+  [x-cloak] {
+    display: none !important;
+  }
+
+  .progress-white::-moz-progress-bar {
+    --tw-bg-opacity: 1;
+    background-color: hsl(100, 100%, 100% / var(--tw-bg-opacity));
+  }
+  .progress-white:indeterminate {
+    --progress-color: hsl(100, 100%, 100%) !important;
+  }
+  .progress-white::-webkit-progress-value {
+    --tw-bg-opacity: 1;
+    background-color: hsl(100, 100%, 100% / var(--tw-bg-opacity));
+  }
 }
