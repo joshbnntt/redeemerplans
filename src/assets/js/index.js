@@ -91,44 +91,49 @@ document.addEventListener('alpine:init', () => {
             return window.bookAbbreviations;
         },
         generateYouVersionLinks(references) {
-            if (typeof references === 'undefined') return null;
-            if (references === 'Grace Day' || references === "Lord's Day") return references;
-            let referencesArray = references.split(',').map(reference => reference.trim());
-            let links = [];
+            try {
+                if (typeof references === 'undefined') return null;
+                if (references === 'Grace Day' || references === "Lord's Day") return references;
+                let referencesArray = references.split(',').map(reference => reference.trim());
+                let links = [];
+                
+                for (let i = 0; i < referencesArray.length; i++) {
+                    let reference = referencesArray[i];
+                    let parts = reference.split(' ');
+                    let book = parts.slice(0, -1).join(' '); // Handle book names with multiple words
+                    let versePart = parts[parts.length - 1];
 
-            for (let i = 0; i < referencesArray.length; i++) {
-                let reference = referencesArray[i];
-                let parts = reference.split(' ');
-                let book = parts.slice(0, -1).join(' '); // Handle book names with multiple words
-                let versePart = parts[parts.length - 1];
+                    let chapter = '';
+                    let verse = '';
 
-                let chapter = '';
-                let verse = '';
+                    if (versePart.includes(':')) {
+                        let verseParts = versePart.split(':');
+                        chapter = verseParts[0];
+                        verse = verseParts[1];
+                    } else {
+                        chapter = versePart;
+                    }
 
-                if (versePart.includes(':')) {
-                    let verseParts = versePart.split(':');
-                    chapter = verseParts[0];
-                    verse = verseParts[1];
-                } else {
-                    chapter = versePart;
+                    let bookAbbreviation = this.books[book];
+                    if (!bookAbbreviation) {
+                        continue; // Skip the reference if the book abbreviation is not found
+                    }
+
+                    let link = 'https://www.bible.com/bible/1713/' + bookAbbreviation.toUpperCase() + '.' + chapter;
+                    if (verse) {
+                        link += '.' + verse;
+                    }
+                    link += '.CSB';
+
+                    let anchorTag = '<a href="' + link + '" alt="' + reference + '">' + reference + '</a>';
+                    links.push(anchorTag);
                 }
 
-                let bookAbbreviation = this.books[book];
-                if (!bookAbbreviation) {
-                    continue; // Skip the reference if the book abbreviation is not found
-                }
-
-                let link = 'https://www.bible.com/bible/1713/' + bookAbbreviation.toUpperCase() + '.' + chapter;
-                if (verse) {
-                    link += '.' + verse;
-                }
-                link += '.CSB';
-
-                let anchorTag = '<a href="' + link + '" alt="' + reference + '">' + reference + '</a>';
-                links.push(anchorTag);
+                return links.join(', ');
+            } catch (e) {
+                console.log(e);
+                return references;
             }
-
-            return links.join(', ');
 
         },
         getWeekStart() {
