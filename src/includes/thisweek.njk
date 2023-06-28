@@ -35,11 +35,11 @@
                             <h3 class="font-bold" x-text="getDayOfWeek(reading.readingdate)"></h3>
                             <ul>
                                 {# <li x-text="reading.day"></li> #}
-                                <li x-html="generateYouVersionLinks(reading.day)"></li>
+                                <li x-html="getPassages(reading.day, reading.readinglinks)"></li>
                                 <li x-show="reading.alt" class="mt-2">
                                     <span class="font-semibold">Alternate:</span>
                                     {# <span x-text="reading.alt"></span> #}
-                                    <span x-html="generateYouVersionLinks(reading.alt)"></span>
+                                    <span x-html="getPassages(reading.alt, reading.altReadinglinks)"></span>
                                 </li>
                             </ul>
                         </td>
