@@ -110,7 +110,7 @@ function generateBibleLinks(references) {
             }
             link += '.CSB';
 
-            let anchorTag = '<a href="' + link + '" alt="' + reference + '">' + reference + '</a>';
+            let anchorTag = '<a class="text-accent" href="' + link + '" alt="' + reference + '">' + reference + '</a>';
             links.push(anchorTag);
         }
 

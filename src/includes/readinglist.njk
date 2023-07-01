@@ -25,18 +25,18 @@
             
           </div>
         </caption>
-        <thead class="bg-accent text-xs uppercase text-white ">
+        <thead class="bg-accent text-xs uppercase text-white">
           <tr>
             <th scope="col" class="px-6 py-3">Day</th>
             <th scope="col" class="px-6 py-3">Passages</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="border-b border-l border-r border-stone-300">
           {% for reading in plan %}
             {% if reading.day === "Grace Day" or reading.day === "Lord's Day"%}
-              <tr class="border-b border-sky-700 bg-accent text-white" data-date="{% readingdate start, loop.index-1 %}">
+              <tr class="border-t border-stone-300 bg-base-100 text-black font-light" data-date="{% readingdate start, loop.index-1 %}">
             {% else %}
-              <tr class="border-b border-sky-700 bg-info text-white" data-date="{% readingdate start, loop.index-1 %}">
+              <tr class="border-b border-stone-300 bg-stone-100 text-black" data-date="{% readingdate start, loop.index-1 %}">
             {% endif %}
                 {% if start !== "" %}
                   <td class="px-6 py-4">

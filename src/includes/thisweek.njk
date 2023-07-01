@@ -17,11 +17,11 @@
                 <p x-show="error" x-text="error" class="text-error" x-cloak></p>
             </caption>
 
-            <tbody x-show="readings" x-cloak>
+            <tbody x-show="readings" x-cloak class="border border-b border-l border-r border-stone-300">
                 <template x-for="(reading, index) in readings" >
                     <tr :class="{ 
-                     'border-b border-sky-700 bg-accent text-white': isGraceOrLordsDay(reading.day), 
-                     'border-b border-sky-700 bg-info text-white': !isGraceOrLordsDay(reading.day) 
+                     'border-b border-stone-300 bg-base-100 text-black': isGraceOrLordsDay(reading.day), 
+                     'border-b border-stone-300 bg-stone-100 text-black': !isGraceOrLordsDay(reading.day) 
                  }" :data-date="formatDate(reading.readingdate)">
                         <td class="px-6 py-4">
                             <div class="flex flex-col justify-center">
@@ -39,7 +39,7 @@
                                 <li x-show="reading.alt" class="mt-2">
                                     <span class="font-semibold">Alternate:</span>
                                     {# <span x-text="reading.alt"></span> #}
-                                    <span x-html="getPassages(reading.alt, reading.altReadinglinks)"></span>
+                                    <span class="text-primary" x-html="getPassages(reading.alt, reading.altReadinglinks)"></span>
                                 </li>
                             </ul>
                         </td>
