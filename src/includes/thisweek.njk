@@ -17,11 +17,11 @@
                 <p x-show="error" x-text="error" class="text-error" x-cloak></p>
             </caption>
 
-            <tbody x-show="readings" x-cloak class="border border-b border-l border-r border-stone-300">
+            <tbody x-show="readings" x-cloak class="border border-b border-l border-r border-base-300">
                 <template x-for="(reading, index) in readings" >
                     <tr :class="{ 
-                     'border-b border-stone-300 bg-base-100 text-black': isGraceOrLordsDay(reading.day), 
-                     'border-b border-stone-300 bg-stone-100 text-black': !isGraceOrLordsDay(reading.day) 
+                     'border-b border-base-100 bg-base-300 text-base-content': isGraceOrLordsDay(reading.day), 
+                     'border-b border-base-300 bg-base-100 text-base-content': !isGraceOrLordsDay(reading.day) 
                  }" :data-date="formatDate(reading.readingdate)">
                         <td class="px-6 py-4">
                             <div class="flex flex-col justify-center">

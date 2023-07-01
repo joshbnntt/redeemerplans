@@ -22,6 +22,15 @@ module.exports = {
           error: "#F87272",
         },
       },
+      {
+        mydarktheme: {
+          primary: "#0c4a6e",
+          secondary: "#e7e5e4",
+          accent: "#0369a1",
+          neutral: "#23282f",
+          "base-100": "#212121"
+        }
+      }
     ],
   },
   plugins: [require("@tailwindcss/forms"), require("daisyui")],
