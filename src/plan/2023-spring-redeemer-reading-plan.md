@@ -2,7 +2,7 @@
 title: 2023 January-June Reading Plan
 description: Reading plan for the first half of 2023 (January-June).
 start: 01-02-2023
-current: true
+current: false
 plan:
   - day: 1 John 1
   - day: 1 John 2
