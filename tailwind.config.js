@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "prefers-color-scheme",
   content: [
     "./src/**/*.{njk,js,html,md,yml,yaml}",
     "./.eleventy.js"
@@ -32,6 +33,7 @@ module.exports = {
         }
       }
     ],
+    darkTheme: "mydarktheme"
   },
   plugins: [require("@tailwindcss/forms"), require("daisyui")],
 }
