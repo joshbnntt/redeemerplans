@@ -113,7 +113,7 @@ module.exports = function(eleventyConfig) {
     if (startdate === "") return ""
     const date = new Date(startdate)
     date.setDate(date.getDate() + offset)
-    return date.toLocaleString("en-US", {month:"numeric",day:"numeric",year:"numeric"})
+    return date.toLocaleString("en-US", {month:"2-digit",day:"2-digit",year:"numeric"})
   })
 
   /* --- FILTERS --- */

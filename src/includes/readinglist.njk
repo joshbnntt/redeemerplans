@@ -1,7 +1,7 @@
 <main class="mx-auto w-full p-3 md:w-7/12 lg:w-5/12">
   <div class="flex flex-col">
     <div class="relative overflow-x-auto rounded-2xl">
-      <table class="w-full rounded-lg text-left text-gray-500 dark:text-gray-400">
+      <table class="w-full rounded-lg text-left text-gray-500 dark:text-gray-400" x-data="readings">
         <caption class="bg-primary p-5 text-left text-lg font-semibold text-white dark:bg-primary dark:text-white">{{ title }}
           <p class="mt-1 text-sm font-light text-stone-300 dark:text-stone-200">
             {{ description }}</p>
@@ -25,12 +25,6 @@
             
           </div>
         </caption>
-        <thead class="bg-accent text-xs uppercase text-white">
-          <tr>
-            <th scope="col" class="px-6 py-3">Day</th>
-            <th scope="col" class="px-6 py-3">Passages</th>
-          </tr>
-        </thead>
         <tbody class="border-b border-l border-r border-base-300">
           {% for reading in plan %}
             {% if reading.day === "Grace Day" or reading.day === "Lord's Day"%}
@@ -53,6 +47,16 @@
                         <li class="mt-2"><span class="font-semibold">Alternate:</span> {{ reading.alt | safe }}</li>
                     {% endif %}
                   </ul>
+                </td>
+                <td x-data="{day:'', get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === this.day)}}" x-init="day = '{% readingdate start, loop.index-1 %}'" 
+                    x-show="$store.auth.user" x-cloak :data-day="day"
+                    class="px-6 py-4"> 
+                  <div class="form-control"> 
+                    <label class="label cursor-pointer">
+                      
+                        <input type="checkbox" class="checkbox checkbox-primary" name="haveread" x-on:change="check" :checked="checked"/> 
+                    </label> 
+                  </div> 
                 </td>
               </tr>
             {% endfor %}
