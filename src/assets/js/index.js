@@ -111,7 +111,7 @@ document.addEventListener('alpine:init', () => {
                 } else {
                     this.$store.auth.setUser(data.user)
                     formElem.reset()
-                    Turbo.visit("/")
+                    Turbo.visit("/thisweek/")
                 }
             }
             if (type === "register") {

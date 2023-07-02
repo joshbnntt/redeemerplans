@@ -1,0 +1,27 @@
+<header class="w-full bg-primary  py-2 text-xl">
+  <div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
+    <div class="logo text-white font-bold">
+      <a href="/">{{ site.title }}</a>
+    </div> 
+    <div x-data="logout" >
+        <div class="dropdown dropdown-end" x-show="$store.auth.user" x-cloak>
+          <label tabindex="0" class="btn btn-primary btn-circle avatar placeholder">
+            <div class="w-10 rounded-full">
+              <span x-text="$store.auth.user?.email.substring(0, 1)" class="text-xl"></span>
+            </div>
+          </label>
+          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <li>
+              <a class="justify-between">
+                <span x-text="$store.auth.user?.email"></span>
+              </a>
+            </li>
+            <li>
+              <a @click.prevent="logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+        <a href="/login/" x-show="!$store.auth.user" x-cloak class="text-white">Login</a>
+    </div>
+  </div>
+</header>
