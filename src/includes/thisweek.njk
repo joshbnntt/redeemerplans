@@ -1,22 +1,18 @@
 <div x-data="thisweek" x-init="fetchReadings()" class="flex flex-col">
     <div class="relative overflow-x-auto rounded-2xl">
-
-        <table class="w-full rounded-lg text-left text-gray-500 dark:text-gray-400" >
-            <caption class="bg-primary p-5 text-left text-xl font-semibold text-white dark:bg-primary dark:text-white" 
-             >
+        <table class="w-full rounded-lg text-left text-gray-500 dark:text-gray-400" x-data="readings">
+            <caption class="bg-primary p-5 text-left text-xl font-semibold text-white dark:bg-primary dark:text-white">
                 <div class="mt-2 flex justify-between align-middle">
                     <h1>This Week's Reading</h1>
                     <a
-                href="/current/"
-              class="rounded-md border border-base-300 px-3 py-2 text-center text-sm font-medium text-white hover:bg-base-300
-                hover:text-base-content focus:outline-none focus:ring-4 focus:ring-base-100"
-              >See the whole plan</a>
+                        href="/current/"
+                        class="rounded-md border border-base-300 px-3 py-2 text-center text-sm font-medium text-white hover:bg-base-300
+                            hover:text-base-content focus:outline-none focus:ring-4 focus:ring-base-100">
+                        See the whole plan</a>
                 </div>
-
                 <p x-show="!isLoading && !readings && !error" class="text-white" x-cloak>Nothing to read this week.</p>
                 <p x-show="error" x-text="error" class="text-error" x-cloak></p>
             </caption>
-
             <tbody x-show="readings" x-cloak class="border border-b border-l border-r border-base-300">
                 <template x-for="(reading, index) in readings" >
                     <tr :class="{ 
@@ -43,9 +39,18 @@
                                 </li>
                             </ul>
                         </td>
+                        <td x-data="{day:'', get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === this.day)}}" x-init="day = formatDate(reading.readingdate)"
+                            x-show="$store.auth.user" x-cloak :data-day="day">
+                            <div class="form-control">
+                                <label class="label cursor-pointer">
+                                    <input type="checkbox" class="checkbox checkbox-primary" name="haveread" x-on:change="check" :checked="checked"/>
+                                </label>
+                            </div>
+                        </td>
                     </tr>
                 </template>
-                <tbody x-show="isLoading && !readings">
+                <tbody
+                    x-show="isLoading && !readings">
                     {# x-show="isLoading && !readings" x-cloak #}
                     <tr class="border-b border-sky-700 bg-accent text-white">
                         <td class="px-6 py-4">
@@ -55,6 +60,5 @@
                 </tbody>
             </tbody>
         </table>
-
     </div>
 </div>

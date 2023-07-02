@@ -2,6 +2,12 @@ import '../css/index.css';
 import 'alpine-turbo-drive-adapter'
 import Alpine from 'alpinejs'
 
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = 'https://olzxikbosvhduajnlqrh.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9senhpa2Jvc3ZoZHVham5scXJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgyNjI0NDcsImV4cCI6MjAwMzgzODQ0N30.mkmueypBvRUEPQWIqnSk_NDAu0s8lbZ-mpTQCzBz-sg'
+const supabase = createClient(supabaseUrl, supabaseKey)
+
 window.Alpine = Alpine
 
 // Add Alpine extensions here
@@ -60,7 +66,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         formatDate(date) {
-            const options = { month: '2-digit', day: '2-digit' };
+            const options = { month: '2-digit', day: '2-digit', year: 'numeric' };
             return new Date(date).toLocaleDateString('en-US', options);
         },
 
@@ -81,6 +87,128 @@ document.addEventListener('alpine:init', () => {
             return day === 'Grace Day' || day === `Lord's Day`;
         },
     }))
+    Alpine.data("login", () => ({
+        registered: false,
+        registeredMessage: "Check your email for confirmation.",
+        error: false,
+        errorMessage: "",
+        async submit(event) {
+            const formElem = event.target
+            const formData = new FormData(formElem);
+            const email = formData.get("email")
+            const password = formData.get("password")
+            const type = formData.get("type")
+
+            if (type === "login") {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password,
+                })
+                if (error) {
+                    console.error(error)
+                    this.error = true
+                    this.errorMessage = error.message
+                } else {
+                    this.$store.auth.setUser(data.user)
+                    formElem.reset()
+                    Turbo.visit("/")
+                }
+            }
+            if (type === "register") {
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                })
+                if (error) {
+                    console.error(error)
+                    this.error = true
+                    this.errorMessage = error.message
+                } else {
+                    formElem.reset()
+                    this.registered = true
+                }
+            }
+        }
+    }))
+    Alpine.data("logout", () => ({
+        async logout() {
+            const { error } = await supabase.auth.signOut()
+            if (!error) {
+                this.$store.auth.setSession(null)
+                this.$store.auth.setUser(null)
+            }
+        }
+    }))
+    Alpine.data("readings", () => ({
+        async init() {
+            await this.$nextTick();
+            if (this.$store.auth.user) {
+                const { data, error } = await supabase
+                    .from('haveread')
+                    .select()
+                if (error) {
+                    console.error(error)
+                } else {
+                    this.$store.haveread.setDays(data)
+                    console.log(data)
+                }
+            }
+
+        },
+        check(e) {
+            const checkboxElem = e.target
+            console.log(checkboxElem)
+            if (checkboxElem.checked) {
+                this.markRead(this.day)
+            } else {
+                this.markUnread(this.day)
+            }
+        },
+        async markRead(day) {
+            const user_id = this.$store.auth.user.id
+            const { error } = await supabase
+                .from('haveread')
+                .insert({ plan_day: day, user_id })
+            if (!error) {
+                this.init()
+            }
+        },
+        async markUnread(day) {
+            const { error } = await supabase
+                .from('haveread')
+                .delete()
+                .eq('plan_day', day)
+            if (!error) {
+                this.init()
+            }
+        }
+    }))
+
+    Alpine.store('auth', {
+        async init() {
+            const { data, error } = await supabase.auth.getSession()
+            if (error) {
+                console.error(error)
+            } else if (data) {
+                this.session = data.session
+                this.user = data.session?.user
+            }
+        },
+        user: null,
+        setUser(user) {
+            this.user = user
+        },
+        session: null,
+        setSession(session) {
+            this.session = session
+        }
+    })
+    Alpine.store('haveread', {
+        days: null,
+        setDays(days) {
+            this.days = days
+        }
+    })
 })
 
 Alpine.start()

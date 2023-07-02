@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@hotwired/turbo": "^7.3.0",
+    "@supabase/supabase-js": "^2.26.0",
     "alpine-turbo-drive-adapter": "^2.0.0",
     "alpinejs": "^3.12.0"
   }

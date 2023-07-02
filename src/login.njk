@@ -1,0 +1,45 @@
+---
+layout: base
+meta:
+  title: Login | Bible Reading Plans Archive
+  description: Login to see your progress.
+---
+
+<main class="mx-auto w-full p-3 md:w-6/12 lg:w-4/12" x-data="login">
+    <div class="alert flex" x-show="registered" x-cloak>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span x-text="registeredMessage"></span>
+    </div>
+    <div class="alert alert-error flex" x-show="error" x-cloak>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span x-text="errorMessage"></span>
+    </div>
+    <form class="flex flex-col gap-3" @submit.prevent="submit">
+        <div class="form-control">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required="required"/>
+        </div>
+        <div class="form-control">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required="required"/>
+        </div>
+        <div class="form-control flex">
+            <label class="label cursor-pointer">
+                <span class="label-text">Login</span>
+                <input type="radio" name="type" class="radio" value="login" checked/>
+            </label>
+            <label class="label cursor-pointer">
+                <span class="label-text">Rgister</span>
+                <input type="radio" name="type" class="radio" value="register"/>
+            </label>
+        </div>
+        <div class="form-control">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </main>
