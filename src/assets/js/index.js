@@ -96,38 +96,25 @@ document.addEventListener('alpine:init', () => {
             const formElem = event.target
             const formData = new FormData(formElem);
             const email = formData.get("email")
-            const password = formData.get("password")
-            const type = formData.get("type")
+            if (email) {
 
-            if (type === "login") {
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email,
-                    password,
-                })
-                if (error) {
-                    console.error(error)
-                    this.error = true
-                    this.errorMessage = error.message
-                } else {
-                    this.$store.auth.setUser(data.user)
-                    formElem.reset()
-                    Turbo.visit("/thisweek/")
-                }
+                const { data, error } = await supabase.auth.signInWithOtp({
+                  email,
+                  options: {
+                    emailRedirectTo: 'https://redeemerbiblereading.info/thisweek/'
+                   }
+               })
+               if (error) {
+                console.error(error)
+                this.error = true
+                this.errorMessage = error.message
+               } else {
+                formElem.reset()
+                this.registered = true
+                this.registeredMessage = "Check your emaik for a magic link."
+               }
             }
-            if (type === "register") {
-                const { data, error } = await supabase.auth.signUp({
-                    email,
-                    password,
-                })
-                if (error) {
-                    console.error(error)
-                    this.error = true
-                    this.errorMessage = error.message
-                } else {
-                    formElem.reset()
-                    this.registered = true
-                }
-            }
+            
         }
     }))
     Alpine.data("logout", () => ({
