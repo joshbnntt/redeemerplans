@@ -1,5 +1,5 @@
 <main class="mx-auto w-full p-3 md:w-7/12 lg:w-5/12">
-<turbo-frame id="plan">
+<turbo-frame id="plan" data-turbo-action="replace">
   <div class="flex flex-col">
     <div class="relative overflow-x-auto rounded-2xl">
       <table class="w-full rounded-lg text-left text-gray-500 dark:text-gray-400" {% if start !== "" %}x-data="readings"{%endif%}>
