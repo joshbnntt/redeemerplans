@@ -5,7 +5,7 @@ const EleventyVitePlugin = require("@11ty/eleventy-plugin-vite");
 const Image = require("@11ty/eleventy-img");
 const yaml = require("js-yaml"); // Because yaml is nicer than json for editors
 require("dotenv").config();
-
+const generateBibleLinks = require('./src/lib/generateBibleLinks')
 const baseUrl = process.env.BASE_URL || "http://localhost:8080";
 console.log("baseUrl is set to ...", baseUrl);
 
@@ -115,6 +115,8 @@ module.exports = function(eleventyConfig) {
     date.setDate(date.getDate() + offset)
     return date.toLocaleString("en-US", {month:"2-digit",day:"2-digit",year:"numeric"})
   })
+
+  eleventyConfig.addShortcode("youversion", generateBibleLinks)
 
   /* --- FILTERS --- */
 

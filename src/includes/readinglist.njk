@@ -44,9 +44,9 @@
                 <td class="px-6 py-4">
                   <h3 class="font-bold">{% weekday start, loop.index-1 %}</h3>
                   <ul>
-                    <li>{{ reading.day | safe }}</li>
+                    <li>{% youversion reading.day %}</li>
                     {% if reading.alt and reading.alt !== "" %}
-                        <li class="mt-2"><span class="font-semibold">Alternate:</span> {{ reading.alt | safe }}</li>
+                        <li class="mt-2"><span class="font-semibold">Alternate:</span> {% youversion reading.alt %}</li>
                     {% endif %}
                   </ul>
                 </td>
