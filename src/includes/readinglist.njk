@@ -8,11 +8,12 @@
             {{ description }}</p>
           <div class="mt-2 flex gap-2">
             {% if currentplan %} 
-              <a 
+              <a x-data="{turboLoading: false}"
+                 x-on:turbo:click="turboLoading = true"
                 href="/thisweek/"
                 class="ml-1 rounded-md border border-base-300 px-3 py-2 text-center text-sm font-medium text-white hover:bg-base-300
                 hover:text-base-content focus:outline-none focus:ring-4 focus:ring-sky-800">
-                See this week's reading</a>
+                See this week's reading<span class="loading loading-dots loading-xs" x-show="turboLoading" x-cloak></span></a>
             {% endif %}
             <a
               {% if currentplan %}
