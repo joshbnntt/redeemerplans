@@ -1,7 +1,7 @@
 <main class="mx-auto w-full p-3 md:w-7/12 lg:w-5/12">
   <div class="flex flex-col">
     <div class="relative overflow-x-auto rounded-2xl">
-      <table class="w-full rounded-lg text-left text-gray-500 dark:text-gray-400" x-data="readings">
+      <table class="w-full rounded-lg text-left text-gray-500 dark:text-gray-400" {% if start !== "" %}x-data="readings"{%endif%}>
         <caption class="bg-primary p-5 text-left text-lg font-semibold text-white dark:bg-primary dark:text-white">{{ title }}
           <p class="mt-1 text-sm font-light text-stone-300 dark:text-stone-200">
             {{ description }}</p>
@@ -48,6 +48,7 @@
                     {% endif %}
                   </ul>
                 </td>
+                {% if start !== "" %}
                 <td x-data="{day:'', get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === this.day)}}" x-init="day = '{% readingdate start, loop.index-1 %}'" 
                     x-show="$store.auth.user" x-cloak :data-day="day"
                     class="px-6 py-4"> 
@@ -58,6 +59,7 @@
                     </label> 
                   </div> 
                 </td>
+                {% endif %}
               </tr>
             {% endfor %}
           </tbody>
