@@ -10,8 +10,8 @@
                         href="/current/"
                         class="rounded-md border border-base-300 px-3 py-2 text-center text-sm font-medium text-white hover:bg-base-300
                             hover:text-base-content focus:outline-none focus:ring-4 focus:ring-base-100">
-                        See the whole plan
-                        <span class="loading loading-dots loading-xs" x-show="turboLoading" x-cloak></span>
+                        <span x-show="!turboLoading">See the whole plan</span>
+                        <span x-show="turboLoading" x-cloak>Loading<span class="loading loading-dots loading-xs"></span></span>
                     </a>
                 </div>
                 <p x-show="!isLoading && !readings && !error" class="text-white" x-cloak>Nothing to read this week.</p>
