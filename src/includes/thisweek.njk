@@ -5,11 +5,12 @@
             <caption class="bg-primary p-5 text-left text-xl font-semibold text-white dark:bg-primary dark:text-white">
                 <div class="mt-2 flex justify-between align-middle">
                     <h1>This Week's Reading</h1>
-                    <a
+                    <a  x-data="{turboLoading: false}"
+                        x-on:turbo:click="turboLoading = true"
                         href="/current/"
                         class="rounded-md border border-base-300 px-3 py-2 text-center text-sm font-medium text-white hover:bg-base-300
                             hover:text-base-content focus:outline-none focus:ring-4 focus:ring-base-100">
-                        See the whole plan</a>
+                        <span x-show="!turboLoading">See the whole plan</span> <span class="loading loading-bars loading-sm" x-show="turboLoading" x-cloak></span> </a>
                 </div>
                 <p x-show="!isLoading && !readings && !error" class="text-white" x-cloak>Nothing to read this week.</p>
                 <p x-show="error" x-text="error" class="text-error" x-cloak></p>
