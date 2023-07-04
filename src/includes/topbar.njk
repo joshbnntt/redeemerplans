@@ -4,13 +4,22 @@
       <a href="/">{{ site.title }}</a>
     </div> 
     <div x-data="logout" >
-        <div class="dropdown dropdown-end" x-show="$store.auth.user" x-cloak>
+        <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-accent dark:btn-primary btn-circle avatar placeholder">
             <div class="w-10 rounded-full">
-              <span x-text="$store.auth.user?.email.substring(0, 1)" class="text-xl"></span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+                
             </div>
           </label>
-          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+          <ul x-show="!$store.auth.user"
+            tabindex="0" 
+            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+             <li><a href="/login/">Login</a></li>
+          </ul>
+          <ul x-show="$store.auth.user"
+             tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             <li>
               <a class="justify-between">
                 <span x-text="$store.auth.user?.email"></span>
@@ -20,9 +29,6 @@
               <a @click.prevent="logout">Logout</a>
             </li>
           </ul>
-        </div>
-        <div class="py-2" x-show="!$store.auth.user">
-            <a href="/login/"  class="text-white hover:bg-accent p-1 md:p-2 rounded-lg">Login</a>
         </div>
     </div>
   </div>
