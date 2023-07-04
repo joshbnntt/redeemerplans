@@ -10,7 +10,7 @@ const baseUrl = process.env.BASE_URL || "http://localhost:8080";
 console.log("baseUrl is set to ...", baseUrl);
 
 const globalSiteData = {
-  title: "Redeemer Bible Reading Plans",
+  title: "Redeemer Bible Reading",
   description: "Bible Reading Plans for Redeemer Church in North Santa Rosa County, Florida",
   locale: "en",
   baseUrl: baseUrl,
