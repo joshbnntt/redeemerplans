@@ -1,4 +1,4 @@
-<turbo-frame id="plan">
+<turbo-frame id="plan" loading="eager">
 <div x-data="thisweek" x-init="fetchReadings()" class="flex flex-col">
     <div class="relative overflow-x-auto rounded-2xl">
         <table class="w-full rounded-lg text-left text-gray-500 dark:text-gray-400" x-data="readings">
@@ -8,6 +8,7 @@
                     <a  x-data="{turboLoading: false}"
                         x-on:turbo:click="turboLoading = true"
                         href="/current/"
+                        data-turbo-preload
                         class="rounded-md border border-base-300 px-3 py-2 text-center text-sm font-medium text-white hover:bg-base-300
                             hover:text-base-content focus:outline-none focus:ring-4 focus:ring-base-100">
                         <span x-show="!turboLoading">See the whole plan</span>

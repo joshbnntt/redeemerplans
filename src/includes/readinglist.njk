@@ -10,6 +10,7 @@
             {% if currentplan %} 
               <a x-data="{turboLoading: false}"
                  x-on:turbo:click="turboLoading = true"
+                 data-turbo-preload
                 href="/thisweek/"
                 class="ml-1 rounded-md border border-base-300 px-3 py-2 text-center text-sm font-medium text-white hover:bg-base-300
                 hover:text-base-content focus:outline-none focus:ring-4 focus:ring-sky-800">
