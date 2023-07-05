@@ -6,7 +6,7 @@
     <div x-data="logout" >
         <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-primary focus:btn-accent dark:btn-primary btn-circle avatar placeholder">
-            <div class="w-10 rounded-full">
+            <div class="{'w-10 rounded-full text-white': $store.auth.user, 'w-10 rounded-full':!$store.auth.user}">
               
                 <svg
                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
