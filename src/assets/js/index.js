@@ -159,6 +159,8 @@ document.addEventListener('alpine:init', () => {
                 .insert({ plan_day: day, user_id })
             if (!error) {
                 this.init()
+            } else {
+                console.error(error)
             }
         },
         async markUnread(day) {
@@ -168,6 +170,8 @@ document.addEventListener('alpine:init', () => {
                 .eq('plan_day', day)
             if (!error) {
                 this.init()
+            } else {
+                console.error(error)
             }
         }
     }))
