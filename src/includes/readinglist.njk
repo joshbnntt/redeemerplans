@@ -53,7 +53,7 @@
                   </ul>
                 </td>
                 {% if start !== "" %}
-                <td x-data="{day:'', get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === this.day)}}" x-init="day = '{% readingdate start, loop.index-1 %}'" 
+                <td x-data="{day:'', get checked() {return $nextTick(this.$store?.haveread?.days?.some(d => d.plan_day === this.day))}}" x-init="day = '{% readingdate start, loop.index-1 %}'" 
                     x-show="$store.auth.user" x-cloak :data-day="day"
                     class="px-6 py-4"> 
                   <div class="form-control"> 

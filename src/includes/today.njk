@@ -24,7 +24,7 @@
       </p>
     </div>
     <div
-      x-data="{day:'', get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === $data.todayDate)}}"
+      x-data="{day:'', get checked() {return $nextTick(this.$store?.haveread?.days?.some(d => d.plan_day === $data.todayDate))}}"
       x-init="day = $data.todayDate"
       x-show="$store.auth.user"
       x-cloak
