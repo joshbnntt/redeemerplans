@@ -171,6 +171,18 @@ document.addEventListener('alpine:init', () => {
             }
         }
     }))
+    Alpine.data('today', () => ({
+      todayDate: '',
+      todayReading: null,
+      async init() {
+        
+        const date = new Date()
+        this.todayDate = date.toLocaleDateString('en-us', {day: "2-digit", month: "2-digit", year:"numeric"})
+        const res = await fetch("/api/masterplan.json")  
+        const data = await res.json()
+        this.todayReading = data.plan.filter(r => r.readingdate === this.todayDate)[0]
+      }
+    }))
 
     Alpine.store('auth', {
         async init() {
