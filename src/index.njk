@@ -29,6 +29,11 @@ meta:
             <div class="h-4"></div>
             <p class="font-normal text-white">{{ plan.data.description }}</p>
           </div>
+          {% if plan.data.current %}
+          <div class="card-actions justify-end p-3 ">
+            <div class="badge badge-secondary">Current</div>
+          </div>
+          {% endif %}
         </a>
       {% endfor %}
     </div>
