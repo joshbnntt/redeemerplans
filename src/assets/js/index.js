@@ -129,6 +129,9 @@ document.addEventListener('alpine:init', () => {
     }))
     Alpine.data("readings", () => ({
         async init() {
+            await this.fetchReadings()
+        },
+        async fetchReadings() {
             await this.$nextTick();
             if (this.$store.auth.user) {
                 const { data, error } = await supabase
@@ -141,7 +144,6 @@ document.addEventListener('alpine:init', () => {
                     console.log(data)
                 }
             }
-
         },
         check(e) {
             const checkboxElem = e.target
@@ -158,7 +160,7 @@ document.addEventListener('alpine:init', () => {
                 .from('haveread')
                 .insert({ plan_day: day, user_id })
             if (!error) {
-                this.init()
+                this.fetchReadings()
             } else {
                 console.error(error)
             }
@@ -169,7 +171,7 @@ document.addEventListener('alpine:init', () => {
                 .delete()
                 .eq('plan_day', day)
             if (!error) {
-                this.init()
+                this.fetchReadings()
             } else {
                 console.error(error)
             }
