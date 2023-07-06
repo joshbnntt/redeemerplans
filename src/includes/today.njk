@@ -21,7 +21,7 @@
          x-show="true || $store.auth.user" x-cloak
          class="form-control">
       <label class="label cursor-pointer">
-        <input type="checkbox" class="checkbox checkbox-primary" name="haveread" x-on:change="check" :checked="checked"/>
+        <input type="checkbox" class="checkbox checkbox-primary" name="haveread" x-on:change="$data.check" :checked="checked"/>
       </label>
     </div>
 </div>
