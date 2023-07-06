@@ -16,7 +16,8 @@
         <span x-html="todayReading.altReadingLinks || todayReading.alt"></span>
       </p>
     </div>
-    <div x-data="{get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === todayDate)}}"
+    <div x-data="{day: '', get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === $data.todayDate)}}"
+         
          x-show="$store.auth.user" x-cloak
          class="form-control">
       <label class="label cursor-pointer">
