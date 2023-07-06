@@ -18,10 +18,10 @@
     </div>
     <div x-data="{day:'', get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === $data.todayDate)}}"
          x-init="day = $data.todayDate"
-         x-show="$store.auth.user" x-cloak
+         x-show="true || $store.auth.user" x-cloak
          class="form-control">
       <label class="label cursor-pointer">
-        <input type="checkbox" class="checkbox checkbox-primary" name="haveread" x-on:change="check" :checked="$data.checked"/>
+        <input type="checkbox" class="checkbox checkbox-primary" name="haveread" x-on:change="check" :checked="checked"/>
       </label>
     </div>
 </div>
