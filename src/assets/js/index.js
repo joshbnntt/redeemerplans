@@ -129,20 +129,9 @@ document.addEventListener('alpine:init', () => {
     }))
     Alpine.data("readings", () => ({
         async init() {
-            await this.fetchReadings()
-        },
-        async fetchReadings() {
-            await this.$nextTick();
-            if (this.$store.auth.user) {
-                const { data, error } = await supabase
-                    .from('haveread')
-                    .select()
-                if (error) {
-                    console.error(error)
-                } else {
-                    this.$store.haveread.setDays(data)
-                    console.log(data)
-                }
+            await this.$nextTick()
+            if(this.$store.auth.user) {
+                this.$store.haveread.fetchReadings()
             }
         },
         check(e) {
@@ -155,26 +144,10 @@ document.addEventListener('alpine:init', () => {
             }
         },
         async markRead(day) {
-            const user_id = this.$store.auth.user.id
-            const { error } = await supabase
-                .from('haveread')
-                .insert({ plan_day: day, user_id })
-            if (!error) {
-                this.fetchReadings()
-            } else {
-                console.error(error)
-            }
+            await this.$store.haveread.markRead(day, this.$store.auth.user.id)
         },
         async markUnread(day) {
-            const { error } = await supabase
-                .from('haveread')
-                .delete()
-                .eq('plan_day', day)
-            if (!error) {
-                this.fetchReadings()
-            } else {
-                console.error(error)
-            }
+            await this.$store.haveread.markUnread(day)
         }
     }))
     Alpine.data('today', () => ({
@@ -213,6 +186,40 @@ document.addEventListener('alpine:init', () => {
         days: null,
         setDays(days) {
             this.days = days
+        },
+        async fetchReadings() {
+            console.log("fetchingReadings")
+            const { data, error } = await supabase
+                .from('haveread')
+                .select()
+            if (error) {
+                console.error(error)
+            } else {
+                this.setDays(data)
+                console.log("Got data")
+            }
+        },
+        async markRead(day, user_id) {
+            if(typeof user_id === 'undefined' || user_id === '' || user_id === null) throw new Error('user_id cannot be null')
+            const { error } = await supabase
+                .from('haveread')
+                .insert({ plan_day: day, user_id })
+            if (!error) {
+                this.fetchReadings()
+            } else {
+                console.error(error)
+            }
+        },
+        async markUnread(day) {
+            const { error } = await supabase
+                .from('haveread')
+                .delete()
+                .eq('plan_day', day)
+            if (!error) {
+                this.fetchReadings()
+            } else {
+                console.error(error)
+            }
         }
     })
 })
