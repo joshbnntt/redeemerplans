@@ -47,7 +47,7 @@ document.addEventListener('alpine:init', () => {
 
             return weekEnd.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
         },
-        fetchReadings() {
+        fetchPlan() {
             fetch('/api/masterplan.json')
                 .then(response => response.json())
                 .then(data => {
@@ -128,12 +128,7 @@ document.addEventListener('alpine:init', () => {
         }
     }))
     Alpine.data("readings", () => ({
-        async init() {
-            await this.$nextTick()
-            if(this.$store.auth.user) {
-                this.$store.haveread.fetchReadings()
-            }
-        },
+
         check(e) {
             const checkboxElem = e.target
             console.log(checkboxElem)
@@ -144,7 +139,7 @@ document.addEventListener('alpine:init', () => {
             }
         },
         async markRead(day) {
-            await this.$store.haveread.markRead(day, this.$store.auth.user.id)
+            await this.$store.haveread.markRead(day)
         },
         async markUnread(day) {
             await this.$store.haveread.markUnread(day)
@@ -171,6 +166,7 @@ document.addEventListener('alpine:init', () => {
             } else if (data) {
                 this.session = data.session
                 this.user = data.session?.user
+                Alpine.store('haveread').fetchReadings()
             }
         },
         user: null,
@@ -199,11 +195,12 @@ document.addEventListener('alpine:init', () => {
                 console.log("Got data")
             }
         },
-        async markRead(day, user_id) {
-            if(typeof user_id === 'undefined' || user_id === '' || user_id === null) throw new Error('user_id cannot be null')
+        async markRead(day) {
+            if(!Alpine.store('auth')?.user?.id) throw new Error('must be logged in')
+            
             const { error } = await supabase
                 .from('haveread')
-                .insert({ plan_day: day, user_id })
+                .insert({ plan_day: day, user_id: Alpine.store('auth').user.id })
             if (!error) {
                 this.fetchReadings()
             } else {
