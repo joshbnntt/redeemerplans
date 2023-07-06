@@ -1,5 +1,5 @@
 <section class="mx-auto w-full p-3 md:3/6 lg:w-4/12"
-   x-data="reading">
+   x-data="readings">
 <div class="alert mt-3 flex flex-row "
      x-data="today">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -19,6 +19,7 @@
     <div x-data="{day:'', get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === $data.todayDate)}}"
          x-init="day = $data.todayDate"
          x-show="true || $store.auth.user" x-cloak
+         :data-day="day"
          class="form-control">
       <label class="label cursor-pointer">
         <input type="checkbox" class="checkbox checkbox-primary" name="haveread" x-on:change="$data.check" :checked="checked"/>
