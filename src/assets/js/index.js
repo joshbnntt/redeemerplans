@@ -48,7 +48,7 @@ document.addEventListener('alpine:init', () => {
             return weekEnd.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
         },
         fetchPlan() {
-            fetch('/api/masterplan.json')
+            fetch('/api/current.json')
                 .then(response => response.json())
                 .then(data => {
                     this.title = data.title;
@@ -152,7 +152,7 @@ document.addEventListener('alpine:init', () => {
         
         const date = new Date()
         this.todayDate = date.toLocaleDateString('en-us', {day: "2-digit", month: "2-digit", year:"numeric"})
-        const res = await fetch("/api/masterplan.json")  
+        const res = await fetch("/api/current.json")  
         const data = await res.json()
         this.todayReading = data.plan.filter(r => r.readingdate === this.todayDate)[0]
       }

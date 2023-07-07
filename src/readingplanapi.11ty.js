@@ -18,7 +18,7 @@ class MasterPlan {
                 alias: "readingplan"
             },
             permalink: function(data) {
-                return `/public/api/${this.slug(data.readingplan.data.title)}.json`;
+                return `/public/api/plan/${this.slug(data.readingplan.data.title)}.json`;
             }
         };
     }
