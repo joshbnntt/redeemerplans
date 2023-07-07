@@ -19,7 +19,7 @@
                 <p x-show="error" x-text="error" class="text-error" x-cloak></p>
             </caption>
             <tbody x-show="readings" x-cloak class="border border-b border-l border-r border-base-300">
-                <template x-for="(reading, index) in readings" >
+                <template x-for="(reading, index) in readings" :key="reading.id">
                     <tr :class="{ 
                      'border-b border-base-100 bg-base-300 text-base-content': isGraceOrLordsDay(reading.day), 
                      'border-b border-base-300 bg-base-100 text-base-content': !isGraceOrLordsDay(reading.day) 

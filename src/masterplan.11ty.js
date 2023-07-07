@@ -26,6 +26,7 @@ class MasterPlan {
                 item.readingdate = getReadingDate(data.masterplan.start, offset)
                 item.readinglinks = generateBibleLinks(item.day)
                 item.altReadinglinks = generateBibleLinks(item.alt)
+                item.id = index+1
                 return item
             }),
         }
