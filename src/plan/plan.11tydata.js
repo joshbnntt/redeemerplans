@@ -5,6 +5,9 @@ module.exports = {
     meta: {
       title: data => data.title,
       description: data => data.description
+    },
+    permalink: function(data) {
+      return `/plan/${this.slug(data.title)}/`
     }
   }
 };
