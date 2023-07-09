@@ -45,7 +45,7 @@
                             </ul>
                         </td>
                         <td x-data="{day:'', get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === this.day)}}" x-init="day = formatDate(reading.readingdate)"
-                            x-show="$store.auth.user" x-cloak :data-day="day">
+                            x-show="$store.auth.user" x-cloak :data-day="day" class="px-6 py-4">
                             <div class="form-control">
                                 <label class="label cursor-pointer">
                                     <input type="checkbox" class="checkbox checkbox-primary" name="haveread" x-on:change="check" :checked="checked"/>
