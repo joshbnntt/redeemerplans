@@ -112,7 +112,7 @@ document.addEventListener('alpine:init', () => {
                } else {
                 formElem.reset()
                 this.registered = true
-                this.registeredMessage = "Check your emaik for a magic link."
+                this.registeredMessage = "Check your email for a magic link."
                }
             }
             
