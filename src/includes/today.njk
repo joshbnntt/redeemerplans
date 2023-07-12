@@ -17,11 +17,12 @@
     <div class="flex flex-col w-full">
       <p class="font-bold text-left">Today
       </p>
-      <p x-html="todayReading?.readinglinks || todayReading?.day" x-show="todayReading" x-cloak class="text-left"></p>
-      <p class="text-left" x-show="todayReading?.alt" x-cloak>
-        <span class="font-semibold">Alternate:</span>
-        <span x-html="todayReading?.altReadinglinks || todayReading?.alt"></span>
-      </p>
+      <p x-html="todayReading?.readinglinks || todayReading?.day" x-show="todayReading" x-cloak class="text-left flex flex-wrap gap-1"></p>
+      <ul class="text-left" x-show="todayReading?.alt" x-cloak>
+        <li class="font-semibold">Alternate:</li>
+        <li class="flex flex-wrap gap-1"
+            x-html="todayReading?.altReadinglinks || todayReading?.alt"></li>
+      </ul>
     </div>
     <div
       x-data="{day:'', get checked() {return this.$store.haveread.days?.some(d => d.plan_day === $data.todayDate)}}"
