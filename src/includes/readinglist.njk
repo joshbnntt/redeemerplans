@@ -46,9 +46,14 @@
                 <td class="px-6 py-4">
                   <h3 class="font-bold">{% weekday start, loop.index-1 %}</h3>
                   <ul>
-                    <li>{% youversion reading.day %}</li>
+                    <li class="flex flex-wrap gap-1">{% youversion reading.day %}</li>
                     {% if reading.alt and reading.alt !== "" %}
-                        <li class="mt-2"><span class="font-semibold">Alternate:</span> {% youversion reading.alt %}</li>
+                        <li class="mt-2">
+                            <ul class="flex flex-col gap-0">
+                                <li class="font-semibold">Alternate:</li>
+                                <li class="flex flex-wrap gap-1">{% youversion reading.alt %}</li>
+                            </ul>   
+                        </li>
                     {% endif %}
                   </ul>
                 </td>

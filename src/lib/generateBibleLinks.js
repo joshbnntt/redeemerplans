@@ -81,7 +81,7 @@ module.exports = function (references) {
             let parts = reference.split(' ');
             let book = parts.slice(0, -1).join(' '); // Handle book names with multiple words
             let versePart = parts[parts.length - 1];
-
+            let isLast = i+1 === referencesArray.length
             let chapter = '';
             let verse = '';
 
@@ -103,12 +103,12 @@ module.exports = function (references) {
                 link += '.' + verse;
             }
             link += '.CSB';
-
-            let anchorTag = '<a class="text-base-content" href="' + link + '" alt="' + reference + '">' + reference + '</a>';
+            let endAnchorTag = isLast ? '</a>' : ',</a>';
+            let anchorTag = '<a class="text-base-content block" href="' + link + '" alt="' + reference + '">' + reference + endAnchorTag;
             links.push(anchorTag);
         }
 
-        return links.join(', ');
+        return links.join(' ');
     } catch (e) {
         console.log(e);
         return references;

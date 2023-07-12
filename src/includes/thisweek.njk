@@ -36,12 +36,16 @@
                             <h2 class="font-bold" x-text="getDayOfWeek(reading.readingdate)"></h2>
                             <ul>
                                 {# <li x-text="reading.day"></li> #}
-                                <li x-html="getPassages(reading.day, reading.readinglinks)"></li>
-                                <li x-show="reading.alt" class="mt-2">
-                                    <span class="font-semibold">Alternate:</span>
-                                    {# <span x-text="reading.alt"></span> #}
-                                    <span class="text-primary" x-html="getPassages(reading.alt, reading.altReadinglinks)"></span>
+                                <li class="flex flex-wrap gap-1"
+                                    x-html="getPassages(reading.day, reading.readinglinks)"></li>
+                                <template x-if="reading.alt">
+                                <li class="mt-2">
+                                    <ul class="flex flex-col gap-0">
+                                        <li class="font-semibold">Alternate:</li>
+                                        <li class="flex flex-wrap gap-1" x-html="getPassages(reading.alt, reading.altReadinglinks)"></li>
+                                    </ul>   
                                 </li>
+                                </template>
                             </ul>
                         </td>
                         <td x-data="{day:'', get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === this.day)}}" x-init="day = formatDate(reading.readingdate)"
