@@ -25,6 +25,7 @@ class MasterPlan {
 
     render(data) {
         let readingplan = {
+            "id": this.slug(data.readingplan.data.title),
             "title": data.readingplan.data.title,
             "description": data.readingplan.data.description,
             "start": data.readingplan.data.start,
