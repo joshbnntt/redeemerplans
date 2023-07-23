@@ -15,7 +15,7 @@ window.Alpine = Alpine
 console.log('hello from index.js')
 
 import * as Turbo from "@hotwired/turbo"
-//Turbo.session.drive = false
+Turbo.session.drive = false
 Turbo.setProgressBarDelay(0)
 document.addEventListener('alpine:init', () => {
     console.log("alpine:init")
