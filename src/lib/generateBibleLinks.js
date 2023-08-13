@@ -98,11 +98,11 @@ module.exports = function (references) {
                 continue; // Skip the reference if the book abbreviation is not found
             }
 
-            let link = 'https://www.bible.com/bible/1713/' + bookAbbreviation.toUpperCase() + '.' + chapter;
+            let link = 'https://www.bible.com/bible/' + bookAbbreviation.toUpperCase() + '.' + chapter;
             if (verse) {
                 link += '.' + verse;
             }
-            link += '.CSB';
+            //link += '.CSB';
             let endAnchorTag = isLast ? '</a>' : ',</a>';
             let anchorTag = '<a class="text-base-content block" href="' + link + '" alt="' + reference + '">' + reference + endAnchorTag;
             links.push(anchorTag);
