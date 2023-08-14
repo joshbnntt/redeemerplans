@@ -133,21 +133,22 @@ document.addEventListener('alpine:init', () => {
             const checkboxElem = e.target
             console.log(checkboxElem)
             if (checkboxElem.checked) {
-                this.markRead(this.day)
+                this.markRead(this.day, this.plan)
             } else {
-                this.markUnread(this.day)
+                this.markUnread(this.day, this.plan)
             }
         },
-        async markRead(day) {
-            await this.$store.haveread.markRead(day)
+        async markRead(day, plan) {
+            await this.$store.haveread.markRead(day, plan)
         },
-        async markUnread(day) {
-            await this.$store.haveread.markUnread(day)
+        async markUnread(day, plan) {
+            await this.$store.haveread.markUnread(day, plan)
         }
     }))
     Alpine.data('today', () => ({
       todayDate: '',
       todayReading: null,
+      plan_slug: '',
       async init() {
         
         const date = new Date()
@@ -155,6 +156,7 @@ document.addEventListener('alpine:init', () => {
         const res = await fetch("/api/current.json")  
         const data = await res.json()
         this.todayReading = data.plan.filter(r => r.readingdate === this.todayDate)[0]
+        this.plan_slug = this.todayReading.plan_slug
       }
     }))
 
@@ -195,23 +197,24 @@ document.addEventListener('alpine:init', () => {
                 console.log("Got data")
             }
         },
-        async markRead(day) {
+        async markRead(day, plan) {
             if(!Alpine.store('auth')?.user?.id) throw new Error('must be logged in')
             
             const { error } = await supabase
                 .from('haveread')
-                .insert({ plan_day: day, user_id: Alpine.store('auth').user.id })
+                .insert({ plan_day: day, user_id: Alpine.store('auth').user.id, plan_slug: plan })
             if (!error) {
                 this.fetchReadings()
             } else {
                 console.error(error)
             }
         },
-        async markUnread(day) {
+        async markUnread(day, plan) {
             const { error } = await supabase
                 .from('haveread')
                 .delete()
                 .eq('plan_day', day)
+                .eq('plan_slug', plan)
             if (!error) {
                 this.fetchReadings()
             } else {

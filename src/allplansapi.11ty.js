@@ -23,9 +23,11 @@ class MasterPlan {
 
     render(data) {
         let plans = []
+        
         data.collections.plans.map(p => {
+            const slug = this.slug(p.data.title)
             let readingplan = {
-                "id": this.slug(p.data.title),
+                "id": slug,
                 "title": p.data.title,
                 "description": p.data.description,
                 "start": p.data.start,
@@ -36,6 +38,7 @@ class MasterPlan {
                     item.readinglinks = generateBibleLinks(item.day)
                     item.altReadinglinks = generateBibleLinks(item.alt)
                     item.id = index + 1
+                    item.plan_slug = slug
                     return item
                 }),
             }

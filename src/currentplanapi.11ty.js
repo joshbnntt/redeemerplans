@@ -22,8 +22,9 @@ class MasterPlan {
     }
 
     render(data) {
+        const slug = this.slug(data.readingplan.data.title)
         let readingplan = {
-            "id": this.slug(data.readingplan.data.title),
+            "id": slug,
             "title": data.readingplan.data.title,
             "description": data.readingplan.data.description,
             "start": data.readingplan.data.start,
@@ -34,6 +35,7 @@ class MasterPlan {
                 item.readinglinks = generateBibleLinks(item.day)
                 item.altReadinglinks = generateBibleLinks(item.alt)
                 item.id = index+1
+                item.plan_slug = slug
                 return item
             }),
         }
