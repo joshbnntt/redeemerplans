@@ -14,6 +14,20 @@ window.Alpine = Alpine
 
 console.log('hello from index.js')
 
+window.updateTheme = function () {
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) 
+    && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark')
+    document.documentElement.dataset.theme = 'mydarktheme'
+} else {
+    document.documentElement.classList.remove('dark')
+    document.documentElement.dataset.theme = 'mytheme'
+}
+}
+
+window.updateTheme()
+
+
 import * as Turbo from "@hotwired/turbo"
 Turbo.session.drive = false
 Turbo.setProgressBarDelay(0)

@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "prefers-color-scheme",
+  darkMode: "class",
   content: [
     "./src/**/*.{njk,js,html,md,yml,yaml}",
     "./.eleventy.js"
