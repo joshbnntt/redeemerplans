@@ -1,6 +1,6 @@
-<header class="w-full bg-primary  py-2 text-xl">
-  <div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
-    <div class="logo text-white font-bold">
+<header class="py-2 w-full text-xl bg-primary">
+  <div class="flex flex-wrap justify-between items-center p-4 mx-auto max-w-screen-xl">
+    <div class="font-bold text-white logo">
       <a href="/" data-turbo-preload>{{ site.title }}</a>
     </div> 
     <div x-data="logout"  :class="{'rounded-full ring ring-accent': typeof $store.auth.user !== 'undefined'}">
@@ -19,15 +19,17 @@
           <ul x-show="!$store.auth.user"
             tabindex="0" 
             class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+             <li><button onClick="document.getElementById('tswitcher').showModal()">Change Translation</button></li>
              <li><a href="/login/">Login</a></li>
           </ul>
-          <ul x-show="$store.auth.user"
+          <ul x-show="$store.auth.user" 
              tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             <li>
               <a class="justify-between">
                 <span x-text="$store.auth.user?.email"></span>
               </a>
             </li>
+            <li><button onClick="document.getElementById('tswitcher').showModal()">Change Translation</button></li>
             <li>
               <a @click.prevent="logout">Logout</a>
             </li>
@@ -36,3 +38,4 @@
     </div>
   </div>
 </header>
+{% include 'translationSwitcher.njk' %}

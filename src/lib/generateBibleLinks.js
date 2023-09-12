@@ -67,8 +67,19 @@ const books = {
     'Revelation': 'rev'
 };
 
+const TRANSLATIONS = {
+    'KJV': 1,
+    'ESV': 59,
+    'CSB': 1713,
+    'NASB': 2692,
+    'LSB': 3345,
+    'NIV': 111,
+    'NKJV': 114
+}
 
-module.exports = function (references) {
+
+module.exports = function (references, translation = 'ESV') {
+    const tcode = TRANSLATIONS[translation] ?? 59
     
     try {
         if (typeof references === 'undefined') return null;
@@ -98,13 +109,13 @@ module.exports = function (references) {
                 continue; // Skip the reference if the book abbreviation is not found
             }
 
-            let link = 'https://www.bible.com/bible/' + bookAbbreviation.toUpperCase() + '.' + chapter;
+            let link = 'https://www.bible.com/bible/' + tcode + '/' + bookAbbreviation.toUpperCase() + '.' + chapter;
             if (verse) {
                 link += '.' + verse;
             }
             //link += '.CSB';
             let endAnchorTag = isLast ? '</a>' : ',</a>';
-            let anchorTag = '<a class="text-base-content block" href="' + link + '" alt="' + reference + '">' + reference + endAnchorTag;
+            let anchorTag = '<a class="block text-base-content" href="' + link + '" alt="' + reference + '">' + reference + endAnchorTag;
             links.push(anchorTag);
         }
 

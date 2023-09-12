@@ -27,12 +27,42 @@ if (localStorage.theme === 'dark' || (!('theme' in localStorage)
 
 window.updateTheme()
 
+const TRANSLATIONS = {
+    'KJV': "1",
+    'ESV': "59",
+    'CSB': "1713",
+    'NASB': "2692",
+    'LSB': "3345",
+    'NIV': "111",
+    'NKJV': "114"
+}
 
 import * as Turbo from "@hotwired/turbo"
 Turbo.session.drive = false
 Turbo.setProgressBarDelay(0)
 document.addEventListener('alpine:init', () => {
     console.log("alpine:init")
+
+    Alpine.data('translationSwitcher', () => ({
+        selected: TRANSLATIONS.ESV,
+        init() {
+            const t = localStorage.translation
+            console.log("t1", t)
+            if(!t) {
+                localStorage.setItem('translation', this.selected)
+                this.$store.bible.translation = this.selected
+            } else {
+                this.selected = t
+            }
+        },
+        save() {
+            localStorage.setItem('translation', this.selected)
+            this.$store.bible.translation = this.selected
+        },
+        get name() {
+            return Object.keys(TRANSLATIONS)[Object.values(TRANSLATIONS).indexOf(this.selected)]
+        }
+    }))
     Alpine.data('thisweek', () => ({
         isLoading: true,
         error: null,
@@ -45,7 +75,7 @@ document.addEventListener('alpine:init', () => {
             return window.bookAbbreviations;
         },
         getPassages(passages, links) {
-            if (links) return links
+            if (links) return links.replace(/\/59\//g, `/${this.$store.bible.translation}/`)
             return passages;
         },
         getWeekStart() {
@@ -171,6 +201,10 @@ document.addEventListener('alpine:init', () => {
         this.todayReading = data.plan.filter(r => r.readingdate === this.todayDate)[0]
       }
     }))
+
+    Alpine.store('bible', {
+        translation: '59'
+    })
 
     Alpine.store('auth', {
         async init() {

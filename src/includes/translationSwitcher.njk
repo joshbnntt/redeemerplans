@@ -1,0 +1,23 @@
+<dialog id="tswitcher" class="modal" x-data="translationSwitcher" x-effect="save()">
+  <div class="modal-box dark:text-white">
+    <h3 class="text-lg font-bold">Choose your preferred Bible translation.</h3>
+    <div class="pt-3 w-full max-w-xs form-control">
+    <select class="select select-bordered" x-model="selected" x-on:change="save">
+        <option value="1">KJV</option>
+        <option value="59">ESV</option>
+        <option value="1713">CSB</option>
+        <option value="2692">NASB</option>
+        <option value="3345">LSB</option>
+        <option value="111">NIV</option>
+        <option value="114">NKJV</option>
+    </select>
+
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
