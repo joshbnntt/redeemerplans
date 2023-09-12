@@ -1,5 +1,5 @@
-<section class="mx-auto w-full p-3 md:w-7/12 lg:w-5/12" x-data="today">
-  <div class="alert mt-3 flex flex-row " x-data="readings">
+<section class="p-3 mx-auto w-full md:w-7/12 lg:w-5/12" x-data="today">
+  <div class="flex flex-row mt-3 alert" x-data="readings">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -17,11 +17,11 @@
     <div class="flex flex-col w-full">
       <p class="font-bold text-left">Today
       </p>
-      <p x-html="todayReading?.readinglinks || todayReading?.day" x-show="todayReading" x-cloak class="text-left flex flex-wrap gap-1"></p>
+      <p x-html="getPassages(todayReading?.day,todayReading?.readinglinks)" x-show="todayReading" x-cloak class="flex flex-wrap gap-1 text-left"></p>
       <ul class="text-left" x-show="todayReading?.alt" x-cloak>
         <li class="font-semibold">Alternate:</li>
         <li class="flex flex-wrap gap-1"
-            x-html="todayReading?.altReadinglinks || todayReading?.alt"></li>
+            x-html="getPassages(todayReading?.alt,todayReading?.altReadinglinks)"></li>
       </ul>
     </div>
     <div
@@ -31,7 +31,7 @@
       x-cloak
       :data-day="day"
       class="form-control">
-      <label class="label cursor-pointer">
+      <label class="cursor-pointer label">
         <input type="checkbox" class="checkbox checkbox-primary" name="haveread" x-on:change="$data.check" :checked="checked"/>
       </label>
     </div>

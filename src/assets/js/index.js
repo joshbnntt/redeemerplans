@@ -199,7 +199,11 @@ document.addEventListener('alpine:init', () => {
         const res = await fetch("/api/current.json")  
         const data = await res.json()
         this.todayReading = data.plan.filter(r => r.readingdate === this.todayDate)[0]
-      }
+      },
+      getPassages(passages, links) {
+          if (links) return links.replace(/\/59\//g, `/${this.$store.bible.translation}/`)
+          return passages;
+      },
     }))
 
     Alpine.store('bible', {
