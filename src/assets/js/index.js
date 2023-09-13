@@ -34,7 +34,8 @@ const TRANSLATIONS = {
     'NASB': "2692",
     'LSB': "3345",
     'NIV': "111",
-    'NKJV': "114"
+    'NKJV': "114",
+    'NLT': "116"
 }
 
 import * as Turbo from "@hotwired/turbo"
