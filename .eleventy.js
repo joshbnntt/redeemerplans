@@ -85,7 +85,7 @@ module.exports = function(eleventyConfig) {
 
     return `<div class="flex flex-col justify-center">
     <span class="font-bold">${ month }</span>
-    <span class="countdown font-mono text-xl">
+    <span class="font-mono text-xl countdown">
       <span style="--value:${day};">${day}</span>
     </span>
   </div>`
@@ -117,6 +117,10 @@ module.exports = function(eleventyConfig) {
   })
 
   eleventyConfig.addShortcode("youversion", generateBibleLinks)
+
+  eleventyConfig.addShortcode("padding", (value, padding, char) => {
+    return String(value).padStart(padding, char)
+  })
 
   /* --- FILTERS --- */
 

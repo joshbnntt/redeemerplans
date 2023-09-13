@@ -1,19 +1,18 @@
-<main class="mx-auto w-full p-3 md:w-7/12 lg:w-5/12">
+<main class="p-3 mx-auto w-full md:w-7/12 lg:w-5/12">
 <turbo-frame id="plan">
   <div class="flex flex-col">
-    <div class="relative overflow-x-auto rounded-2xl">
-      <table class="w-full rounded-lg text-left text-gray-500 dark:text-gray-400" {% if start !== "" %}x-data="readings"{%endif%}>
-        <caption class="bg-primary p-5 text-left text-lg font-semibold text-white dark:bg-primary dark:text-white">{{ title }}
+    <div class="overflow-x-auto relative rounded-2xl">
+      <table class="w-full text-left text-gray-500 rounded-lg dark:text-gray-400" {% if start !== "" %}x-data="readings"{%endif%}>
+        <caption class="p-5 text-lg font-semibold text-left text-white bg-primary dark:bg-primary dark:text-white">{{ title }}
           <p class="mt-1 text-sm font-light text-stone-300 dark:text-stone-200">
             {{ description }}</p>
-          <div class="mt-2 flex gap-2">
+          <div class="flex gap-2 mt-2">
             {% if currentplan %} 
               <a x-data="{turboLoading: false}"
                  x-on:turbo:click="turboLoading = true"
                  data-turbo-preload
                 href="/thisweek/"
-                class="ml-1 rounded-md border border-base-300 px-3 py-2 text-center text-sm font-medium text-white hover:bg-base-300
-                hover:text-base-content focus:outline-none focus:ring-4 focus:ring-sky-800">
+                class="px-3 py-2 ml-1 text-sm font-medium text-center text-white rounded-md border border-base-300 hover:bg-base-300 hover:text-base-content focus:outline-none focus:ring-4 focus:ring-sky-800">
                 <span x-show="!turboLoading" >See this week's reading</span>
                 <span x-show="turboLoading" x-cloak>Loading<span class="loading loading-dots loading-xs"></span></span></a>
             {% endif %}
@@ -23,16 +22,15 @@
               {% else %}
               href="/subsplash/{{ title | slugify }}.xml"
               {% endif %}
-              class="rounded-md border border-accent px-3 py-2 text-center font-medium text-white hover:bg-accent text-sm
-                hover:text-white focus:outline-none focus:ring-4 focus:ring-accent-focus"
+              class="px-3 py-2 text-sm font-medium text-center text-white rounded-md border border-accent hover:bg-accent hover:text-white focus:outline-none focus:ring-4 focus:ring-accent-focus"
               target="_blank">Subsplash Link</a>
             
           </div>
         </caption>
-        <tbody class="border-b border-l border-r border-base-300">
+        <tbody class="border-r border-b border-l border-base-300">
           {% for reading in plan %}
             {% if reading.day === "Grace Day" or reading.day === "Lord's Day"%}
-              <tr class="border-t border-base-100 bg-base-300 text-base-content font-light" data-date="{% readingdate start, loop.index-1 %}">
+              <tr class="font-light border-t border-base-100 bg-base-300 text-base-content" data-date="{% readingdate start, loop.index-1 %}">
             {% else %}
               <tr class="border-b border-base-300 bg-base-100 text-base-content" data-date="{% readingdate start, loop.index-1 %}">
             {% endif %}
@@ -41,10 +39,21 @@
                     {% date start, loop.index-1 %}
                   </td>
                 {% else %}
-                  <td class="px-6 py-4">{{ loop.index }}</td>
+                  <td class="px-6 py-4">
+                    <div class="flex flex-col justify-center">
+                      <span class="font-bold">Day</span>
+                      <span class="font-mono text-xl">
+                        <span style="--value:{{ loop.index }};">{% padding loop.index, 2, '0' %}</span>
+                      </span>
+                    </div>
+                  </td>
                 {% endif %}
                 <td class="px-6 py-4">
+                  {% if start !== "" %}
                   <h3 class="font-bold">{% weekday start, loop.index-1 %}</h3>
+                  {% else %}
+                  <h3 class="font-bold">Reading</h3>
+                  {% endif %}
                   <ul>
                     <li class="flex flex-wrap gap-1">{% youversion reading.day %}</li>
                     {% if reading.alt and reading.alt !== "" %}
@@ -62,7 +71,7 @@
                     x-show="$store.auth.user" x-cloak :data-day="day"
                     class="px-6 py-4"> 
                   <div class="form-control"> 
-                    <label class="label cursor-pointer">
+                    <label class="cursor-pointer label">
                       
                         <input type="checkbox" class="checkbox checkbox-primary" name="haveread" x-on:change="check" :checked="checked"/> 
                     </label> 
