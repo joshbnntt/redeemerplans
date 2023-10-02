@@ -8,6 +8,7 @@ const supabaseUrl = 'https://olzxikbosvhduajnlqrh.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9senhpa2Jvc3ZoZHVham5scXJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgyNjI0NDcsImV4cCI6MjAwMzgzODQ0N30.mkmueypBvRUEPQWIqnSk_NDAu0s8lbZ-mpTQCzBz-sg'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
+console.log('count', count)
 window.Alpine = Alpine
 
 // Add Alpine extensions here
@@ -43,6 +44,37 @@ Turbo.session.drive = false
 Turbo.setProgressBarDelay(0)
 document.addEventListener('alpine:init', () => {
     console.log("alpine:init")
+
+    Alpine.data('userProfile', () => ({
+        count: 0,
+        yearCount: 0,
+        async init() {
+            await this.fetchData()
+            setInterval(() => this.fetchData(), 1000 * 60 * 1)
+        },
+        async fetchData() {
+            const {error, count} = await supabase.from('haveread').select('*', {count: "exact"})
+
+            if (error) {
+                console.error("Error getting reading count: ", error)
+                return
+            }
+
+            this.count = count
+
+            try {
+                const { count:yearCount, error } = await supabase.from('haveread').select('*', {count: "exact"}).ilike('plan_day', `%${new Date().getFullYear()}%`)
+            
+                if (error) {
+                  throw error;
+                }
+            
+                this.yearCount = yearCount
+              } catch (error) {
+                console.error('Error fetching data:', error.message);
+              }
+        }
+    }))
 
     Alpine.data('translationSwitcher', () => ({
         selected: TRANSLATIONS.ESV,
