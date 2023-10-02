@@ -24,11 +24,13 @@
           </ul>
           <ul x-show="$store.auth.user" 
              tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-            <li>
-              <a class="justify-between" onClick="document.getElementById('profile').showModal()">
-                <span x-text="$store.auth.user?.email"></span>
-              </a>
-            </li>
+             <template x-if="$store.auth.user">
+              <li>
+                <a class="justify-between" onClick="document.getElementById('profile').showModal()">
+                  <span x-text="$store.auth.user?.email"></span>
+                </a>
+              </li> 
+            </template>
             <li><button onClick="document.getElementById('tswitcher').showModal()">Change Translation</button></li>
             <li>
               <a @click.prevent="logout">Logout</a>

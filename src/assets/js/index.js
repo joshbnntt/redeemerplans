@@ -8,7 +8,6 @@ const supabaseUrl = 'https://olzxikbosvhduajnlqrh.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9senhpa2Jvc3ZoZHVham5scXJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODgyNjI0NDcsImV4cCI6MjAwMzgzODQ0N30.mkmueypBvRUEPQWIqnSk_NDAu0s8lbZ-mpTQCzBz-sg'
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-console.log('count', count)
 window.Alpine = Alpine
 
 // Add Alpine extensions here
