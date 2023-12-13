@@ -1,6 +1,8 @@
 module.exports = {
   layout: "readingplan",
   tags: ["plans"],
+  start: "",
+  current: false,
   eleventyComputed: {
     meta: {
       title: data => data.title,

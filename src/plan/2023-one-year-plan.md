@@ -1,7 +1,6 @@
 ---
 title: A One Year Bible Reading Plan
 description: This was the reading plan for Redeemer Church in 2023.
-start: ""
 plan:
   - day: 1 John 1
   - day: 1 John 2

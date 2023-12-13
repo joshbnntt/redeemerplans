@@ -1,0 +1,36 @@
+---
+title: Praying the Psalms
+description: This comes from Praying the Bible by Don Whitney. Each day you look at 5 Psalms that correspond to the day of the month and choose one to pray through. Additionally, a Proverb of the day is included for a dose of daily wisdom.
+plan:
+  - day: Psalm 1, Psalm 31, Psalm 61, Psalm 91, Psalm 121, Proverbs 1
+  - day: Psalm 2, Psalm 32, Psalm 62, Psalm 92, Psalm 122, Proverbs 2
+  - day: Psalm 3, Psalm 33, Psalm 63, Psalm 93, Psalm 123, Proverbs 3
+  - day: Psalm 4, Psalm 34, Psalm 64, Psalm 94, Psalm 124, Proverbs 4
+  - day: Psalm 5, Psalm 35, Psalm 65, Psalm 95, Psalm 125, Proverbs 5
+  - day: Psalm 6, Psalm 36, Psalm 66, Psalm 96, Psalm 126, Proverbs 6
+  - day: Psalm 7, Psalm 37, Psalm 67, Psalm 97, Psalm 127, Proverbs 7
+  - day: Psalm 8, Psalm 38, Psalm 68, Psalm 98, Psalm 128, Proverbs 8
+  - day: Psalm 9, Psalm 39, Psalm 69, Psalm 99, Psalm 129, Proverbs 9
+  - day: Psalm 10, Psalm 40, Psalm 70, Psalm 100, Psalm 130, Proverbs 10
+  - day: Psalm 11, Psalm 41, Psalm 71, Psalm 101, Psalm 131, Proverbs 11
+  - day: Psalm 12, Psalm 42, Psalm 72, Psalm 102, Psalm 132, Proverbs 12
+  - day: Psalm 13, Psalm 43, Psalm 73, Psalm 103, Psalm 133, Proverbs 13
+  - day: Psalm 14, Psalm 44, Psalm 74, Psalm 104, Psalm 134, Proverbs 14
+  - day: Psalm 15, Psalm 45, Psalm 75, Psalm 105, Psalm 135, Proverbs 15
+  - day: Psalm 16, Psalm 46, Psalm 76, Psalm 106, Psalm 136, Proverbs 16
+  - day: Psalm 17, Psalm 47, Psalm 77, Psalm 107, Psalm 137, Proverbs 17
+  - day: Psalm 18, Psalm 48, Psalm 78, Psalm 108, Psalm 138, Proverbs 18
+  - day: Psalm 19, Psalm 49, Psalm 79, Psalm 109, Psalm 139, Proverbs 19
+  - day: Psalm 20, Psalm 50, Psalm 80, Psalm 110, Psalm 140, Proverbs 20
+  - day: Psalm 21, Psalm 51, Psalm 81, Psalm 111, Psalm 141, Proverbs 21
+  - day: Psalm 22, Psalm 52, Psalm 82, Psalm 112, Psalm 142, Proverbs 22
+  - day: Psalm 23, Psalm 53, Psalm 83, Psalm 113, Psalm 143, Proverbs 23
+  - day: Psalm 24, Psalm 54, Psalm 84, Psalm 114, Psalm 144, Proverbs 24
+  - day: Psalm 25, Psalm 55, Psalm 85, Psalm 115, Psalm 145, Proverbs 25
+  - day: Psalm 26, Psalm 56, Psalm 86, Psalm 116, Psalm 146, Proverbs 26
+  - day: Psalm 27, Psalm 57, Psalm 87, Psalm 117, Psalm 147, Proverbs 27
+  - day: Psalm 28, Psalm 58, Psalm 88, Psalm 118, Psalm 148, Proverbs 28
+  - day: Psalm 29, Psalm 59, Psalm 89, Psalm 119, Psalm 149, Proverbs 29
+  - day: Psalm 30, Psalm 60, Psalm 90, Psalm 120, Psalm 150, Proverbs 30
+  - day: Psalm 119, Proverbs 31
+---
