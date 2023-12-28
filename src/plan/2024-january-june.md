@@ -1,0 +1,189 @@
+---
+title: 2024 January-June Reading Plan
+description: "Redeemer's reading plan for the first half of 2024 (January-June)."
+start: 01-01-2024
+current: false
+plan:
+  - day: 2 Corinthians 1, 2 Corinthians 2, 2 Corinthians 3
+  - day: 2 Corinthians 4, 2 Corinthians 5, 2 Corinthians 6
+  - day: 2 Corinthians 7, 2 Corinthians 8, 2 Corinthians 9
+  - day: 2 Corinthians 10, 2 Corinthians 11
+  - day: 2 Corinthians 12, 2 Corinthians 13
+  - day: Grace Day
+  - day: Lord's Day
+  - day: John 1, John 2 
+  - day: John 3, John 4 
+  - day: John 5, John 6 
+  - day: John 7
+  - day: Psalm 51, Proverbs 22
+  - day: Grace Day
+  - day: Lord's Day
+  - day: John 8, John 9 
+  - day: John 10, John 11 
+  - day: John 12, John 13
+  - day: John 14
+  - day: Psalm 52, Proverbs 24
+  - day: Grace Day
+  - day: Lord's Day
+  - day: John 15, John 16
+  - day: John 17, John 18
+  - day: John 19, John 20
+  - day: John 21
+  - day: Psalm 53, Proverbs 25
+  - day: Grace Day
+  - day: Lord's Day
+  - day: Galatians 1, Galatians 2 
+  - day: Galatians 3, Galatians 4
+  - day: Galatians 5
+  - day: Galatians 6
+  - day: Psalm 54, Proverbs 26
+  - day: Grace Day
+  - day: Lord's Day
+  - day: 1 Samuel 1, 1 Samuel 2, 1 Samuel 3
+  - day: 1 Samuel 4, 1 Samuel 5, 1 Samuel 6
+  - day: 1 Samuel 7, 1 Samuel 8
+  - day: 1 Samuel 9, 1 Samuel 10
+  - day: Psalm 55, Proverbs 27
+  - day: Grace Day
+  - day: Lord's Day
+  - day: 1 Samuel 11, 1 Samuel 12, 1 Samuel 13
+  - day: 1 Samuel 14, 1 Samuel 15, 1 Samuel 16
+  - day: 1 Samuel 17, 1 Samuel 18
+  - day: 1 Samuel 19, 1 Samuel 20
+  - day: Psalm 56, Proverbs 28
+  - day: Grace Day
+  - day: Lord's Day
+  - day: 1 Samuel 21, 1 Samuel 22, 1 Samuel 23
+  - day: 1 Samuel 24, 1 Samuel 25, 1 Samuel 26
+  - day: 1 Samuel 27, 1 Samuel 28, 1 Samuel 29
+  - day: 1 Samuel 30, 1 Samuel 31
+  - day: Psalm 57, Proverbs 29
+  - day: Grace Day
+  - day: Lord's Day
+  - day: Philippians 1
+  - day: Philippians 2
+  - day: Philippians 3
+  - day: Philippians 4
+  - day: Psalm 58, Proverbs 30
+  - day: Grace Day
+  - day: Lord's Day
+  - day: 2 Samuel 1, 2 Samuel 2, 2 Samuel 3 
+  - day: 2 Samuel 4, 2 Samuel 5, 2 Samuel 6
+  - day: 2 Samuel 7, 2 Samuel 8, 2 Samuel 9
+  - day: 2 Samuel 10, 2 Samuel 11, 2 Samuel 12
+  - day: Psalm 59, Proverbs 31
+  - day: Grace Day
+  - day: Lord's Day
+  - day: 2 Samuel 13, 2 Samuel 14, 2 Samuel 15
+  - day: 2 Samuel 16, 2 Samuel 17, 2 Samuel 18
+  - day: 2 Samuel 19, 2 Samuel 20, 2 Samuel 21
+  - day: 2 Samuel 22, 2 Samuel 23, 2 Samuel 24
+  - day: Psalm 60
+  - day: Grace Day
+  - day: Lord's Day
+  - day: James 1, James 2
+  - day: James 3
+  - day: James 4
+  - day: James 5
+  - day: Psalm 61
+  - day: Grace Day
+  - day: Lord's Day
+  - day: Matthew 1, Matthew 2, 1 Kings 1, 1 Kings 2
+  - day: Matthew 3, 1 Kings 3
+  - day: Matthew 4, 1 Kings 4
+  - day: Matthew 5, 1 Kings 5
+  - day: Psalm 62
+  - day: Grace Day
+  - day: Lord's Day
+  - day: Matthew 6, Matthew 7, 1 Kings 6, 1 Kings 7
+  - day: Matthew 8, 1 Kings 8
+  - day: Matthew 9, 1 Kings 9
+  - day: Matthew 10, 1 Kings 10
+  - day: Psalm 63
+  - day: Grace Day
+  - day: Lord's Day
+  - day: Matthew 11, Matthew 12, 1 Kings 11, 1 Kings 12
+  - day: Matthew 13, 1 Kings 13
+  - day: Matthew 14, 1 Kings 14
+  - day: Matthew 15, 1 Kings 15
+  - day: Psalm 64
+  - day: Grace Day
+  - day: Lord's Day
+  - day: Matthew 16, Matthew 17, 1 Kings 16, 1 Kings 17
+  - day: Matthew 18, 1 Kings 18
+  - day: Matthew 19, 1 Kings 19
+  - day: Matthew 20, 1 Kings 20
+  - day: Psalm 65
+  - day: Grace Day
+  - day: Lord's Day
+  - day: Matthew 21, Matthew 22
+  - day: Matthew 23, Matthew 24
+  - day: Matthew 25, Matthew 26
+  - day: Matthew 27, Matthew 28
+  - day: Psalm 66
+  - day: Grace Day
+  - day: Lord's Day
+  - day: Hebrews 1, Hebrews 2, Hebrews 3
+  - day: Hebrews 4, Hebrews 5, Hebrews 6
+  - day: Hebrews 7, Hebrews 8, Hebrews 9
+  - day: Hebrews 10, Hebrews 11, Hebrews 12, Hebrews 13
+  - day: Psalm 67
+  - day: Grace Day
+  - day: Lord's Day
+  - day: 2 Kings 1, 2 Kings 2, 2 Kings 3
+  - day: 2 Kings 4, 2 Kings 5, 2 Kings 6
+  - day: 2 Kings 7, 2 Kings 8
+  - day: 2 Kings 9, 2 Kings 10
+  - day: Philemon 1, Psalm 68
+  - day: Grace Day
+  - day: Lord's Day
+  - day: 2 Kings 11, 2 Kings 12, 1 Peter 1
+  - day: 2 Kings 13, 2 Kings 14, 1 Peter 2
+  - day: 2 Kings 15, 2 Kings 16, 1 Peter 3
+  - day: 1 Peter 4, 1 Peter 5
+  - day: Psalm 69
+  - day: Grace Day
+  - day: Lord's Day
+  - day: 2 Kings 16, 2 Kings 17, 2 Kings 18
+  - day: 2 Kings 19, 2 Kings 20, 2 Kings 21
+  - day: 2 Kings 22, 2 Kings 23, Titus 1
+  - day: 2 Kings 24, 2 Kings 25, Titus 2
+  - day: Titus 3, Psalm 70
+  - day: Grace Day
+  - day: Lord's Day
+  - day: Joel 1, 1 Corinthians 1, 1 Corinthians 2
+  - day: Joel 2, 1 Corinthians 3
+  - day: Joel 3, 1 Corinthians 4
+  - day: 1 Corinthians 5, 1 Corinthians 6
+  - day: Psalm 71, Proverbs 1
+  - day: Grace Day
+  - day: Lord's Day
+  - day: Obadiah 1, 1 Corinthians 7
+  - day: 1 Corinthians 8, 1 Corinthians 9
+  - day: 1 Corinthians 10, 1 Corinthians 11
+  - day: 1 Corinthians 12, 1 Corinthians 13
+  - day: Psalm 72, Proverbs 2
+  - day: Grace Day
+  - day: Lord's Day
+  - day: 1 Corinthians 14, Jonah 1
+  - day: 1 Corinthians 15, Jonah 2
+  - day: 1 Corinthians 16, Jonah 3
+  - day: Jonah 4
+  - day: Psalm 73, Proverbs 3
+  - day: Grace Day
+  - day: Lord's Day
+  - day: Amos 1, Amos 2, 1 Thessalonians 1, 1 Thessalonians 2
+  - day: Amos 3, Amos 4, 1 Thessalonians 3
+  - day: Amos 5, Amos 6, 1 Thessalonians 4
+  - day: Amos 7, Amos 8, Amos 9, 1 Thessalonians 5
+  - day: Psalm 74, Proverbs 4
+  - day: Grace Day
+  - day: Lord's Day
+  - day: 1 John 1, 1 John 2
+  - day: 1 John 3, 1 John 4
+  - day: 1 John 5, 2 John 1
+  - day: 3 John 1
+  - day: Psalm 75, Proverbs 5
+  - day: Grace Day
+  - day: Lord's Day
+---
