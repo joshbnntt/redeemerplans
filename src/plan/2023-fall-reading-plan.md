@@ -2,7 +2,7 @@
 title: 2023 July-December Reading Plan
 description: Our reading plan for the second half of 2023 (July-December).
 start: 07-03-2023
-current: true
+current: false
 plan:
   - day: 2 Thessalonians 1
   - day: 2 Thessalonians 2
