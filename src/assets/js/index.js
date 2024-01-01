@@ -113,8 +113,10 @@ document.addEventListener('alpine:init', () => {
         getWeekStart() {
             const today = new Date();
             const start = today.getDate() - today.getDay();
-            const weekStart = new Date(today.setDate(start));
-            return weekStart.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+            const weekStart = new Date(today.setDate(start || 1));
+            let ws = weekStart.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+            
+            return ws
         },
         getWeekEnd() {
             const weekStart = new Date(this.getWeekStart());
