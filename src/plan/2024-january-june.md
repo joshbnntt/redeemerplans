@@ -116,8 +116,8 @@ plan:
   - day: Psalm 65
   - day: Grace Day
   - day: Lord's Day
-  - day: Matthew 21, Matthew 22
-  - day: Matthew 23, Matthew 24
+  - day: Matthew 21, Matthew 22, 1 Kings 21
+  - day: Matthew 23, Matthew 24, 1 Kings 22
   - day: Matthew 25, Matthew 26
   - day: Matthew 27, Matthew 28
   - day: Psalm 66
