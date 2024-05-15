@@ -8,7 +8,7 @@ const getReadingDate = require('./lib/getReadingDate')
 module.exports = class FeedTemplate {
     data() {
         return {
-            permalink: 'feed.ics',
+            permalink: '/public/feed.ics',
         }
     }
 
