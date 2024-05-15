@@ -116,7 +116,7 @@ module.exports = function (references, translation = 'ESV') {
             }
             //link += '.CSB';
             let endAnchorTag = isLast ? '</a>' : ',</a>';
-            let anchorTag = '<a class="block text-base-content" href="' + link + '" alt="' + reference + '">' + reference + endAnchorTag;
+            let anchorTag = '<a class="block underline text-base-content" href="' + link + '" alt="' + reference + '">' + reference + endAnchorTag;
             links.push(anchorTag);
         }
 
