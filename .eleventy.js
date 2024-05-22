@@ -2,6 +2,7 @@ const path = require("path");
 const pluginRss = require("@11ty/eleventy-plugin-rss"); // needed for absoluteUrl SEO feature
 const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 const EleventyVitePlugin = require("@11ty/eleventy-plugin-vite");
+const {VitePWA} = require('vite-plugin-pwa');
 const Image = require("@11ty/eleventy-img");
 const yaml = require("js-yaml"); // Because yaml is nicer than json for editors
 require("dotenv").config();
@@ -18,6 +19,7 @@ const globalSiteData = {
 };
 
 module.exports = function(eleventyConfig) {
+  
   /* --- GLOBAL DATA --- */
 
   eleventyConfig.addGlobalData("site", globalSiteData);
@@ -38,7 +40,18 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addPlugin(pluginRss); // just includes absolute url helper function
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
-  eleventyConfig.addPlugin(EleventyVitePlugin, {});
+  eleventyConfig.addPlugin(EleventyVitePlugin, {
+    viteOptions: {
+        plugins: [
+          VitePWA({
+            injectRegister: 'false',
+            workbox: {
+              globPatterns: ['**/*.{js,css,html,json,xml}'],
+            }
+          })
+      ] 
+    }
+  });
 
   /* --- SHORTCODES --- */
 
