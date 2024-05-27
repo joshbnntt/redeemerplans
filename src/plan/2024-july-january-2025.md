@@ -1,0 +1,196 @@
+---
+title: 2024 July-2025 January Reading Plan
+description: "Redeemer's reading plan for the Second half of 2024 (July-January 4 of 2025)."
+start: 07-01-2024
+current: false
+plan:
+  - day: Mark 1, Jeremiah 1
+  - day: Mark 2, Jeremiah 2
+  - day: Mark 3, Jeremiah 3
+  - day: Mark 4, Jeremiah 4
+  - day: Mark 5, Jeremiah 5
+  - day: Psalm 76, Proverbs 6, Jeremiah 6
+  - day: Lord's Day
+  - day: Mark 6, Jeremiah 7
+  - day: Mark 7, Jeremiah 8
+  - day: Mark 8, Jeremiah 9
+  - day: Mark 9, Jeremiah 10
+  - day: Mark 10, Jeremiah 11
+  - day: Psalm 77, Proverbs 7
+  - day: Lord's Day
+  - day: Mark 11, Jeremiah 12
+  - day: Mark 12, Jeremiah 13
+  - day: Mark 13, Jeremiah 14
+  - day: Mark 14, Jeremiah 15
+  - day: Mark 15, Proverbs 8
+  - day: Mark 16, Psalm 78
+  - day: Lord's Day
+  - day: 1 Timothy 1, Jeremiah 16
+  - day: 1 Timothy 2, Jeremiah 17
+  - day: 1 Timothy 3, Jeremiah 18
+  - day: 1 Timothy 4, Jeremiah 19
+  - day: 1 Timothy 5, Psalm 79, Jeremiah 20
+  - day: 1 Timothy 6, Proverbs 9, Jeremiah 21
+  - day: Lord's Day
+  - day: Revelation 1, Jeremiah 22
+  - day: Revelation 2, Jeremiah 23
+  - day: Revelation 3, Jeremiah 24
+  - day: Revelation 4, Revelation 5, Jeremiah 25
+  - day: Revelation 6, Proverbs 10, Jeremiah 26
+  - day: Revealtion 7, Psalm 80, Jeremiah 27
+  - day: Lord's Day
+  - day: Revelation 8, Revelation 9, Jeremiah 28
+  - day: Revelation 10, Revelation 11, Jeremiah 29
+  - day: Revelation 12, Jeremiah 30
+  - day: Revelation 13, Revelation 14, Jeremiah 31
+  - day: Revelation 15, Jeremiah 32
+  - day: Revelation 16, Psalm 81, Proverbs 11
+  - day: Lord's Day
+  - day: Revelation 17, Jeremiah 33, Jeremiah 34
+  - day: Revelation 18, Jeremiah 35, Jeremiah 36
+  - day: Revelation 19, Jeremiah 37, Jeremiah 38
+  - day: Revelation 20, Jeremiah 39, Jeremiah 40
+  - day: Revelation 21, Jeremiah 41, Psalm 82
+  - day: Revelation 22, Jeremiah 42, Proverbs 12
+  - day: Lord's Day
+  - day: Jude, Jeremiah 43, Jeremiah 45
+  - day: Jeremiah 46, Jeremiah 48
+  - day: Jeremiah 48, Jeremiah 49
+  - day: Jeremiah 50
+  - day: Psalm 83, Jeremiah 51
+  - day: Proverbs 13, Jeremiah 52
+  - day: Lord's Day
+  - day: Romans 1, Habakkuk 1
+  - day: Romans 2, Habakkuk 2
+  - day: Romans 3, Habakkuk 3
+  - day: Romans 4
+  - day: Romans 5
+  - day: Psalm 84, Proverbs 14
+  - day: Lord's Day
+  - day: Romans 6
+  - day: Romans 7, Psalm 85
+  - day: Romans 8
+  - day: Romans 9, Zephaniah 1
+  - day: Romans 10, Zephaniah 2
+  - day: Romans 11, Zephaniah 3
+  - day: Lord's Day
+  - day: Romans 12, Isaiah 1
+  - day: Romans 13, Isaiah 2
+  - day: Romans 14, Isaiah 3
+  - day: Romans 15, Isaiah 4, Isaiah 5
+  - day: Romans 16, Isaiah 6, Isaiah 7
+  - day: Proverbs 15, Psalm 86
+  - day: Lord's Day
+  - day: Colossians 1, Isaiah 8
+  - day: Colossians 2, Isaiah 9
+  - day: Colossians 3, Isaiah 10
+  - day: Colossians 4, Isaiah 11, Isaiah 12
+  - day: Proverbs 16, Isaiah 13
+  - day: Psalm 87, Isaiah 14
+  - day: Lord's Day
+  - day: 2 Peter 1, Isaiah 15, Isaiah 16
+  - day: 2 Peter 2, Isaiah 17, Isaiah 18
+  - day: 2 Peter 3, Isaiah 19, Isaiah 20
+  - day: Proverbs 17, Isaiah 21
+  - day: Psalm 88, Isaiah 22
+  - day: Proverbs 18, Isaiah 23
+  - day: Lord's Day
+  - day: Luke 1
+  - day: Luke 2, Isaiah 24
+  - day: Luke 3, Isaiah 25
+  - day: Luke 4, Isaiah 26
+  - day: Proverbs 19, Isaiah 27
+  - day: Psalm 89
+  - day: Lord's Day
+  - day: Luke 5
+  - day: Luke 6, Isaiah 28
+  - day: Luke 7, Isaiah 29
+  - day: Luke 8, Isaiah 30
+  - day: Luke 9, Isaiah 31
+  - day: Psalm 90, Proverbs 20
+  - day: Lord's Day
+  - day: Luke 10, Isaiah 32
+  - day: Luke 11, Isaiah 33
+  - day: Luke 12, Isaiah 34
+  - day: Luke 13, Isaiah 35
+  - day: Luke 14, Isaiah 36
+  - day: Psalm 91, Proverbs 21
+  - day: Lord's Day
+  - day: Luke 15, Isaiah 37
+  - day: Luke 16, Isaiah 38, Isaiah 39
+  - day: Luke 17, Isaiah 40
+  - day: Luke 18, Isaiah 41
+  - day: Luke 19, Isaiah 42
+  - day: Psalm 92, Proverbs 22
+  - day: Lord's Day
+  - day: Luke 20, Isaiah 43
+  - day: Luke 21, Isaiah 44
+  - day: Luke 22
+  - day: Luke 23, Isaiah 45
+  - day: Luke 24, Isaiah 46
+  - day: Proverbs 23, Psalm 93
+  - day: Lord's Day
+  - day: Ephesians 1, Isaiah 47
+  - day: Ephesians 2, Isaiah 48
+  - day: Ephesians 3, Isaiah 49
+  - day: Ephesians 4, Isaiah 50, Proverbs 24
+  - day: Ephesians 5, Isaiah 51
+  - day: Ephesians 6, Psalm 94
+  - day: Lord's Day
+  - day: Acts 1, Isaiah 52
+  - day: Acts 2, Isaiah 53
+  - day: Acts 3, Isaiah 54
+  - day: Acts 4, Isaiah 55
+  - day: Acts 5, Isaiah 56
+  - day: Proverbs 25, Isaiah 57, Psalm 95
+  - day: Lord's Day
+  - day: Acts 6, Isaiah 58
+  - day: Acts 7, Isaiah 59
+  - day: Acts 8, Isaiah 60
+  - day: Acts 9, Isaiah 61
+  - day: Acts 10, Isaiah 62
+  - day: Acts 11, Proverbs 26, Psalm 96
+  - day: Lord's Day
+  - day: Acts 12, Isaiah 63
+  - day: Acts 13, Isaiah 64
+  - day: Acts 14, Isaiah 65
+  - day: Acts 15
+  - day: Acts 16, Isaiah 66
+  - day: Proverbs 27, Psalm 97
+  - day: Lord's Day
+  - day: Acts 17, Micah 1
+  - day: Acts 18, Micah 2, Micah 3
+  - day: Acts 19, Micah 4
+  - day: Acts 20, Micah 5, Micah 6
+  - day: Acts 21, Micah 7
+  - day: Acts 22, Psalm 98
+  - day: Lord's Day
+  - day: Acts 23, Zephaniah 1
+  - day: Acts 24, Zephaniah 2
+  - day: Acts 25, Zephaniah 3
+  - day: Acts 26, Nahum 1
+  - day: Acts 27, Nahum 2
+  - day: Acts 28, Psalm 99, Nahum 3
+  - day: Lord's Day
+  - day: Proverbs 28, Hosea 1
+  - day: 2 Thessalonians 1, Hosea 2
+  - day: 2 Thessalonians 2, Hosea 3, Hosea 4
+  - day: 2 Thessalonians 3, Hosea 5
+  - day: Proverbs 29, Hosea 6
+  - day: Psalm 100, Hosea 7
+  - day: Lord's Day
+  - day: Proverbs 30, Hosea 8
+  - day: 2 Timothy 1, Hosea 9
+  - day: 2 Timothy 2, Hosea 10, Hosea 11
+  - day: 2 Timothy 3, Hosea 12
+  - day: 2 Timothy 4, Hosea 13
+  - day: Proverbs 31, Hosea 14
+  - day: Lord's Day
+  - day: Galatians 1, Psalm 119:1-32
+  - day: Galatians 2, Psalm 119:33-64
+  - day: Galatians 3, Psalm 119:65-96
+  - day: Galatians 4, Psalm 119:97-120
+  - day: Galatians 5, Psalm 119:121-152
+  - day: Galatians 6, Psalm 119:153-179
+
+---
