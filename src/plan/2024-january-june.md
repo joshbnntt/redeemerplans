@@ -2,7 +2,7 @@
 title: 2024 January-June Reading Plan
 description: "Redeemer's reading plan for the first half of 2024 (January-June)."
 start: 01-01-2024
-current: true
+current: false
 plan:
   - day: 2 Corinthians 1, 2 Corinthians 2, 2 Corinthians 3
   - day: 2 Corinthians 4, 2 Corinthians 5, 2 Corinthians 6
