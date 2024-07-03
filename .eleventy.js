@@ -6,7 +6,9 @@ const {VitePWA} = require('vite-plugin-pwa');
 const Image = require("@11ty/eleventy-img");
 const yaml = require("js-yaml"); // Because yaml is nicer than json for editors
 require("dotenv").config();
-const generateBibleLinks = require('./src/lib/generateBibleLinks')
+const generateBibleLinks = require('./src/lib/generateBibleLinks');
+const { data } = require("autoprefixer");
+
 const baseUrl = process.env.BASE_URL || "http://localhost:8080";
 console.log("baseUrl is set to ...", baseUrl);
 
@@ -152,6 +154,26 @@ module.exports = function(eleventyConfig) {
       console.log(item.data.title, item.data.current)
       return item.data.current;
     })
+  })
+
+  eleventyConfig.addCollection("sortedPlans", function (collectionApi) {
+    let sorted = [...collectionApi.getFilteredByTag("plans")]
+    
+    sorted.sort((a,b) => {
+      
+      if (a.data.start === b.data.start) return 0
+      
+      if (typeof a.data.start === "undefined" || a.data.start === "") return 1
+      if(typeof b.data.start === "undefined" || b.data.start ==="") return -1
+  
+      const aDate = new Date(a.data.start)
+      const bDate = new Date(b.data.start)
+      
+      if(aDate > bDate) return -1
+      if(aDate < bDate) return 1
+    })
+    console.log(sorted)
+    return sorted
   })
 
   /* --- BASE CONFIG --- */

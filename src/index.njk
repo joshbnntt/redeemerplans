@@ -4,9 +4,9 @@ eleventyNavigation:
   key: All Plans
   order: 1
 eleventyImport:
-  collections: ["plans"]
+  collections: ["sortedPlans"]
 pagination:
-  data: collections.plans
+  data: collections.sortedPlans
   size: 12
   alias: plans
 meta:
@@ -16,12 +16,12 @@ meta:
 
 {% include "today.njk" %}
 
-<main class="mx-auto w-full p-3 md:w-9/12 lg:w-8/12">
+<main class="p-3 mx-auto w-full md:w-9/12 lg:w-8/12">
   {% include "pagination.njk" %}
   <div class="flex flex-col">
-    <div class="flex w-full flex-col flex-wrap justify-center sm:flex-row lg:justify-start gap-3">
+    <div class="flex flex-col flex-wrap gap-3 justify-center w-full sm:flex-row lg:justify-start">
       {% for plan in plans %}
-        <a class="card w-full md:w-80 bg-primary text-white hover:bg-primary-focus hover:text-primary-content focus:bg-primary-focus focus:text-primary-content" 
+        <a class="w-full text-white card md:w-80 bg-primary hover:bg-primary-focus hover:text-primary-content focus:bg-primary-focus focus:text-primary-content" 
            data-turbo-preload
            href="{{ plan.url }}">
           <div class="card-body">
@@ -29,12 +29,12 @@ meta:
             <div class="h-4"></div>
             <p class="font-normal text-white">{{ plan.data.description }}</p>
           </div>
-          <div class="card-actions justify-end p-4 ">
+          <div class="justify-end p-4 card-actions">
           {% if plan.data.current %}
-            <div class="badge badge-secondary p-1">Current</div>
+            <div class="p-1 badge badge-secondary">Current</div>
           {% endif %}
           {% if plan.data.start %}
-            <div class="badge badge-outline p-1">Start date: {{plan.data.start}}</div>
+            <div class="p-1 badge badge-outline">Start date: {{plan.data.start}}</div>
           {% endif %}
           </div>
         </a>
