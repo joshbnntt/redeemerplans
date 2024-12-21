@@ -1,0 +1,188 @@
+---
+title: 2025 January-July Reading Plan
+description: "Redeemer's reading plan for the First half of 2025 (January 6 of 2025 to July 5)."
+start: 01-06-2025
+current: false
+plan:
+  - day: Ecclesiastes 1, Ecclesiastes 2
+  - day: Ecclesiastes 3, Ecclesiastes 4, Ecclesiastes 5 
+  - day: Ecclesiastes 6, Ecclesiastes 7
+  - day: Ecclesiastes 8, Ecclesiastes 9
+  - day: Ecclesiastes 10, Ecclesiastes 11, Ecclesiastes 12 
+  - day: Proverbs 1, Psalm 104
+  - day: Lord's Day  
+  - day: John 1  
+  - day: John 2, John 3
+  - day: John 4  
+  - day: John 5  
+  - day: John 6  
+  - day: Proverbs 2, Psalm 106
+  - day: Lord's Day  
+  - day: John 7  
+  - day: John 8  
+  - day: John 9, 1 Chronicles 1
+  - day: John 10, 1 Chronicles 2
+  - day: John 11, 1 Chronicles 3
+  - day: Proverbs 3, Psalm 105
+  - day: Lord's Day  
+  - day: John 12  
+  - day: John 13, 1 Chronicles 4
+  - day: John 14, 1 Chronicles 5
+  - day: Psalm 125, 1 Chronicles 6
+  - day: John 15, 1 Chronicles 7
+  - day: John 16, Proverbs 4
+  - day: Lord's Day  
+  - day: John 17, 1 Chronicles 8
+  - day: Proverbs 5, 1 Chronicles 9
+  - day: John 18, Psalm 108
+  - day: John 19, 1 Chronicles 10
+  - day: John 20, 1 Chronicles 11
+  - day: John 21, 1 Chronicles 12
+  - day: Lord's Day  
+  - day: 1 Corinthians 1, 1 Chronicles 13
+  - day: 1 Corinthians 2, Psalm 103, 1 Chronicles 14 
+  - day: 1 Corinthians 3, 1 Chronicles 15
+  - day: Proverbs 6, 1 Chronicles 16
+  - day: 1 Corinthians 4, 1 Chronicles 17
+  - day: 1 Corinthians 5, 1 Chronicles 18, Psalm 124 
+  - day: Lord's Day  
+  - day: 1 Corinthians 6, 1 Chronicles 19
+  - day: 1 Corinthians 7, 1 Chronicles 20
+  - day: 1 Corinthians 8, 1 Chronicles 21
+  - day: 1 Corinthians 9, 1 Chronicles 22
+  - day: 1 Corinthians 10, 1 Chronicles 23
+  - day: Proverbs 7, 1 Chronicles 24, Psalm 110 
+  - day: Lord's Day  
+  - day: 1 Corinthians 11, 1 Chronicles 25
+  - day: 1 Corinthians 12, 1 Chronicles 26
+  - day: 1 Corinthians 13, 1 Chronicles 27
+  - day: 1 Corinthians 14, Psalm 115
+  - day: 1 Corinthians 15  
+  - day: 1 Corinthians 16, 1 Chronicles 28
+  - day: Lord's Day  
+  - day: Psalm 101, 1 Chronicles 29
+  - day: Proverbs 8, 2 Chronicles 1
+  - day: Philippians 1, 2 Chronicles 2
+  - day: Philippians 2, 2 Chronicles 3
+  - day: Philippians 3, 2 Chronicles 4
+  - day: Philippians 4, 2 Chronicles 5
+  - day: Lord's Day  
+  - day: 2 Chronicles 6  
+  - day: 1 John 1, 2 Chronicles 7, Psalm 111 
+  - day: 1 John 2, 2 Chronicles 8
+  - day: 1 John 3, 2 Chronicles 9
+  - day: 1 John 4, 2 Chronicles 10
+  - day: 1 John 5, 2 Chronicles 11
+  - day: Lord's Day  
+  - day: James 1, 2 Chronicles 12
+  - day: James 2, 2 Chronicles 13
+  - day: James 3, 2 Chronicles 14, Psalm 116 
+  - day: James 4, 2 Chronicles 15, 2 Chronicles 16 
+  - day: James 5, 2 Chronicles 17
+  - day: Proverbs 9, 2 Chronicles 18
+  - day: Lord's Day  
+  - day: 2 Corinthians 1, 2 Chronicles 19
+  - day: 2 Chronicles 20  
+  - day: Psalm 102, 2 Chronicles 21
+  - day: 2 Corinthians 2, 2 Chronicles 22, Psalm 121 
+  - day: 2 Corinthians 3, 2 Chronicles 23
+  - day: 2 Corinthians 4, 2 Chronicles 24
+  - day: Lord's Day  
+  - day: 2 Corinthians 5, 2 Chronicles 25
+  - day: 2 Corinthians 6, 2 Chronicles 26, 2 Chronicles 27 
+  - day: 2 Corinthians 7, 2 Chronicles 28
+  - day: Psalm 123, 2 Chronicles 29
+  - day: 2 Corinthians 8, 2 Chronicles 30
+  - day: Proverbs 10, 2 Chronicles 31
+  - day: Lord's Day  
+  - day: 2 Corinthians 9, 2 Chronicles 32
+  - day: 2 Corinthians 10, 2 Chronicles 33
+  - day: 2 Chronicles 34  
+  - day: 2 Corinthians 11, 2 Chronicles 35
+  - day: 2 Corinthians 12, 2 Chronicles 36
+  - day: 2 Corinthians 13, Psalm 107
+  - day: Lord's Day  
+  - day: Matthew 1, Proverbs 11, Psalm 112 
+  - day: Matthew 2, Revelation 1
+  - day: Matthew 3, Revelation 2
+  - day: Matthew 4, Revelation 3
+  - day: Matthew 5, Revelation 4
+  - day: Matthew 6, Revelation 5
+  - day: Lord's Day  
+  - day: Matthew 7, Revelation 6
+  - day: Matthew 8, Revelation 7
+  - day: Matthew 9, Revelation 8
+  - day: Matthew 10, Psalm 113
+  - day: Matthew 11, Revelation 9
+  - day: Proverbs 12, Revelation 10, Psalm 114 
+  - day: Lord's Day  
+  - day: Matthew 12  
+  - day: Matthew 13  
+  - day: Matthew 14, Revelation 11
+  - day: Matthew 15, Revelation 12
+  - day: Matthew 16, Revelation 13
+  - day: Matthew 17, Revelation 14
+  - day: Lord's Day  
+  - day: Matthew 18, Revelation 15
+  - day: Matthew 19, Revelation 16
+  - day: Matthew 20, Revelation 17
+  - day: Matthew 21  
+  - day: Matthew 22, Revelation 18
+  - day: Matthew 23, Revelation 19
+  - day: Lord's Day  
+  - day: Matthew 24, Revelation 20
+  - day: Proverbs 13, Revelation 21
+  - day: Matthew 25, Revelation 22
+  - day: Matthew 26  
+  - day: Matthew 27  
+  - day: Matthew 28, Proverbs 14
+  - day: Lord's Day  
+  - day: 1 Timothy 1  
+  - day: 1 Timothy 2  
+  - day: 1 Timothy 3  
+  - day: 1 Timothy 4  
+  - day: 1 Timothy 5  
+  - day: 1 Timothy 6, Psalm 109
+  - day: Lord's Day  
+  - day: Psalm 119:1-32, Lamentations 1
+  - day: Psalm 119:33-64, Lamentations 2
+  - day: Psalm 119:65-96, Lamentations 3
+  - day: Psalm 119:97-128, Lamentations 4
+  - day: Psalm 119:129-176, Lamentations 5
+  - day: Proverbs 15  
+  - day: Lord's Day  
+  - day: Philemon 1  
+  - day: Proverbs 16  
+  - day: Jude 1  
+  - day: Psalm 126, Ezekiel 1
+  - day: Proverbs 17, Ezekiel 2
+  - day: Psalm 122, Ezekiel 3
+  - day: Lord's Day  
+  - day: 1 Peter 1, Ezekiel 4
+  - day: 1 Peter 2, Ezekiel 5
+  - day: 1 Peter 3, Ezekiel 6
+  - day: 1 Peter 4, Ezekiel 7
+  - day: 1 Peter 5, Ezekiel 8
+  - day: Proverbs 18, Ezekiel 9
+  - day: Lord's Day  
+  - day: Galatians 1, Ezekiel 10
+  - day: Galatians 2, Ezekiel 11
+  - day: Galatians 3, Ezekiel 12
+  - day: Galatians 4, Ezekiel 13
+  - day: Galatians 5, Ezekiel 14
+  - day: Galatians 6, Ezekiel 15, Psalm 118 
+  - day: Lord's Day  
+  - day: Psalm 117, Ezekiel 16
+  - day: Titus 1, Ezekiel 17
+  - day: Titus 2, Ezekiel 18
+  - day: Titus 3, Ezekiel 19
+  - day: Psalm 120, Ezekiel 20
+  - day: Proverbs 19, Ezekiel 21
+  - day: Lord's Day  
+  - day: Proverbs 20, Ezekiel 22
+  - day: 1 Thessalonians 1, Ezekiel 23
+  - day: 1 Thessalonians 2, Ezekiel 24
+  - day: 1 Thessalonians 3, Ezekiel 25
+  - day: 1 Thessalonians 4, Ezekiel 26
+  - day: 1 Thessalonians 5, Ezekiel 27
+---
