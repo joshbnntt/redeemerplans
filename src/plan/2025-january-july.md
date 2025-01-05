@@ -1,8 +1,7 @@
 ---
 title: 2025 January-July Reading Plan
 description: "Redeemer's reading plan for the First half of 2025 (January 6 of 2025 to July 5)."
-start: 01-06-2025
-current: true
+current: false
 plan:
   - day: Ecclesiastes 1, Ecclesiastes 2
   - day: Ecclesiastes 3, Ecclesiastes 4, Ecclesiastes 5 

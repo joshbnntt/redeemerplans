@@ -1,7 +1,6 @@
 ---
 title: 2024 July-2025 January Reading Plan
 description: "Redeemer's reading plan for the Second half of 2024 (July-January 4 of 2025)."
-start: 07-01-2024
 current: false
 plan:
   - day: Mark 1, Jeremiah 1
@@ -192,5 +191,6 @@ plan:
   - day: Galatians 4, Psalm 119:97-120
   - day: Galatians 5, Psalm 119:121-152
   - day: Galatians 6, Psalm 119:153-179
+  - day: Lord's Day
 
 ---
