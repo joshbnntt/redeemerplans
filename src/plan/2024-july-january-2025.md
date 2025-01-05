@@ -2,7 +2,7 @@
 title: 2024 July-2025 January Reading Plan
 description: "Redeemer's reading plan for the Second half of 2024 (July-January 4 of 2025)."
 start: 07-01-2024
-current: true
+current: false
 plan:
   - day: Mark 1, Jeremiah 1
   - day: Mark 2, Jeremiah 2
