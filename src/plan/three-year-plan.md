@@ -1,8 +1,7 @@
 ---
 title: A Three Year Bible Reading Plan
 description: This was the reading plan for Redeemer Church in 2023-2025.
-start: 01-02-2023
-current: true
+current: false
 plan:
   - day: 1 John 1
   - day: 1 John 2
