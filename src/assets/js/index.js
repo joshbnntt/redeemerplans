@@ -103,8 +103,17 @@ document.addEventListener('alpine:init', () => {
         description: null,
         currentWeek: '',
         currentWeekEnd: '',
+        offset: 0,
         get books() {
             return window.bookAbbreviations;
+        },
+        incrementOffset() {
+            this.offset += 1
+            this.fetchPlan()
+        },
+        decrementOffset(){
+            this.offset += -1
+            this.fetchPlan()
         },
         getPassages(passages, links) {
             if (links) return links.replace(/\/59\//g, `/${this.$store.bible.translation}/`)
@@ -112,6 +121,9 @@ document.addEventListener('alpine:init', () => {
         },
         getWeekStart() {
             const today = new Date();
+            if (this.offset !== 0){
+                today.setDate(today.getDate() + this.offset * 7)
+            }
             const start = today.getDate() - today.getDay();
             const weekStart = new Date(today.setDate(start || 1));
             let ws = weekStart.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
