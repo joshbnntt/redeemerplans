@@ -1,28 +1,30 @@
 <turbo-frame id="plan" loading="eager">
 <div x-data="thisweek" x-init="fetchPlan()" class="flex flex-col">
-    <div class="relative overflow-x-auto rounded-2xl">
-        <table class="w-full rounded-lg text-left text-gray-500 dark:text-gray-400" x-data="readings">
-            <caption class="bg-primary p-5 text-left text-xl font-semibold text-white dark:bg-primary dark:text-white">
-                <div class="mt-2 flex justify-between align-middle">
-                    <h1>This Week's Reading</h1>
-                    <a  x-data="{turboLoading: false}"
+    <div class="overflow-x-auto relative rounded-2xl">
+        <table class="w-full text-left text-gray-500 rounded-lg dark:text-gray-400" x-data="readings">
+            <caption class="p-5 text-xl font-semibold text-left text-white bg-primary dark:bg-primary dark:text-white">
+                <div class="flex flex-col gap-1 justify-between mt-2 align-middle">
+                   <div class="flex justify-between">
+                    <h1 class="p-2">This Week's Reading</h1>
+                    <button x-show="offset != 0" class="p-2 text-base font-extralight" @click="resetWeek">This week</button>
+                   </div>
+                    {# <a  x-data="{turboLoading: false}"
                         x-on:turbo:click="turboLoading = true"
                         href="/current/"
                         data-turbo-preload
-                        class="rounded-md border border-base-300 px-3 py-2 text-center text-sm font-medium text-white hover:bg-base-300
-                            hover:text-base-content focus:outline-none focus:ring-4 focus:ring-base-100">
+                        class="px-3 py-2 text-sm font-medium text-center text-white rounded-md border border-base-300 hover:bg-base-300 hover:text-base-content focus:outline-none focus:ring-4 focus:ring-base-100">
                         <span x-show="!turboLoading">See the whole plan</span>
                         <span x-show="turboLoading" x-cloak>Loading<span class="loading loading-dots loading-xs"></span></span>
-                    </a>
-                    <button x-on:click="decrementOffset" class="rounded-md border border-base-300 px-3 py-2 text-center text-sm font-medium text-white hover:bg-base-300
-                    hover:text-base-content focus:outline-none focus:ring-4 focus:ring-base-100">last week</button>
-                    <button x-on:click="incrementOffset" class="rounded-md border border-base-300 px-3 py-2 text-center text-sm font-medium text-white hover:bg-base-300
-                    hover:text-base-content focus:outline-none focus:ring-4 focus:ring-base-100">next week</button>
+                    </a> #}
+                    <div class="flex justify-between">
+                        <button x-on:click="decrementOffset" class="px-3 py-2 text-sm font-medium text-center text-white rounded-md border border-base-300 hover:bg-base-300 hover:text-base-content focus:outline-none focus:ring-4 focus:ring-base-100 dark:border-gray-300 disabled:bg-gray-500 disabled:cursor-not-allowed" x-bind:disabled="!hasPrevWeek">Previous week</button>
+                        <button x-on:click="incrementOffset" class="px-3 py-2 text-sm font-medium text-center text-white rounded-md border border-base-300 hover:bg-base-300 hover:text-base-content focus:outline-none focus:ring-4 focus:ring-base-100 dark:border-gray-300 disabled:bg-gray-500 disabled:cursor-not-allowed" x-bind:disabled="!hasNextWeek">Next week</button>
+                    </div>
                 </div>
                 <p x-show="!isLoading && !readings && !error" class="text-white" x-cloak>Nothing to read this week.</p>
                 <p x-show="error" x-text="error" class="text-error" x-cloak></p>
             </caption>
-            <tbody x-show="readings" x-cloak class="border border-b border-l border-r border-base-300">
+            <tbody x-show="readings" x-cloak class="border border-r border-b border-l border-base-300">
                 <template x-for="(reading, index) in readings" :key="reading.id">
                     <tr :class="{ 
                      'border-b border-base-100 bg-base-300 text-base-content': isGraceOrLordsDay(reading.day), 
@@ -31,7 +33,7 @@
                         <td class="px-6 py-4">
                             <div class="flex flex-col justify-center">
                                 <span class="font-bold" x-text="getMonthShort(reading.readingdate)"></span>
-                                <span class="countdown font-mono text-xl">
+                                <span class="font-mono text-xl countdown">
                                     <span :style="`--value:${getDayTwoDigits(reading.readingdate)};`" x-text="getDayTwoDigits(reading.readingdate)"></span>
                                 </span>
                             </div>
@@ -55,7 +57,7 @@
                         <td x-data="{day:'', get checked() {return this.$store?.haveread?.days?.some(d => d.plan_day === this.day)}}" x-init="day = formatDate(reading.readingdate)"
                             x-show="$store.auth.user" x-cloak :data-day="day" class="px-6 py-4">
                             <div class="form-control">
-                                <label class="label cursor-pointer">
+                                <label class="cursor-pointer label">
                                     <input type="checkbox" class="checkbox checkbox-primary" name="haveread" x-on:change="check" :checked="checked"/>
                                 </label>
                             </div>
@@ -65,7 +67,7 @@
                 <tbody
                     x-show="isLoading && !readings">
                     {# x-show="isLoading && !readings" x-cloak #}
-                    <tr class="border-b border-sky-700 bg-accent text-white">
+                    <tr class="text-white border-b border-sky-700 bg-accent">
                         <td class="px-6 py-4">
                             <span class="loading loading-bars loading-md"></span>
                         </td>

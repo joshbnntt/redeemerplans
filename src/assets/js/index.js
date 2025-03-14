@@ -98,22 +98,29 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('thisweek', () => ({
         isLoading: true,
         error: null,
+        data: null,
         readings: null,
         title: null,
         description: null,
         currentWeek: '',
         currentWeekEnd: '',
         offset: 0,
+        hasNextWeek: false,
+        hasPrevWeek: false,
         get books() {
             return window.bookAbbreviations;
         },
         incrementOffset() {
             this.offset += 1
-            this.fetchPlan()
+            this.setupWeek()
         },
         decrementOffset(){
             this.offset += -1
-            this.fetchPlan()
+            this.setupWeek()
+        },
+        resetWeek() {
+            this.offset = 0
+            this.setupWeek()
         },
         getPassages(passages, links) {
             if (links) return links.replace(/\/59\//g, `/${this.$store.bible.translation}/`)
@@ -141,13 +148,8 @@ document.addEventListener('alpine:init', () => {
             fetch('/api/current.json')
                 .then(response => response.json())
                 .then(data => {
-                    this.title = data.title;
-                    this.description = data.description;
-
-                    this.currentWeek = this.getWeekStart();
-                    this.currentWeekEnd = this.getWeekEnd();
-                    this.readings = data.plan.filter(reading => reading.readingdate !== '' && reading.readingdate >= this.currentWeek && reading.readingdate <= this.currentWeekEnd);
-                    this.isLoading = false;
+                    this.data = data
+                    this.setupWeek()
                 })
                 .catch(e => {
                     this.isLoading = false;
@@ -155,7 +157,35 @@ document.addEventListener('alpine:init', () => {
                     this.error = e.message;
                 });
         },
+        setupWeek() {
+            try {
+                this.isLoading = true;
+                this.title = this.data.title;
+                this.description = this.data.description;
 
+                this.currentWeek = this.getWeekStart();
+                this.currentWeekEnd = this.getWeekEnd();
+                this.readings = this.data.plan.filter(reading => reading.readingdate !== '' && reading.readingdate >= this.currentWeek && reading.readingdate <= this.currentWeekEnd);
+
+                this.checkNextPrev()               
+
+                this.isLoading = false;
+            } catch (e) {
+                console.error(e)
+                this.error. e.message
+            }
+        },    
+        checkNextPrev() {
+            const today = new Date();
+            const next = new Date();
+            const prev = new Date();
+
+            next.setDate(today.getDate() + (this.offset + 1) * 7)
+            this.hasNextWeek = this.data.plan.some(reading => reading.readingdate !== '' && reading.readingdate === next.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }))
+            
+            prev.setDate(today.getDate() + (this.offset - 1) * 7)
+            this.hasPrevWeek = this.data.plan.some(reading => reading.readingdate !== '' && reading.readingdate === prev.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }))
+        },
         formatDate(date) {
             const options = { month: '2-digit', day: '2-digit', year: 'numeric' };
             return new Date(date).toLocaleDateString('en-US', options);
