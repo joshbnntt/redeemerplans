@@ -1,0 +1,945 @@
+---
+title: The Three Year Bible Reading Plan
+description: Read through the Old Testament once and the New Testament once a year with multiple times through the Psalms and Proverbs.
+current: false
+plan:
+  - day: 1 John 1
+  - day: 1 John 2
+  - day: 1 John 3
+  - day: 1 John 4
+  - day: 1 John 5
+  - day: Matthew 1, Matthew 2
+  - day: Lord's Day
+  - day: Matthew 3, Matthew 4
+  - day: Matthew 5, Matthew 6
+  - day: Matthew 7
+  - day: Psalm 1, Proverbs 1
+  - day: Matthew 8, Matthew 9
+  - day: Matthew 10, Matthew 11
+  - day: Lord's Day
+  - day: Matthew 12, Matthew 13
+  - day: Matthew 14
+  - day: Psalm 146, Proverbs 2
+  - day: Matthew 15, Matthew 16
+  - day: Matthew 17, Matthew 18
+  - day: Matthew 19, Matthew 20
+  - day: Lord's Day
+  - day: Matthew 21
+  - day: Psalm 150, Proverbs 3
+  - day: Matthew 22, Matthew 23
+  - day: Matthew 24, Matthew 25
+  - day: Matthew 26, Matthew 27
+  - day: Matthew 28
+  - day: Lord's Day
+  - day: Psalm 45, Proverbs 4
+  - day: Romans 1, Romans 2
+  - day: Romans 3
+  - day: Romans 4
+  - day: Romans 5
+  - day: Psalm 14, Proverbs 5
+  - day: Lord's Day
+  - day: Romans 6, Romans 7
+  - day: Romans 8
+  - day: Romans 9, Romans 10
+  - day: Romans 11
+  - day: Psalm 131, Proverbs 6
+  - day: Romans 12
+  - day: Lord's Day
+  - day: Romans 13
+  - day: Romans 14
+  - day: Romans 15, Romans 16
+  - day: Psalm 143, Proverbs 7
+  - day: Genesis 1, Genesis 2, Genesis 3
+  - day: Genesis 4, Genesis 5, Genesis 6
+  - day: Lord's Day
+  - day: Genesis 7, Genesis 8, Genesis 9
+  - day: Genesis 10, Genesis 11
+  - day: Psalm 8, Proverbs 8
+  - day: Genesis 12, Genesis 13, Genesis 14, Hebrews 7
+  - day: Genesis 15, Genesis 16, Genesis 17
+  - day: Genesis 18, Genesis 19, Genesis 20
+  - day: Lord's Day
+  - day: Genesis 21, Genesis 22, Genesis 23
+  - day: Psalm 110, Proverbs 9
+  - day: Genesis 24, Genesis 25, Genesis 26
+  - day: Genesis 27, Genesis 28, Genesis 29
+  - day: Genesis 30, Genesis 31, Genesis 32
+  - day: Genesis 33, Genesis 34, Genesis 35
+  - day: Lord's Day
+  - day: Genesis 36, Psalm 62, Proverbs 10
+  - day: Genesis 37, Genesis 38, Genesis 39
+  - day: Genesis 40, Genesis 41, Genesis 42
+  - day: Genesis 43, Genesis 44, Genesis 45
+  - day: Genesis 46, Genesis 47, Genesis 48
+  - day: Genesis 49, Genesis 50, Psalm 4, Proverbs 11
+  - day: Lord's Day
+  - day: John 1, John 2
+  - day: John 3, John 4
+  - day: John 5, John 6
+  - day: John 7
+  - day: Psalm 100, Proverbs 12
+  - day: John 8, John 9
+  - day: Lord's Day
+  - day: John 10, John 11
+  - day: John 12, John 13
+  - day: John 14
+  - day: Psalm 69, Proverbs 13
+  - day: John 15, John 16
+  - day: John 17, John 18
+  - day: Lord's Day
+  - day: John 19, John 20
+  - day: John 21
+  - day: Psalm 16, Proverbs 14
+  - day: James 1
+  - day: James 2, James 3
+  - day: James 4
+  - day: Lord's Day
+  - day: James 5
+  - day: Psalm 111, Proverbs 15
+  - day: Philippians 1
+  - day: Philippians 2
+  - day: Philippians 3
+  - day: Philippians 4
+  - day: Lord's Day
+  - day: Psalm 41, Proverbs 16
+  - day: Exodus 1, Exodus 2, Exodus 3
+  - day: Exodus 4, Exodus 5, Exodus 6
+  - day: Exodus 7, Exodus 8, Exodus 9
+  - day: Exodus 10, Exodus 11, Exodus 12
+  - day: Psalm 77, Proverbs 17, Proverbs 18 # Note: Original plan skipped Proverbs 17 here
+  - day: Lord's Day
+  - day: Exodus 13, Exodus 14
+  - day: Exodus 15, Exodus 16
+  - day: Exodus 17, Exodus 18 # Note: Original plan had 18 before 17
+  - day: Exodus 19, Exodus 20
+  - day: Psalm 136, Proverbs 19
+  - day: Exodus 21, Exodus 22, Exodus 23, Exodus 24, Exodus 25
+  - day: Lord's Day
+  - day: Exodus 26, Exodus 27, Exodus 28, Exodus 29, Exodus 30
+  - day: Exodus 31, Exodus 32, Exodus 33, Exodus 34, Exodus 35
+  - day: Exodus 36, Exodus 37, Exodus 38, Exodus 39, Exodus 40
+  - day: Psalm 30, Proverbs 20
+  - day: 1 Peter 1, 1 Peter 2
+  - day: 1 Peter 3
+  - day: Lord's Day
+  - day: 1 Peter 4
+  - day: 1 Peter 5
+  - day: Psalm 13, Proverbs 21
+  - day: Galatians 1, Galatians 2
+  - day: Galatians 3, Galatians 4
+  - day: Galatians 5
+  - day: Lord's Day
+  - day: Galatians 6
+  - day: Psalm 5, Proverbs 22
+  - day: 1 Timothy 1, 1 Timothy 2
+  - day: 1 Timothy 3
+  - day: 1 Timothy 4
+  - day: 1 Timothy 5, 1 Timothy 6
+  - day: Lord's Day
+  - day: Psalm 56, Proverbs 23
+  - day: Leviticus 1, Leviticus 2, Leviticus 3, Leviticus 4
+  - day: Leviticus 5, Leviticus 6, Leviticus 7, Leviticus 8
+  - day: Leviticus 9, Leviticus 10, Leviticus 11, Leviticus 12
+  - day: Leviticus 13, Leviticus 14, Leviticus 15, Leviticus 16
+  - day: Psalm 15, Proverbs 24
+  - day: Lord's Day
+  - day: Leviticus 17, Leviticus 18, Leviticus 19
+  - day: Leviticus 20, Leviticus 21, Leviticus 22
+  - day: Leviticus 23, Leviticus 24, Leviticus 25, Luke 4:18-21
+  - day: Leviticus 26, Leviticus 27
+  - day: Psalm 103, Proverbs 25
+  - day: 1 Thessalonians 1, 1 Thessalonians 2
+  - day: Lord's Day
+  - day: 1 Thessalonians 3
+  - day: 1 Thessalonians 4
+  - day: 1 Thessalonians 5
+  - day: Psalm 41, Proverbs 26 # Note: Psalm 41 repeated
+  - day: 2 Thessalonians 1
+  - day: 2 Thessalonians 2
+  - day: Lord's Day
+  - day: 2 Thessalonians 3
+  - day: Psalm 140
+  - day: Proverbs 27
+  - day: Numbers 1, Numbers 2, Numbers 3, Numbers 4, Numbers 5
+  - day: Numbers 6, Numbers 7, Numbers 8, Numbers 9, Numbers 10
+  - day: Numbers 11, Numbers 12, Numbers 13, Numbers 14, Numbers 15
+  - day: Lord's Day
+  - day: Numbers 16, Numbers 17, Numbers 18, Numbers 19
+  - day: Psalm 32, Proverbs 28
+  - day: Numbers 20, Numbers 21, Numbers 22, Numbers 23, Numbers 24
+  - day: Numbers 25, Numbers 26, Numbers 27, Numbers 28
+  - day: Numbers 29, Numbers 30, Numbers 31, Numbers 32
+  - day: Numbers 33, Numbers 34, Numbers 35, Numbers 36
+  - day: Lord's Day
+  - day: Psalm 90, Proverbs 29
+  - day: 2 Corinthians 1, 2 Corinthians 2, 2 Corinthians 3, 2 Corinthians 4
+  - day: 2 Corinthians 5, 2 Corinthians 6, 2 Corinthians 7
+  - day: 2 Corinthians 8, 2 Corinthians 9, 2 Corinthians 10
+  - day: 2 Corinthians 11, 2 Corinthians 12, 2 Corinthians 13
+  - day: Psalm 96, Proverbs 30
+  - day: Lord's Day
+  - day: Titus 1
+  - day: Titus 2
+  - day: Titus 3
+  - day: 2 John 1, 3 John 1
+  - day: Psalm 128, Proverbs 31
+  - day: Deuteronomy 1, Deuteronomy 2, Deuteronomy 3, Deuteronomy 4
+  - day: Lord's Day
+  - day: Deuteronomy 5, Deuteronomy 6, Deuteronomy 7, Deuteronomy 8
+  - day: Deuteronomy 9, Deuteronomy 10, Deuteronomy 11, Deuteronomy 12, Deuteronomy 13
+  - day: Deuteronomy 14, Deuteronomy 15, Deuteronomy 16, Deuteronomy 17
+  - day: Psalm 99, Proverbs 1
+  - day: Deuteronomy 18, Deuteronomy 19, Deuteronomy 20, Deuteronomy 21
+  - day: Deuteronomy 22, Deuteronomy 23, Deuteronomy 24, Deuteronomy 25
+  - day: Lord's Day
+  - day: Deuteronomy 26, Deuteronomy 27, Deuteronomy 28, Deuteronomy 29
+  - day: Deuteronomy 30, Deuteronomy 31, Deuteronomy 32, Deuteronomy 33, Deuteronomy 34
+  - day: Psalm 19, Proverbs 2
+  - day: Luke 1
+  - day: Luke 2
+  - day: Luke 3, Luke 4
+  - day: Lord's Day
+  - day: Luke 5, Luke 6
+  - day: Psalm 108, Proverbs 3
+  - day: Luke 7, Luke 8
+  - day: Luke 9
+  - day: Luke 10
+  - day: Luke 11, Luke 12
+  - day: Lord's Day
+  - day: Psalm 147, Proverbs 4
+  - day: Luke 13, Luke 14
+  - day: Luke 15, Luke 16
+  - day: Luke 17
+  - day: Luke 18
+  - day: Psalm 80, Proverbs 5
+  - day: Lord's Day
+  - day: Luke 19, Luke 20, Luke 21
+  - day: Luke 22
+  - day: Luke 23
+  - day: Luke 24
+  - day: Psalm 88, Proverbs 6
+  - day: Acts 1, Acts 2, Acts 3, Acts 4
+  - day: Lord's Day
+  - day: Acts 5, Acts 6, Acts 7, Acts 8
+  - day: Acts 9, Acts 10, Acts 11
+  - day: Acts 12, Acts 13, Acts 14
+  - day: Psalm 89, Proverbs 7
+  - day: Acts 15, Acts 16, Acts 17, Acts 18
+  - day: Acts 19, Acts 20, Acts 21, Acts 22
+  - day: Lord's Day
+  - day: Acts 23, Acts 24, Acts 25
+  - day: Acts 26, Acts 27, Acts 28
+  - day: Psalm 120, Proverbs 8
+  - day: Ephesians 1
+  - day: Ephesians 2, Ephesians 3
+  - day: Ephesians 4
+  - day: Lord's Day
+  - day: Ephesians 5, Ephesians 6
+  - day: Psalm 107, Proverbs 9
+  - day: Joshua 1, Joshua 2, Joshua 3, Joshua 4, Joshua 5, Joshua 6
+  - day: Joshua 7, Joshua 8, Joshua 9, Joshua 10, Joshua 11, Joshua 12
+  - day: Joshua 13, Joshua 14, Joshua 15, Joshua 16, Joshua 17, Joshua 18
+  - day: Joshua 19, Joshua 20, Joshua 21, Joshua 22, Joshua 23, Joshua 24
+  - day: Lord's Day
+  - day: Psalm 42, Proverbs 10
+  - day: Hebrews 1, Hebrews 2, Hebrews 3
+  - day: Hebrews 4, Hebrews 5, Hebrews 6
+  - day: Hebrews 7, Hebrews 8, Hebrews 9, Hebrews 10
+  - day: Hebrews 11, Hebrews 12, Hebrews 13
+  - day: Psalm 95, Proverbs 11
+  - day: Lord's Day
+  - day: Colossians 1
+  - day: Colossians 2
+  - day: Colossians 3
+  - day: Colossians 4
+  - day: Psalm 106, Proverbs 12
+  - day: Mark 1, Mark 2, Mark 3, Mark 4
+  - day: Lord's Day
+  - day: Mark 5, Mark 6, Mark 7, Mark 8
+  - day: Mark 9, Mark 10, Mark 11, Mark 12
+  - day: Mark 13, Mark 14, Mark 15, Mark 16
+  - day: Psalm 24, Proverbs 13
+  - day: Judges 1, Judges 2, Judges 3, Judges 4, Judges 5
+  - day: Judges 6, Judges 7, Judges 8, Judges 9, Judges 10
+  - day: Lord's Day
+  - day: Judges 11, Judges 12, Judges 13, Judges 14, Judges 15
+  - day: Judges 16, Judges 17, Judges 18, Judges 19, Judges 20, Judges 21
+  - day: Psalm 78, Proverbs 14
+  - day: 1 Corinthians 1, 1 Corinthians 2, 1 Corinthians 3, 1 Corinthians 4
+  - day: 1 Corinthians 5, 1 Corinthians 6, 1 Corinthians 7, 1 Corinthians 8
+  - day: 1 Corinthians 9, 1 Corinthians 10, 1 Corinthians 11, 1 Corinthians 12
+  - day: Lord's Day
+  - day: 1 Corinthians 13, 1 Corinthians 14, 1 Corinthians 15, 1 Corinthians 16
+  - day: Psalm 133, Proverbs 15
+  - day: 2 Timothy 1
+  - day: 2 Timothy 2
+  - day: 2 Timothy 3
+  - day: 2 Timothy 4
+  - day: Lord's Day
+  - day: Psalm 118, Proverbs 16
+  - day: Ecclesiastes 1, Ecclesiastes 2, Ecclesiastes 3
+  - day: Ecclesiastes 4, Ecclesiastes 5, Ecclesiastes 6
+  - day: Ecclesiastes 7, Ecclesiastes 8, Ecclesiastes 9
+  - day: Ecclesiastes 10, Ecclesiastes 11, Ecclesiastes 12
+  - day: Psalm 73, Proverbs 17
+  - day: Lord's Day
+  - day: 2 Peter 1
+  - day: 2 Peter 2
+  - day: 2 Peter 3
+  - day: Philemon 1
+  - day: Psalm 68, Proverbs 18
+  - day: Ruth 1
+  - day: Lord's Day
+  - day: Ruth 2
+  - day: Ruth 3
+  - day: Ruth 4, Jude 1
+  - day: Psalm 27, Proverbs 19
+  - day: Revelation 1, Revelation 2, Revelation 3
+  - day: Revelation 4, Revelation 5, Revelation 6
+  - day: Lord's Day
+  - day: Revelation 7, Revelation 8, Revelation 9
+  - day: Revelation 10, Revelation 11
+  - day: Psalm 124, Proverbs 20 # Note: Original plan skipped Proverbs 20 here
+  - day: Revelation 12, Revelation 13, Revelation 14
+  - day: Revelation 15, Revelation 16, Revelation 17
+  - day: Revelation 18, Revelation 19, Revelation 20
+  - day: Lord's Day
+  - day: Revelation 21, Revelation 22
+  - day: Psalm 37, Proverbs 21 # Note: Proverbs 21 repeated
+  - day: 2 Corinthians 1, 2 Corinthians 2, 2 Corinthians 3
+  - day: 2 Corinthians 4, 2 Corinthians 5, 2 Corinthians 6
+  - day: 2 Corinthians 7, 2 Corinthians 8, 2 Corinthians 9
+  - day: 2 Corinthians 10, 2 Corinthians 11
+  - day: Lord's Day
+  - day: 2 Corinthians 12, 2 Corinthians 13
+  - day: John 1, John 2
+  - day: John 3, John 4
+  - day: John 5, John 6
+  - day: John 7
+  - day: Psalm 51, Proverbs 22
+  - day: Lord's Day
+  - day: John 8, John 9
+  - day: John 10, John 11
+  - day: John 12, John 13
+  - day: John 14
+  - day: Psalm 52, Proverbs 23, Proverbs 24 # Note: Original plan skipped Proverbs 23 here
+  - day: John 15, John 16
+  - day: Lord's Day
+  - day: John 17, John 18
+  - day: John 19, John 20
+  - day: John 21
+  - day: Psalm 53, Proverbs 25
+  - day: Galatians 1, Galatians 2
+  - day: Galatians 3, Galatians 4
+  - day: Lord's Day
+  - day: Galatians 5
+  - day: Galatians 6
+  - day: Psalm 54, Proverbs 26
+  - day: 1 Samuel 1, 1 Samuel 2, 1 Samuel 3
+  - day: 1 Samuel 4, 1 Samuel 5, 1 Samuel 6
+  - day: 1 Samuel 7, 1 Samuel 8
+  - day: Lord's Day
+  - day: 1 Samuel 9, 1 Samuel 10
+  - day: Psalm 55, Proverbs 27
+  - day: 1 Samuel 11, 1 Samuel 12, 1 Samuel 13
+  - day: 1 Samuel 14, 1 Samuel 15, 1 Samuel 16
+  - day: 1 Samuel 17, 1 Samuel 18
+  - day: 1 Samuel 19, 1 Samuel 20
+  - day: Lord's Day
+  - day: Psalm 56, Proverbs 28
+  - day: 1 Samuel 21, 1 Samuel 22, 1 Samuel 23
+  - day: 1 Samuel 24, 1 Samuel 25, 1 Samuel 26
+  - day: 1 Samuel 27, 1 Samuel 28, 1 Samuel 29
+  - day: 1 Samuel 30, 1 Samuel 31
+  - day: Psalm 57, Proverbs 29
+  - day: Lord's Day
+  - day: Philippians 1
+  - day: Philippians 2
+  - day: Philippians 3
+  - day: Philippians 4
+  - day: Psalm 58, Proverbs 30
+  - day: 2 Samuel 1, 2 Samuel 2, 2 Samuel 3
+  - day: Lord's Day
+  - day: 2 Samuel 4, 2 Samuel 5, 2 Samuel 6
+  - day: 2 Samuel 7, 2 Samuel 8, 2 Samuel 9
+  - day: 2 Samuel 10, 2 Samuel 11, 2 Samuel 12
+  - day: Psalm 59, Proverbs 31
+  - day: 2 Samuel 13, 2 Samuel 14, 2 Samuel 15
+  - day: 2 Samuel 16, 2 Samuel 17, 2 Samuel 18
+  - day: Lord's Day
+  - day: 2 Samuel 19, 2 Samuel 20, 2 Samuel 21
+  - day: 2 Samuel 22, 2 Samuel 23, 2 Samuel 24
+  - day: Psalm 60
+  - day: James 1, James 2
+  - day: James 3
+  - day: James 4
+  - day: Lord's Day
+  - day: James 5
+  - day: Psalm 61
+  - day: Matthew 1, Matthew 2, 1 Kings 1, 1 Kings 2
+  - day: Matthew 3, 1 Kings 3
+  - day: Matthew 4, 1 Kings 4
+  - day: Matthew 5, 1 Kings 5
+  - day: Lord's Day
+  - day: Psalm 62
+  - day: Matthew 6, Matthew 7, 1 Kings 6, 1 Kings 7
+  - day: Matthew 8, 1 Kings 8
+  - day: Matthew 9, 1 Kings 9
+  - day: Matthew 10, 1 Kings 10
+  - day: Psalm 63
+  - day: Lord's Day
+  - day: Matthew 11, Matthew 12, 1 Kings 11, 1 Kings 12
+  - day: Matthew 13, 1 Kings 13
+  - day: Matthew 14, 1 Kings 14
+  - day: Matthew 15, 1 Kings 15
+  - day: Psalm 64
+  - day: Matthew 16, Matthew 17, 1 Kings 16, 1 Kings 17
+  - day: Lord's Day
+  - day: Matthew 18, 1 Kings 18
+  - day: Matthew 19, 1 Kings 19
+  - day: Matthew 20, 1 Kings 20
+  - day: Psalm 65
+  - day: Matthew 21, Matthew 22, 1 Kings 21
+  - day: Matthew 23, Matthew 24, 1 Kings 22
+  - day: Lord's Day
+  - day: Matthew 25, Matthew 26
+  - day: Matthew 27, Matthew 28
+  - day: Psalm 66
+  - day: Hebrews 1, Hebrews 2, Hebrews 3
+  - day: Hebrews 4, Hebrews 5, Hebrews 6
+  - day: Hebrews 7, Hebrews 8, Hebrews 9
+  - day: Lord's Day
+  - day: Hebrews 10, Hebrews 11, Hebrews 12, Hebrews 13
+  - day: Psalm 67
+  - day: 2 Kings 1, 2 Kings 2, 2 Kings 3
+  - day: 2 Kings 4, 2 Kings 5, 2 Kings 6
+  - day: 2 Kings 7, 2 Kings 8
+  - day: 2 Kings 9, 2 Kings 10
+  - day: Lord's Day
+  - day: Philemon 1, Psalm 68
+  - day: 2 Kings 11, 2 Kings 12, 1 Peter 1
+  - day: 2 Kings 13, 2 Kings 14, 1 Peter 2
+  - day: 2 Kings 15, 2 Kings 16, 1 Peter 3
+  - day: 1 Peter 4, 1 Peter 5
+  - day: Psalm 69
+  - day: Lord's Day
+  - day: 2 Kings 17, 2 Kings 18
+  - day: 2 Kings 19, 2 Kings 20, 2 Kings 21
+  - day: 2 Kings 22, 2 Kings 23, Titus 1
+  - day: 2 Kings 24, 2 Kings 25, Titus 2
+  - day: Titus 3, Psalm 70
+  - day: Joel 1, 1 Corinthians 1, 1 Corinthians 2
+  - day: Lord's Day
+  - day: Joel 2, 1 Corinthians 3
+  - day: Joel 3, 1 Corinthians 4
+  - day: 1 Corinthians 5, 1 Corinthians 6
+  - day: Psalm 71, Proverbs 1
+  - day: Obadiah 1, 1 Corinthians 7
+  - day: 1 Corinthians 8, 1 Corinthians 9
+  - day: Lord's Day
+  - day: 1 Corinthians 10, 1 Corinthians 11
+  - day: 1 Corinthians 12, 1 Corinthians 13
+  - day: Psalm 72, Proverbs 2
+  - day: 1 Corinthians 14, Jonah 1
+  - day: 1 Corinthians 15, Jonah 2
+  - day: 1 Corinthians 16, Jonah 3
+  - day: Lord's Day
+  - day: Jonah 4
+  - day: Psalm 73, Proverbs 3
+  - day: Amos 1, Amos 2, 1 Thessalonians 1, 1 Thessalonians 2
+  - day: Amos 3, Amos 4, 1 Thessalonians 3
+  - day: Amos 5, Amos 6, 1 Thessalonians 4
+  - day: Amos 7, Amos 8, Amos 9, 1 Thessalonians 5
+  - day: Lord's Day
+  - day: Psalm 74, Proverbs 4
+  - day: 1 John 1, 1 John 2
+  - day: 1 John 3, 1 John 4
+  - day: 1 John 5, 2 John 1
+  - day: 3 John 1
+  - day: Psalm 75, Proverbs 5
+  - day: Lord's Day
+  - day: Mark 1, Jeremiah 1
+  - day: Mark 2, Jeremiah 2
+  - day: Mark 3, Jeremiah 3
+  - day: Mark 4, Jeremiah 4
+  - day: Mark 5, Jeremiah 5
+  - day: Psalm 76, Proverbs 6, Jeremiah 6
+  - day: Lord's Day
+  - day: Mark 6, Jeremiah 7
+  - day: Mark 7, Jeremiah 8
+  - day: Mark 8, Jeremiah 9
+  - day: Mark 9, Jeremiah 10
+  - day: Mark 10, Jeremiah 11
+  - day: Psalm 77, Proverbs 7
+  - day: Lord's Day
+  - day: Mark 11, Jeremiah 12
+  - day: Mark 12, Jeremiah 13
+  - day: Mark 13, Jeremiah 14
+  - day: Mark 14, Jeremiah 15
+  - day: Mark 15, Proverbs 8
+  - day: Mark 16, Psalm 78
+  - day: Lord's Day
+  - day: 1 Timothy 1, Jeremiah 16
+  - day: 1 Timothy 2, Jeremiah 17
+  - day: 1 Timothy 3, Jeremiah 18
+  - day: 1 Timothy 4, Jeremiah 19
+  - day: 1 Timothy 5, Psalm 79, Jeremiah 20
+  - day: 1 Timothy 6, Proverbs 9, Jeremiah 21
+  - day: Lord's Day
+  - day: Revelation 1, Jeremiah 22
+  - day: Revelation 2, Jeremiah 23
+  - day: Revelation 3, Jeremiah 24
+  - day: Revelation 4, Revelation 5, Jeremiah 25
+  - day: Revelation 6, Proverbs 10, Jeremiah 26
+  - day: Revelation 7, Psalm 80, Jeremiah 27 # Note: Original plan typo 'Revealtion'
+  - day: Lord's Day
+  - day: Revelation 8, Revelation 9, Jeremiah 28
+  - day: Revelation 10, Revelation 11, Jeremiah 29
+  - day: Revelation 12, Jeremiah 30
+  - day: Revelation 13, Revelation 14, Jeremiah 31
+  - day: Revelation 15, Jeremiah 32
+  - day: Revelation 16, Psalm 81, Proverbs 11
+  - day: Lord's Day
+  - day: Revelation 17, Jeremiah 33, Jeremiah 34
+  - day: Revelation 18, Jeremiah 35, Jeremiah 36
+  - day: Revelation 19, Jeremiah 37, Jeremiah 38
+  - day: Revelation 20, Jeremiah 39, Jeremiah 40
+  - day: Revelation 21, Jeremiah 41, Psalm 82
+  - day: Revelation 22, Jeremiah 42, Proverbs 12
+  - day: Lord's Day
+  - day: Jude, Jeremiah 43, Jeremiah 44 # Note: Original plan skipped Jeremiah 44
+  - day: Jeremiah 45, Jeremiah 46 # Note: Original plan had 48 here
+  - day: Jeremiah 47, Jeremiah 48
+  - day: Jeremiah 49, Jeremiah 50
+  - day: Psalm 83, Jeremiah 51
+  - day: Proverbs 13, Jeremiah 52
+  - day: Lord's Day
+  - day: Romans 1, Habakkuk 1
+  - day: Romans 2, Habakkuk 2
+  - day: Romans 3, Habakkuk 3
+  - day: Romans 4
+  - day: Romans 5
+  - day: Psalm 84, Proverbs 14
+  - day: Lord's Day
+  - day: Romans 6
+  - day: Romans 7, Psalm 85
+  - day: Romans 8
+  - day: Romans 9, Zephaniah 1
+  - day: Romans 10, Zephaniah 2
+  - day: Romans 11, Zephaniah 3
+  - day: Lord's Day
+  - day: Romans 12, Isaiah 1
+  - day: Romans 13, Isaiah 2
+  - day: Romans 14, Isaiah 3
+  - day: Romans 15, Isaiah 4, Isaiah 5
+  - day: Romans 16, Isaiah 6, Isaiah 7
+  - day: Proverbs 15, Psalm 86
+  - day: Lord's Day
+  - day: Colossians 1, Isaiah 8
+  - day: Colossians 2, Isaiah 9
+  - day: Colossians 3, Isaiah 10
+  - day: Colossians 4, Isaiah 11, Isaiah 12
+  - day: Proverbs 16, Isaiah 13
+  - day: Psalm 87, Isaiah 14
+  - day: Lord's Day
+  - day: 2 Peter 1, Isaiah 15, Isaiah 16
+  - day: 2 Peter 2, Isaiah 17, Isaiah 18
+  - day: 2 Peter 3, Isaiah 19, Isaiah 20
+  - day: Proverbs 17, Isaiah 21
+  - day: Psalm 88, Isaiah 22
+  - day: Proverbs 18, Isaiah 23
+  - day: Lord's Day
+  - day: Luke 1
+  - day: Luke 2, Isaiah 24
+  - day: Luke 3, Isaiah 25
+  - day: Luke 4, Isaiah 26
+  - day: Proverbs 19, Isaiah 27
+  - day: Psalm 89
+  - day: Lord's Day
+  - day: Luke 5
+  - day: Luke 6, Isaiah 28
+  - day: Luke 7, Isaiah 29
+  - day: Luke 8, Isaiah 30
+  - day: Luke 9, Isaiah 31
+  - day: Psalm 90, Proverbs 20
+  - day: Lord's Day
+  - day: Luke 10, Isaiah 32
+  - day: Luke 11, Isaiah 33
+  - day: Luke 12, Isaiah 34
+  - day: Luke 13, Isaiah 35
+  - day: Luke 14, Isaiah 36
+  - day: Psalm 91, Proverbs 21
+  - day: Lord's Day
+  - day: Luke 15, Isaiah 37
+  - day: Luke 16, Isaiah 38, Isaiah 39
+  - day: Luke 17, Isaiah 40
+  - day: Luke 18, Isaiah 41
+  - day: Luke 19, Isaiah 42
+  - day: Psalm 92, Proverbs 22
+  - day: Lord's Day
+  - day: Luke 20, Isaiah 43
+  - day: Luke 21, Isaiah 44
+  - day: Luke 22
+  - day: Luke 23, Isaiah 45
+  - day: Luke 24, Isaiah 46
+  - day: Proverbs 23, Psalm 93
+  - day: Lord's Day
+  - day: Ephesians 1, Isaiah 47
+  - day: Ephesians 2, Isaiah 48
+  - day: Ephesians 3, Isaiah 49
+  - day: Ephesians 4, Isaiah 50, Proverbs 24
+  - day: Ephesians 5, Isaiah 51
+  - day: Ephesians 6, Psalm 94
+  - day: Lord's Day
+  - day: Acts 1, Isaiah 52
+  - day: Acts 2, Isaiah 53
+  - day: Acts 3, Isaiah 54
+  - day: Acts 4, Isaiah 55
+  - day: Acts 5, Isaiah 56
+  - day: Proverbs 25, Isaiah 57, Psalm 95
+  - day: Lord's Day
+  - day: Acts 6, Isaiah 58
+  - day: Acts 7, Isaiah 59
+  - day: Acts 8, Isaiah 60
+  - day: Acts 9, Isaiah 61
+  - day: Acts 10, Isaiah 62
+  - day: Acts 11, Proverbs 26, Psalm 96
+  - day: Lord's Day
+  - day: Acts 12, Isaiah 63
+  - day: Acts 13, Isaiah 64
+  - day: Acts 14, Isaiah 65
+  - day: Acts 15
+  - day: Acts 16, Isaiah 66
+  - day: Proverbs 27, Psalm 97
+  - day: Lord's Day
+  - day: Acts 17, Micah 1
+  - day: Acts 18, Micah 2, Micah 3
+  - day: Acts 19, Micah 4
+  - day: Acts 20, Micah 5, Micah 6
+  - day: Acts 21, Micah 7
+  - day: Acts 22, Psalm 98
+  - day: Lord's Day
+  - day: Acts 23, Zephaniah 1 # Note: Zephaniah repeated from earlier
+  - day: Acts 24, Zephaniah 2
+  - day: Acts 25, Zephaniah 3
+  - day: Acts 26, Nahum 1
+  - day: Acts 27, Nahum 2
+  - day: Acts 28, Psalm 99, Nahum 3
+  - day: Lord's Day
+  - day: Proverbs 28, Hosea 1
+  - day: 2 Thessalonians 1, Hosea 2
+  - day: 2 Thessalonians 2, Hosea 3, Hosea 4
+  - day: 2 Thessalonians 3, Hosea 5
+  - day: Proverbs 29, Hosea 6
+  - day: Psalm 100, Hosea 7
+  - day: Lord's Day
+  - day: Proverbs 30, Hosea 8
+  - day: 2 Timothy 1, Hosea 9
+  - day: 2 Timothy 2, Hosea 10, Hosea 11
+  - day: 2 Timothy 3, Hosea 12
+  - day: 2 Timothy 4, Hosea 13
+  - day: Proverbs 31, Hosea 14
+  - day: Lord's Day
+  - day: Galatians 1, Psalm 119:1-32
+  - day: Galatians 2, Psalm 119:33-64
+  - day: Galatians 3, Psalm 119:65-96
+  - day: Galatians 4, Psalm 119:97-120 # Note: Original plan typo 120 vs 128
+  - day: Galatians 5, Psalm 119:121-152
+  - day: Galatians 6, Psalm 119:153-176 # Note: Original plan typo 179 vs 176
+  - day: Lord's Day
+  - day: Ecclesiastes 1, Ecclesiastes 2
+  - day: Ecclesiastes 3, Ecclesiastes 4, Ecclesiastes 5
+  - day: Ecclesiastes 6, Ecclesiastes 7
+  - day: Ecclesiastes 8, Ecclesiastes 9
+  - day: Ecclesiastes 10, Ecclesiastes 11, Ecclesiastes 12
+  - day: Proverbs 1, Psalm 104
+  - day: Lord's Day
+  - day: John 1
+  - day: John 2, John 3
+  - day: John 4
+  - day: John 5
+  - day: John 6
+  - day: Proverbs 2, Psalm 106
+  - day: Lord's Day
+  - day: John 7
+  - day: John 8
+  - day: John 9, 1 Chronicles 1
+  - day: John 10, 1 Chronicles 2
+  - day: John 11, 1 Chronicles 3
+  - day: Proverbs 3, Psalm 105
+  - day: Lord's Day
+  - day: John 12
+  - day: John 13, 1 Chronicles 4
+  - day: John 14, 1 Chronicles 5
+  - day: Psalm 125, 1 Chronicles 6
+  - day: John 15, 1 Chronicles 7
+  - day: John 16, Proverbs 4
+  - day: Lord's Day
+  - day: John 17, 1 Chronicles 8
+  - day: Proverbs 5, 1 Chronicles 9
+  - day: John 18, Psalm 108
+  - day: John 19, 1 Chronicles 10
+  - day: John 20, 1 Chronicles 11
+  - day: John 21, 1 Chronicles 12
+  - day: Lord's Day
+  - day: 1 Corinthians 1, 1 Chronicles 13
+  - day: 1 Corinthians 2, Psalm 103, 1 Chronicles 14
+  - day: 1 Corinthians 3, 1 Chronicles 15
+  - day: Proverbs 6, 1 Chronicles 16
+  - day: 1 Corinthians 4, 1 Chronicles 17
+  - day: 1 Corinthians 5, 1 Chronicles 18, Psalm 124
+  - day: Lord's Day
+  - day: 1 Corinthians 6, 1 Chronicles 19
+  - day: 1 Corinthians 7, 1 Chronicles 20
+  - day: 1 Corinthians 8, 1 Chronicles 21
+  - day: 1 Corinthians 9, 1 Chronicles 22
+  - day: 1 Corinthians 10, 1 Chronicles 23
+  - day: Proverbs 7, 1 Chronicles 24, Psalm 110
+  - day: Lord's Day
+  - day: 1 Corinthians 11, 1 Chronicles 25
+  - day: 1 Corinthians 12, 1 Chronicles 26
+  - day: 1 Corinthians 13, 1 Chronicles 27
+  - day: 1 Corinthians 14, Psalm 115
+  - day: 1 Corinthians 15
+  - day: 1 Corinthians 16, 1 Chronicles 28
+  - day: Lord's Day
+  - day: Psalm 101, 1 Chronicles 29
+  - day: Proverbs 8, 2 Chronicles 1
+  - day: Philippians 1, 2 Chronicles 2
+  - day: Philippians 2, 2 Chronicles 3
+  - day: Philippians 3, 2 Chronicles 4
+  - day: Philippians 4, 2 Chronicles 5
+  - day: Lord's Day
+  - day: 2 Chronicles 6
+  - day: 1 John 1, 2 Chronicles 7, Psalm 111
+  - day: 1 John 2, 2 Chronicles 8
+  - day: 1 John 3, 2 Chronicles 9
+  - day: 1 John 4, 2 Chronicles 10
+  - day: 1 John 5, 2 Chronicles 11
+  - day: Lord's Day
+  - day: James 1, 2 Chronicles 12
+  - day: James 2, 2 Chronicles 13
+  - day: James 3, 2 Chronicles 14, Psalm 116
+  - day: James 4, 2 Chronicles 15, 2 Chronicles 16
+  - day: James 5, 2 Chronicles 17
+  - day: Proverbs 9, 2 Chronicles 18
+  - day: Lord's Day
+  - day: 2 Corinthians 1, 2 Chronicles 19
+  - day: 2 Chronicles 20
+  - day: Psalm 102, 2 Chronicles 21
+  - day: 2 Corinthians 2, 2 Chronicles 22, Psalm 121
+  - day: 2 Corinthians 3, 2 Chronicles 23
+  - day: 2 Corinthians 4, 2 Chronicles 24
+  - day: Lord's Day
+  - day: 2 Corinthians 5, 2 Chronicles 25
+  - day: 2 Corinthians 6, 2 Chronicles 26, 2 Chronicles 27
+  - day: 2 Corinthians 7, 2 Chronicles 28
+  - day: Psalm 123, 2 Chronicles 29
+  - day: 2 Corinthians 8, 2 Chronicles 30
+  - day: Proverbs 10, 2 Chronicles 31
+  - day: Lord's Day
+  - day: 2 Corinthians 9, 2 Chronicles 32
+  - day: 2 Corinthians 10, 2 Chronicles 33
+  - day: 2 Chronicles 34
+  - day: 2 Corinthians 11, 2 Chronicles 35
+  - day: 2 Corinthians 12, 2 Chronicles 36
+  - day: 2 Corinthians 13, Psalm 107
+  - day: Lord's Day
+  - day: Matthew 1, Proverbs 11, Psalm 112
+  - day: Matthew 2, Revelation 1
+  - day: Matthew 3, Revelation 2
+  - day: Matthew 4, Revelation 3
+  - day: Matthew 5, Revelation 4
+  - day: Matthew 6, Revelation 5
+  - day: Lord's Day
+  - day: Matthew 7, Revelation 6
+  - day: Matthew 8, Revelation 7
+  - day: Matthew 9, Revelation 8
+  - day: Matthew 10, Psalm 113
+  - day: Matthew 11, Revelation 9
+  - day: Proverbs 12, Revelation 10, Psalm 114
+  - day: Lord's Day
+  - day: Matthew 12
+  - day: Matthew 13
+  - day: Matthew 14, Revelation 11
+  - day: Matthew 15, Revelation 12
+  - day: Matthew 16, Revelation 13
+  - day: Matthew 17, Revelation 14
+  - day: Lord's Day
+  - day: Matthew 18, Revelation 15
+  - day: Matthew 19, Revelation 16
+  - day: Matthew 20, Revelation 17
+  - day: Matthew 21
+  - day: Matthew 22, Revelation 18
+  - day: Matthew 23, Revelation 19
+  - day: Lord's Day
+  - day: Matthew 24, Revelation 20
+  - day: Proverbs 13, Revelation 21
+  - day: Matthew 25, Revelation 22
+  - day: Matthew 26
+  - day: Matthew 27
+  - day: Matthew 28, Proverbs 14
+  - day: Lord's Day
+  - day: 1 Timothy 1
+  - day: 1 Timothy 2
+  - day: 1 Timothy 3
+  - day: 1 Timothy 4
+  - day: 1 Timothy 5
+  - day: 1 Timothy 6, Psalm 109
+  - day: Lord's Day
+  - day: Psalm 119:1-32, Lamentations 1
+  - day: Psalm 119:33-64, Lamentations 2
+  - day: Psalm 119:65-96, Lamentations 3
+  - day: Psalm 119:97-128, Lamentations 4
+  - day: Psalm 119:129-176, Lamentations 5
+  - day: Proverbs 15
+  - day: Lord's Day
+  - day: Philemon 1
+  - day: Proverbs 16
+  - day: Jude 1
+  - day: Psalm 126, Ezekiel 1
+  - day: Proverbs 17, Ezekiel 2
+  - day: Psalm 122, Ezekiel 3
+  - day: Lord's Day
+  - day: 1 Peter 1, Ezekiel 4
+  - day: 1 Peter 2, Ezekiel 5
+  - day: 1 Peter 3, Ezekiel 6
+  - day: 1 Peter 4, Ezekiel 7
+  - day: 1 Peter 5, Ezekiel 8
+  - day: Proverbs 18, Ezekiel 9
+  - day: Lord's Day
+  - day: Galatians 1, Ezekiel 10
+  - day: Galatians 2, Ezekiel 11
+  - day: Galatians 3, Ezekiel 12
+  - day: Galatians 4, Ezekiel 13
+  - day: Galatians 5, Ezekiel 14
+  - day: Galatians 6, Ezekiel 15, Psalm 118
+  - day: Lord's Day
+  - day: Psalm 117, Ezekiel 16
+  - day: Titus 1, Ezekiel 17
+  - day: Titus 2, Ezekiel 18
+  - day: Titus 3, Ezekiel 19
+  - day: Psalm 120, Ezekiel 20
+  - day: Proverbs 19, Ezekiel 21
+  - day: Lord's Day
+  - day: Proverbs 20, Ezekiel 22
+  - day: 1 Thessalonians 1, Ezekiel 23
+  - day: 1 Thessalonians 2, Ezekiel 24
+  - day: 1 Thessalonians 3, Ezekiel 25
+  - day: 1 Thessalonians 4, Ezekiel 26
+  - day: 1 Thessalonians 5, Ezekiel 27
+  - day: Lord's Day
+  # --- Start of Extrapolated Section (Modified for 6+1) ---
+  - day: Romans 1, Daniel 1
+  - day: Romans 2, Daniel 2
+  - day: Romans 3, Daniel 3
+  - day: Romans 4, Daniel 4
+  - day: Psalm 101, Proverbs 21, Daniel 5
+  - day: Romans 5, Daniel 6
+  - day: Lord's Day
+  - day: Romans 6, Daniel 7
+  - day: Romans 7, Daniel 8
+  - day: Romans 8, Daniel 9
+  - day: Psalm 102, Proverbs 22, Daniel 10
+  - day: Romans 9, Daniel 11
+  - day: Romans 10, Daniel 12
+  - day: Lord's Day
+  - day: Romans 11, Haggai 1
+  - day: Romans 12, Haggai 2
+  - day: Psalm 103, Proverbs 23, Zechariah 1
+  - day: Romans 13, Zechariah 2, Zechariah 3
+  - day: Romans 14, Zechariah 4, Zechariah 5
+  - day: Romans 15, Zechariah 6, Zechariah 7
+  - day: Lord's Day
+  - day: Romans 16, Zechariah 8, Zechariah 9
+  - day: Psalm 104, Proverbs 24, Zechariah 10
+  - day: Ephesians 1, Zechariah 11
+  - day: Ephesians 2, Zechariah 12
+  - day: Ephesians 3, Zechariah 13
+  - day: Ephesians 4, Zechariah 14
+  - day: Lord's Day
+  - day: Psalm 105, Proverbs 25, Malachi 1
+  - day: Ephesians 5, Malachi 2
+  - day: Ephesians 6, Malachi 3
+  - day: Colossians 1, Malachi 4
+  - day: Colossians 2
+  - day: Psalm 106, Proverbs 26, Colossians 3
+  - day: Lord's Day
+  - day: Colossians 4, Job 1
+  - day: Job 2, Job 3
+  - day: Job 4, Job 5
+  - day: 2 Timothy 1, Job 6
+  - day: Psalm 107, Proverbs 27, Job 7
+  - day: 2 Timothy 2, Job 8, Job 9
+  - day: Lord's Day
+  - day: 2 Timothy 3, Job 10, Job 11
+  - day: 2 Timothy 4, Job 12, Job 13
+  - day: Job 14, Job 15
+  - day: Psalm 109, Proverbs 28, Job 16
+  - day: 2 Peter 1, Job 17, Job 18
+  - day: 2 Peter 2, Job 19, Job 20
+  - day: Lord's Day
+  - day: 2 Peter 3, Job 21, Job 22
+  - day: Job 23, Job 24
+  - day: Psalm 110, Proverbs 29, Job 25, Job 26
+  - day: 2 John 1, Job 27, Job 28
+  - day: 3 John 1, Job 29, Job 30
+  - day: Job 31, Job 32
+  - day: Lord's Day
+  - day: Job 33, Job 34
+  - day: Psalm 111, Proverbs 30, Job 35
+  - day: Job 36, Job 37
+  - day: Job 38, Job 39
+  - day: Job 40, Job 41
+  - day: Job 42, Ezra 1
+  - day: Lord's Day
+  - day: Psalm 112, Proverbs 31, Ezra 2
+  - day: Mark 1, Ezra 3
+  - day: Mark 2, Ezra 4
+  - day: Mark 3, Ezra 5
+  - day: Mark 4, Ezra 6
+  - day: Psalm 113, Proverbs 1, Ezra 7 # Restart Proverbs cycle
+  - day: Lord's Day
+  - day: Mark 5, Ezra 8
+  - day: Mark 6, Ezra 9
+  - day: Mark 7, Ezra 10
+  - day: Mark 8, Nehemiah 1
+  - day: Psalm 114, Proverbs 2, Nehemiah 2
+  - day: Mark 9, Nehemiah 3
+  - day: Lord's Day
+  - day: Mark 10, Nehemiah 4
+  - day: Mark 11, Nehemiah 5
+  - day: Mark 12, Nehemiah 6
+  - day: Psalm 115, Proverbs 3, Nehemiah 7
+  - day: Mark 13, Nehemiah 8
+  - day: Mark 14, Nehemiah 9
+  - day: Lord's Day
+  - day: Mark 15, Nehemiah 10
+  - day: Mark 16, Nehemiah 11
+  - day: Psalm 116, Proverbs 4, Nehemiah 12
+  - day: Acts 1, Nehemiah 13
+  - day: Acts 2, Esther 1
+  - day: Acts 3, Esther 2
+  - day: Lord's Day
+  - day: Acts 4, Esther 3
+  - day: Psalm 117, Proverbs 5, Esther 4
+  - day: Acts 5, Esther 5
+  - day: Acts 6, Esther 6
+  - day: Acts 7, Esther 7
+  - day: Acts 8, Esther 8
+  - day: Lord's Day
+  - day: Psalm 118, Proverbs 6, Esther 9
+  - day: Acts 9, Esther 10
+  - day: Acts 10, Song of Solomon 1
+  - day: Acts 11, Song of Solomon 2
+  - day: Acts 12, Song of Solomon 3
+  - day: Psalm 119:1-32, Proverbs 7, Song of Solomon 4 # Restart Psalm 119
+  - day: Lord's Day
+  - day: Acts 13, Song of Solomon 5
+  - day: Acts 14, Song of Solomon 6
+  - day: Acts 15, Song of Solomon 7
+  - day: Acts 16, Song of Solomon 8
+  - day: Psalm 119:33-64, Proverbs 8
+  - day: Psalm 119:65-176, 2 Thessalonians 1, 2 Thessalonians 2, 2 Thessalonians 3
+  - day: Lord's Day
+---
