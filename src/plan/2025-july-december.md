@@ -1,0 +1,188 @@
+---
+title: 2025 July-December Reading Plan
+description: "Redeemer's reading plan for the Second half of 2025 (July 7 of 2025 to January 3, 2026)."
+start: 07-07-2025
+current: false
+plan:
+  - day: 2 Timothy 1, Ezekiel 28
+  - day: Ezekiel 29, Ezekiel 30
+  - day: 2 Timothy 2, Ezekiel 31
+  - day: 2 Timothy 3, Ezekiel 32
+  - day: 2 Timothy 4, Ezekiel 33
+  - day: Psalm 127, Ezekiel 34
+  - day: Lord's Day
+  - day: Proverbs 21, Ezekiel 35
+  - day: Ezekiel 36
+  - day: Hebrews 1, Ezekiel 37
+  - day: Hebrews 2, Ezekiel 38
+  - day: Hebrews 3, Ezekiel 39
+  - day: Ezekiel 40
+  - day: Lord's Day
+  - day: Hebrews 4, Ezekiel 41
+  - day: Proverbs 22, Ezekiel 42
+  - day: Hebrews 5, Ezekiel 43
+  - day: Psalm 128, Ezekiel 44
+  - day: Hebrews 6, Ezekiel 45
+  - day: Hebrews 7, Ezekiel 46
+  - day: Lord's Day
+  - day: Hebrews 8, Ezekiel 47
+  - day: Psalm 129, Ezekiel 48
+  - day: Ezra 1, Ezra 2
+  - day: Hebrews 9, Ezra 3
+  - day: Hebrews 10, Ezra 4
+  - day: Hebrews 11
+  - day: Lord's Day
+  - day: Hebrews 12, Ezra 5
+  - day: Hebrews 13, Ezra 6
+  - day: 2 Thessalonians 1, Ezra 7
+  - day: 2 Thessalonians 2, Ezra 8
+  - day: 2 Thessalonians 3, Ezra 9
+  - day: Psalm 130, Ezra 10
+  - day: Lord's Day
+  - day: Zechariah 1, Zechariah 2, Zechariah 3
+  - day: Zechariah 4, Zechariah 5, Zechariah 6
+  - day: Zechariah 7, Zechariah 8
+  - day: Zechariah 9, Zechariah 10, Psalm 132
+  - day: Zechariah 11, Zechariah 12, Zechariah 13
+  - day: Zechariah 14, Proverbs 23
+  - day: Lord's Day
+  - day: Mark 1, Psalm 131
+  - day: Mark 2, Job 1
+  - day: Mark 3, Job 2
+  - day: Mark 4, Job 3
+  - day: Mark 5, Job 4
+  - day: Mark 6
+  - day: Lord's Day
+  - day: Mark 7, Job 5
+  - day: Mark 8, Job 6
+  - day: Mark 9
+  - day: Mark 10
+  - day: Mark 11, Job 7, Psalm 133
+  - day: Mark 12
+  - day: Lord's Day
+  - day: Mark 13, Job 8
+  - day: Mark 14
+  - day: Mark 15, Job 9
+  - day: Mark 16, Job 10, Job 11
+  - day: Proverbs 24, Job 12, Job 13
+  - day: Psalm 135, Job 14, Job 15
+  - day: Lord's Day
+  - day: Romans 1, Job 16
+  - day: Romans 2, Job 17, Job 18
+  - day: Romans 3, Job 19
+  - day: Romans 4, Job 20
+  - day: Romans 5, Job 21
+  - day: Romans 6, Job 22, Psalm 140
+  - day: Lord's Day
+  - day: Romans 7, Job 23, Job 24
+  - day: Romans 8, Job 25
+  - day: Romans 9, Job 26
+  - day: Romans 10, Job 27, Job 28
+  - day: Romans 11, Job 29
+  - day: Romans 12, Job 30, Psalm 134
+  - day: Lord's Day
+  - day: Romans 13, Job 31
+  - day: Romans 14, Job 32
+  - day: Romans 15, Job 33
+  - day: Romans 16, Job 34
+  - day: Proverbs 25, Job 35, Job 36
+  - day: 2 John 1, Job 37, Psalm 136
+  - day: Lord's Day
+  - day: Job 38, Job 39
+  - day: Job 40, Job 41, Job 42
+  - day: Esther 1, Esther 2
+  - day: Esther 3, Esther 4, Esther 5
+  - day: Esther 6, Esther 7, Esther 8
+  - day: Esther 9, Esther 10, Psalm 137
+  - day: Lord's Day
+  - day: Ephesians 1, Nehemiah 1, Psalm 138
+  - day: Ephesians 2, Nehemiah 2
+  - day: Ephesians 3, Nehemiah 3
+  - day: Ephesians 4, Nehemiah 4
+  - day: Ephesians 5, Nehemiah 5
+  - day: Ephesians 6, Nehemiah 6
+  - day: Lord's Day
+  - day: Nehemiah 7
+  - day: Proverbs 26, Nehemiah 8
+  - day: Nehemiah 9
+  - day: Nehemiah 10, Nehemiah 11
+  - day: Proverbs 27, Nehemiah 12
+  - day: Psalm 141, Nehemiah 13
+  - day: Lord's Day
+  - day: Acts 1, Malachi 1
+  - day: Acts 2
+  - day: Acts 3, Malachi 2
+  - day: Acts 4, Malachi 3
+  - day: Acts 5, Acts 6, Malachi 4
+  - day: Acts 7
+  - day: Lord's Day
+  - day: Acts 8, Psalm 145
+  - day: Acts 9
+  - day: Acts 10
+  - day: Acts 11, Proverbs 28
+  - day: Acts 12, Psalm 139
+  - day: Acts 13
+  - day: Lord's Day
+  - day: Acts 14, Song of Songs 1, Song of Songs 2
+  - day: Acts 15, Song of Songs 3
+  - day: Acts 16, Song of Songs 4
+  - day: Acts 17, Song of Songs 5
+  - day: Acts 18, Song of Songs 6, Song of Songs 7
+  - day: Acts 19, Song of Songs 8
+  - day: Lord's Day
+  - day: Acts 20, Colossians 1
+  - day: Acts 21
+  - day: Acts 22, Colossians 2
+  - day: Acts 23, Psalm 143
+  - day: Acts 24, Colossians 3
+  - day: Acts 25, Colossians 4
+  - day: Lord's Day
+  - day: Acts 26, Proverbs 29
+  - day: Acts 27
+  - day: Acts 28, Daniel 1
+  - day: Daniel 2
+  - day: Daniel 3, Psalm 142
+  - day: Daniel 4
+  - day: Lord's Day
+  - day: Daniel 5
+  - day: Daniel 6, Psalm 144
+  - day: Daniel 7
+  - day: Daniel 8, 2 Peter 1
+  - day: Daniel 9, 2 Peter 2
+  - day: Daniel 10, 2 Peter 3
+  - day: Lord's Day
+  - day: Daniel 11
+  - day: Daniel 12, Proverbs 30, Psalm 147
+  - day: Luke 1
+  - day: Luke 2
+  - day: Luke 3
+  - day: Luke 4
+  - day: Lord's Day
+  - day: Luke 5
+  - day: Luke 6
+  - day: Luke 7
+  - day: Luke 8
+  - day: Luke 9
+  - day: Luke 10, Psalm 146
+  - day: Lord's Day
+  - day: Luke 11
+  - day: Luke 12
+  - day: Luke 13
+  - day: Luke 14, Psalm 148
+  - day: Luke 15, Haggai 1
+  - day: Luke 16, Haggai 2
+  - day: Lord's Day
+  - day: Luke 17, Psalm 149
+  - day: Luke 18
+  - day: Luke 19
+  - day: Luke 20
+  - day: Luke 21, 3 John 1
+  - day: Proverbs 31, Psalm 150
+  - day: Lord's Day
+  - day: Luke 22
+  - day: Luke 23
+  - day: Luke 24
+  - day: Psalm 90
+  - day: Psalm 73
+  - day: Psalm 100
+---
