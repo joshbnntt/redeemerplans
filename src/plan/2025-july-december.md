@@ -2,7 +2,7 @@
 title: 2025 July-December Reading Plan
 description: "Redeemer's reading plan for the Second half of 2025 (July 7 of 2025 to January 3, 2026)."
 start: 07-07-2025
-current: false
+current: true
 plan:
   - day: 2 Timothy 1, Ezekiel 28
   - day: Ezekiel 29, Ezekiel 30
