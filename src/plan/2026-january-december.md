@@ -85,7 +85,7 @@ plan:
   - day: Exodus 13, Proverbs 9
   - day: Exodus 14, Exodus 15
   - day: Exodus 16, John 6
-  - day: Exodus 17, Exodus 18, Psalms 10
+  - day: Exodus 17, Exodus 18, Psalm 10
   - day: Exodus 19, Exodus 20
   - day: Lord's Day
   - day: Romans 1, Exodus 21
@@ -97,7 +97,7 @@ plan:
   - day: Lord's Day
   - day: Romans 6, Exodus 26
   - day: Romans 7, Exodus 27
-  - day: Romans 8, Psalms 12
+  - day: Romans 8, Psalm 12
   - day: Romans 9, Exodus 28
   - day: Romans 10, Exodus 29
   - day: Romans 11, Exodus 30
@@ -128,7 +128,7 @@ plan:
   - day: Hebrews 8, Leviticus 10
   - day: Hebrews 9, Leviticus 11
   - day: Hebrews 10, Leviticus 12
-  - day: Psalms 15, Leviticus 13
+  - day: Psalm 15, Leviticus 13
   - day: Lord's Day
   - day: Hebrews 11
   - day: Hebrews 12, Hebrews 13
@@ -147,7 +147,7 @@ plan:
   - day: Matthew 1, Matthew 2, Leviticus 24
   - day: Matthew 3, Leviticus 25
   - day: Matthew 4, Leviticus 26
-  - day: Psalms 20, Leviticus 27
+  - day: Psalm 20, Leviticus 27
   - day: Matthew 5
   - day: Matthew 6, Matthew 7
   - day: Lord's Day
@@ -175,7 +175,7 @@ plan:
   - day: Revelation 1, Revelation 2
   - day: Revelation 3, Revelation 4, Revelation 5
   - day: Revelation 6, Revelation 7, Revelation 8
-  - day: Revelation 9, Revelation 10, Psalms 24
+  - day: Revelation 9, Revelation 10, Psalm 24
   - day: Revelation 11, Revelation 12
   - day: Revelation 13, Revelation 14
   - day: Lord's Day
@@ -294,7 +294,7 @@ plan:
   - day: Joshua 1, Joshua 2
   - day: Joshua 3, Joshua 4
   - day: Joshua 5, Joshua 6
-  - day: Joshua 7, Psalms 49
+  - day: Joshua 7, Psalm 49
   - day: Joshua 8
   - day: Psalm 41, Proverbs 27
   - day: Lord's Day
@@ -316,7 +316,7 @@ plan:
   - day: Judges 2, Judges 3
   - day: Judges 4, Judges 5
   - day: Judges 6
-  - day: Judges 7, Psalms 45
+  - day: Judges 7, Psalm 45
   - day: Psalm 42, Judges 8
   - day: Lord's Day
   - day: Psalm 47, Judges 9
