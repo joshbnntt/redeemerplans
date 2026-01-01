@@ -2,7 +2,7 @@
 title: 2026 Bible Reading Plan
 description: Our reading plan for the year 2026.
 start: 01-05-2026
-current: false
+current: true
 plan:
   - day: 1 Corinthians 1, 1 Corinthians 2, 1 Corinthians 3
   - day: 1 Corinthians 4, 1 Corinthians 5, 1 Corinthians 6
