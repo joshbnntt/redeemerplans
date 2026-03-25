@@ -312,16 +312,40 @@ document.addEventListener('alpine:init', () => {
             this.days = days
         },
         async fetchReadings() {
-            console.log("fetchingReadings")
-            const { data, error } = await supabase
-                .from('haveread')
-                .select()
-            if (error) {
-                console.error(error)
-            } else {
-                this.setDays(data)
-                console.log("Got data")
+            console.log("fetchingReadings");
+            
+            let allData = [];
+            let keepFetching = true;
+            let offset = 0;
+            const limit = 1000; // Supabase's default max
+
+            while (keepFetching) {
+                const { data, error } = await supabase
+                    .from('haveread')
+                    .select()
+                    // Fetch in chunks of 1000
+                    .range(offset, offset + limit - 1); 
+
+                if (error) {
+                    console.error("Error fetching readings:", error);
+                    keepFetching = false;
+                    return; // Exit early if there's an error
+                }
+
+                // Add the new chunk of data to our main array
+                allData = [...allData, ...data];
+
+                // If the data returned is less than the limit, we've hit the end of the records
+                if (data.length < limit) {
+                    keepFetching = false;
+                } else {
+                    // Otherwise, bump the offset and fetch the next 1000
+                    offset += limit;
+                }
             }
+
+            this.setDays(allData);
+            console.log(`Got all data: ${allData.length} records`);
         },
         async markRead(day) {
             if(!Alpine.store('auth')?.user?.id) throw new Error('must be logged in')
