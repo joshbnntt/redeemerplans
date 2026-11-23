@@ -11,9 +11,10 @@
     "build": "npm run check:plans && npx @11ty/eleventy",
     "clean": "del-cli _site",
     "check:plans": "node scripts/check-plans.js",
-    "test": "node --test tests/*.test.js",
+    "test": "node --test tests/legacy.test.js && npm --prefix app test",
     "test:output": "npm run build && node --test tests/output.test.js",
-    "snapshot:update": "node scripts/output-snapshot.js"
+    "snapshot:update": "node scripts/output-snapshot.js",
+    "test:compat": "npm --prefix app run build && node --test tests/compat.test.js"
   },
   "keywords": [],
   "author": "",
@@ -40,5 +41,8 @@
     "alpinejs": "^3.12.0",
     "ical-generator": "^7.1.0",
     "vite-plugin-pwa": "^0.20.0"
+  },
+  "engines": {
+    "node": ">=22.12"
   }
 }

@@ -1,6 +1,6 @@
 # Redeemer Plans v2: plan
 
-Status: Phase 0 done (see below); Phase 1 next · Mockups: https://claude.ai/artifact/CvyVCA7kfqfKVwGFzmSkbD
+Status: Phases 0 and 1 done. Admin is next, so it's ready for the pastor to write next year's plan. · Mockups: https://claude.ai/artifact/CvyVCA7kfqfKVwGFzmSkbD
 
 ## Decisions
 
@@ -188,25 +188,8 @@ translation id.
 Errors block Publish. Warnings don't. The same validator runs in the Vercel build, so a bad hand
 edit to YAML fails the deploy and the live site stays on the last good version.
 
-### What it finds in the current repo today
-
-I ran a prototype of these checks over `src/plan/*.md`:
-
-- **2024 July – January 2025**
-  - Day 34: `Revealtion 7` is a typo. `generateBibleLinks` silently drops unknown books, so readers got no link.
-  - Day 50: `Jude` has no chapter number.
-  - Jeremiah 44 and 47 are never read, and Jeremiah 48 is read on both days 51 and 52.
-  - Zephaniah 1–3 is repeated (days 67–69 and 162–164).
-- **2025 July – December**
-  - `Song of Songs 1–8` (days 120–125) isn't recognized by the link generator (it expects
-    "Song of Solomon"), so those days had no links.
-  - It ends Jan 3, 2026, overlapping the 2026 plan by 3 days.
-- **2026 plan (live)**
-  - It has 368 entries, so it runs until **Jan 3, 2027**.
-  - It repeats John 6, Romans 14, Hebrews 7 and Hebrews 9. These may be intentional.
-- **Naming**: `bible.yml` says "Psalms" but plans say "Psalm". That's fine, but the canon
-  should treat them as aliases.
-- **Lord's Days**: every one falls on a Sunday in every dated plan.
+`npm run check:plans` shows a one-line summary per plan (`-- -v` for detail). Past and self-paced
+plans are never blocked.
 
 ## Reader experience (see mockups)
 
@@ -249,25 +232,28 @@ Today's `haveread(plan_day text)` stores a date string. v2:
 
 ## Phases
 
-0. **Quick wins, on the current 11ty site**
-   - Fix the data errors listed above.
-   - Decide what happens after Jan 3, 2027.
-   - Add aliases for Song of Songs and Psalm/Psalms.
-   - Parse dates as ISO/UTC.
-   - Add a plan checker to the build.
-   - Capture Subsplash/API golden files.
-   - Add a `vercel.json` or confirm the Vercel build settings.
-1. **SvelteKit foundation**
-   - Scaffold SvelteKit, port the `scripture` module with unit tests, and move plans to YAML.
-   - Add the v1 endpoints (passing the golden-file tests), v2 endpoints and ICS feeds.
-   - Set up the PWA shell with the update toast, and deploy to a Vercel preview.
-2. **Reader redesign**
-   - Build Today, Plan, Progress and Settings.
-   - Migrate `reading_log`, add signed-out mode and offline check-offs.
-   - Switch production over.
-3. **Admin**
-   - Auth and admins table, drafts, editor, checks, import.
-   - The publish function and history.
+Plan *content* belongs to the pastor: these phases change tooling, never the plans themselves.
+
+0. **Quick wins on the current site** ✅
+   - Plan checks run in the build. Only errors in a live or upcoming plan stop a deploy; anything
+     else is a one-line note.
+   - The This Week view now works across New Year, and "Song of Songs"/"Psalms" get links.
+   - Snapshot of the Subsplash XML, v1 JSON and calendar feed, plus `vercel.json`.
+1. **SvelteKit foundation** ✅ (`app/`)
+   - SvelteKit 3 / Svelte 5 on Vercel, fully prerendered.
+   - Shared canon, dates and checks in `app/src/lib/shared/` (the old site uses the same files).
+   - v1 outputs byte-identical to the 11ty site (`npm run test:compat`), plus the v2 JSON API and per-plan calendars.
+   - PWA: installable, works offline, and prompts to reload when a new version is deployed
+     (verified in a browser for first-time and returning visitors).
+   - First screens: Today, the plan list, and a full plan page.
+2. **Admin** (next; needed before the pastor writes next year's plan)
+   - Supabase sign-in plus an admins table, and drafts.
+   - The editor with checks, and paste from spreadsheet.
+   - The publish endpoint (a Vercel Function that commits to GitHub), and history.
+3. **Reader redesign**
+   - Plan week/month views, progress, settings, mark as read.
+   - `reading_log` migration and signed-out mode.
+   - Switch production to the new app, with redirects for `/current/`, `/thisweek/` and `/login/`.
 4. **Extras**: personal plans, notes, the church count.
 
 ## Still open

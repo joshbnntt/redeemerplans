@@ -27,25 +27,44 @@ function walk(dir, base = dir) {
 }
 
 /** Outputs to protect, relative to _site. */
-function trackedFiles() {
-  if (!fs.existsSync(SITE)) throw new Error('No _site folder. Run `npm run build` first.');
-  return walk(SITE)
+function trackedFiles(site = SITE) {
+  if (!fs.existsSync(site)) throw new Error(`No ${site} folder. Build first.`);
+  return walk(site)
     .filter((f) => /^subsplash\/.*\.xml$/.test(f) || f === 'currentplan.xml' || /^api\/.*\.json$/.test(f) || f === 'feed.ics')
     .sort();
 }
 
-/** feed.ics contains build timestamps; drop them so the hash is stable. */
-function normalized(file) {
-  const text = fs.readFileSync(path.join(SITE, file), 'utf8');
-  return file.endsWith('.ics') ? text.replace(/^DTSTAMP:.*\r?\n/gm, '') : text;
+/**
+ * Removes differences that never mattered: feed.ics build timestamps, and the order of
+ * api/plans.json and feed.ics events (11ty orders them by file timestamps, which differ on
+ * every checkout).
+ */
+function normalize(file, text) {
+  if (file.endsWith('.ics')) {
+    // Event order also follows file timestamps, so compare events as a sorted set.
+    const noStamp = text.replace(/^DTSTAMP:.*\r?\n/gm, '');
+    const events = noStamp.match(/BEGIN:VEVENT\r?\n[\s\S]*?END:VEVENT\r?\n/g) || [];
+    const header = noStamp.slice(0, noStamp.indexOf('BEGIN:VEVENT'));
+    const footer = noStamp.slice(noStamp.lastIndexOf('END:VEVENT') + 'END:VEVENT'.length).replace(/^\r?\n/, '');
+    return header + events.sort().join('') + footer;
+  }
+  if (file === 'api/plans.json') {
+    return JSON.stringify(JSON.parse(text).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)));
+  }
+  return text;
+}
+
+function normalized(file, site = SITE) {
+  return normalize(file, fs.readFileSync(path.join(site, file), 'utf8'));
 }
 
 const isFullCopy = (f) => f.endsWith('.xml');
 const sha256 = (s) => crypto.createHash('sha256').update(s).digest('hex');
 
-function current() {
+/** Hashes of the tracked outputs in a built site folder (the 11ty `_site`, or the v2 app's output). */
+function current(site = SITE) {
   const hashes = {};
-  for (const f of trackedFiles()) hashes[f] = sha256(normalized(f));
+  for (const f of trackedFiles(site)) hashes[f] = sha256(normalized(f, site));
   return hashes;
 }
 
@@ -63,4 +82,4 @@ function update() {
 
 if (require.main === module) update();
 
-module.exports = { FIXTURES, SITE, current, normalized, isFullCopy };
+module.exports = { FIXTURES, SITE, current, normalized, isFullCopy, trackedFiles };
