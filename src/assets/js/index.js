@@ -38,6 +38,12 @@ const TRANSLATIONS = {
     'NLT': "116"
 }
 
+/** "MM/DD/YYYY" → "YYYYMMDD", which sorts correctly as a string. */
+function sortableDate(mmddyyyy) {
+    const [mm, dd, yyyy] = String(mmddyyyy).split('/')
+    return `${yyyy}${mm}${dd}`
+}
+
 import * as Turbo from "@hotwired/turbo"
 Turbo.session.drive = false
 Turbo.setProgressBarDelay(0)
@@ -131,8 +137,9 @@ document.addEventListener('alpine:init', () => {
             if (this.offset !== 0){
                 today.setDate(today.getDate() + this.offset * 7)
             }
+            // setDate handles 0 and negative values by moving into the previous month.
             const start = today.getDate() - today.getDay();
-            const weekStart = new Date(today.setDate(start || 1));
+            const weekStart = new Date(today.setDate(start));
             let ws = weekStart.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
             
             return ws
@@ -165,14 +172,21 @@ document.addEventListener('alpine:init', () => {
 
                 this.currentWeek = this.getWeekStart();
                 this.currentWeekEnd = this.getWeekEnd();
-                this.readings = this.data.plan.filter(reading => reading.readingdate !== '' && reading.readingdate >= this.currentWeek && reading.readingdate <= this.currentWeekEnd);
+                // Compare as YYYYMMDD: "MM/DD/YYYY" strings don't sort across a year boundary.
+                const weekStartKey = sortableDate(this.currentWeek);
+                const weekEndKey = sortableDate(this.currentWeekEnd);
+                this.readings = this.data.plan.filter(reading => {
+                    if (reading.readingdate === '') return false;
+                    const key = sortableDate(reading.readingdate);
+                    return key >= weekStartKey && key <= weekEndKey;
+                });
 
                 this.checkNextPrev()               
 
                 this.isLoading = false;
             } catch (e) {
                 console.error(e)
-                this.error. e.message
+                this.error = e.message
             }
         },    
         checkNextPrev() {
