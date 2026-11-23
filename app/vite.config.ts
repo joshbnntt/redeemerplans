@@ -46,6 +46,9 @@ export default defineConfig({
 				generateSW: {
 					// Precache the app shell and pages; plan data is cached at runtime (below).
 					globPatterns: ['client/**/*.{js,css,ico,png,svg,webp,woff2}', 'prerendered/**/*.html'],
+					// Opening a data file in the browser (the Subsplash XML, the JSON API, calendar feeds)
+					// must get the real file, not the app's offline page.
+					navigateFallbackDenylist: [/\.[a-z0-9]+$/i, /^\/(api|cal|subsplash)\//],
 					runtimeCaching: [
 						{
 							// Plan data: show the cached copy instantly (works offline), refresh in the background.
