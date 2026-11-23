@@ -55,13 +55,13 @@
 			<div class="brand"><span class="mark" aria-hidden="true">R</span> Redeemer Reading · Admin</div>
 			<h1>Sign in</h1>
 			{#if !sent}
-				<p class="muted">We’ll email you a link. No password needed.</p>
+				<p class="muted">For people who edit reading plans. We’ll email you a link; no password needed.</p>
 				<form onsubmit={send}>
 					<label class="field">Email <input type="email" required autocomplete="email" bind:value={email} /></label>
 					<button class="btn btn-primary" disabled={busy}>{busy ? 'Sending…' : 'Email me a sign-in link'}</button>
 				</form>
 			{:else}
-				<p>Check your email at <strong>{email}</strong> and tap the link.</p>
+				<p>If <strong>{email}</strong> has editing access, a sign-in link is on its way. Check your email and tap the link.</p>
 				<details>
 					<summary>The link opened somewhere else?</summary>
 					<form onsubmit={useCode}>

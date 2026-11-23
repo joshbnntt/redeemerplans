@@ -36,12 +36,24 @@ export function startAuth() {
 	});
 }
 
-/** Sends a sign-in link (and code) to the email address. */
-export async function sendSignIn(email: string) {
-	return supabase.auth.signInWithOtp({
-		email,
-		options: { emailRedirectTo: `${location.origin}/admin/`, shouldCreateUser: true }
-	});
+/**
+ * Sends a sign-in link (and code). The admin page only creates an account for an address an
+ * editor has invited; any other unknown address gets the same "check your email" response, so
+ * the page doesn't reveal who has an account. Rate limits and invalid addresses are reported.
+ */
+export async function sendSignIn(email: string): Promise<{ error: { message: string } | null }> {
+	const redirect = `${location.origin}/admin/`;
+	const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: redirect, shouldCreateUser: false } });
+	if (!error) return { error: null };
+	// What Supabase says when the address has no account and account creation is off.
+	const unknownAccount =
+		['otp_disabled', 'signup_disabled', 'user_not_found'].includes(error.code ?? '') || /signups? not allowed/i.test(error.message);
+	if (!unknownAccount) return { error: { message: error.message } };
+
+	const { data: invited } = await supabase.rpc('is_editor_invite', { editor_email: email });
+	if (invited !== true) return { error: null };
+	const retry = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: redirect, shouldCreateUser: true } });
+	return { error: retry.error ? { message: retry.error.message } : null };
 }
 
 /** Signs in with the 6-digit code from the email (handy when the link opens in another browser). */

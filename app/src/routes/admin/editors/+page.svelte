@@ -3,29 +3,43 @@
 	import { auth, supabase } from '#lib/admin/session.svelte.ts';
 
 	type Editor = { user_id: string; email: string; last_sign_in_at: string | null };
+	type Invite = { email: string; created_at: string };
 	let editors = $state<Editor[]>([]);
+	let invites = $state<Invite[]>([]);
 	let email = $state('');
 	let busy = $state(false);
 	let message = $state('');
 	let failed = $state('');
+	let adminLink = $state('');
 
 	async function load() {
-		const { data, error } = await supabase.rpc('list_plan_editors');
-		if (error) failed = error.message;
-		else editors = data as Editor[];
+		const [eds, inv] = await Promise.all([
+			supabase.rpc('list_plan_editors'),
+			supabase.from('plan_editor_invites').select('email, created_at').order('created_at')
+		]);
+		if (eds.error) failed = eds.error.message;
+		else editors = eds.data as Editor[];
+		invites = (inv.data ?? []) as Invite[];
 	}
-	onMount(load);
+	onMount(() => {
+		adminLink = `${location.origin}/admin/`;
+		load();
+	});
 
 	async function add(e: SubmitEvent) {
 		e.preventDefault();
 		busy = true;
 		message = '';
 		failed = '';
-		const { error } = await supabase.rpc('grant_plan_editor', { editor_email: email.trim() });
+		const address = email.trim();
+		const { data, error } = await supabase.rpc('grant_plan_editor', { editor_email: address });
 		busy = false;
 		if (error) failed = error.message;
 		else {
-			message = `${email.trim()} can now edit reading plans.`;
+			message =
+				data === 'invited'
+					? `${address} is invited. Send them ${adminLink}. When they sign in there with this address, they can edit plans.`
+					: `${address} can now edit reading plans.`;
 			email = '';
 			load();
 		}
@@ -34,6 +48,13 @@
 	async function remove(ed: Editor) {
 		if (!confirm(`Remove ${ed.email}? They won’t be able to edit plans any more.`)) return;
 		const { error } = await supabase.rpc('revoke_plan_editor', { editor_id: ed.user_id });
+		if (error) failed = error.message;
+		else load();
+	}
+
+	async function cancel(inv: Invite) {
+		if (!confirm(`Cancel the invite for ${inv.email}?`)) return;
+		const { error } = await supabase.from('plan_editor_invites').delete().eq('email', inv.email);
 		if (error) failed = error.message;
 		else load();
 	}
@@ -51,13 +72,19 @@
 			{#if ed.email !== auth.email}<button class="btn btn-small" onclick={() => remove(ed)}>Remove</button>{/if}
 		</li>
 	{/each}
+	{#each invites as inv (inv.email)}
+		<li>
+			<span><strong>{inv.email}</strong> <span class="pill draft">Invited</span><br /><span class="muted small">Invited {when(inv.created_at)} · hasn’t signed in yet</span></span>
+			<button class="btn btn-small" onclick={() => cancel(inv)}>Cancel invite</button>
+		</li>
+	{/each}
 </ul>
 
 <section class="card add">
 	<h2>Add an editor</h2>
 	<p class="muted small">
-		They need to sign in once first. Send them to <strong>/admin</strong> on this site to request a sign-in link, then add the
-		email they used here.
+		Enter their email. If they already have an account they can edit right away; otherwise they’re invited, and editing
+		switches on the first time they sign in at <strong>{adminLink || '/admin/'}</strong> with that address.
 	</p>
 	<form onsubmit={add}>
 		<label class="field">Email <input type="email" required bind:value={email} /></label>
@@ -89,7 +116,7 @@
 		border-top: 0;
 	}
 	.add {
-		max-width: 560px;
+		max-width: 620px;
 	}
 	.add h2 {
 		margin: 0 0 6px;
