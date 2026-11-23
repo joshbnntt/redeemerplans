@@ -73,3 +73,15 @@ additive).
 Supabase → Authentication → URL Configuration → **Redirect URLs** must include the admin's address
 (for example `https://redeemerplans-v2-*-joshuabnntts-projects.vercel.app/admin/` and the live
 domain's `/admin/`), or sign-in links will send people to the old site instead.
+
+## Daily plan changeover (`/api/cron/changeover`)
+
+Vercel runs this once a day at 06:00 UTC (just after midnight Central time; see `vercel.json`).
+If a church plan started today (or up to 3 days ago, to catch up a missed run) and isn't
+"current" yet, it makes one commit that marks it current and un-marks the old one, changing only
+the `current:` line in each file. On every other day it does nothing, so it costs no builds.
+
+It needs `GITHUB_TOKEN` and `CRON_SECRET` (Vercel sends the secret with scheduled requests).
+To check what it would do on a given date without changing anything:
+
+    curl -H "Authorization: Bearer $CRON_SECRET" "https://redeemerplans-v2.vercel.app/api/cron/changeover?dryRun=1&today=2027-01-04"

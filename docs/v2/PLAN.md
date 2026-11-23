@@ -252,8 +252,9 @@ Plan *content* belongs to the pastor: these phases change tooling, never the pla
    - Plan list, paste from spreadsheet, and an editor with checks, one-click fixes and autosaved drafts.
    - Publish: a Vercel Function that commits the plan file to GitHub, with conflict detection and a
      single "current" plan. Publishing history comes from a Supabase log.
-   - Later: preview a draft as a reader, undo a publish from the history page, and switch "current"
-     automatically on a plan's start date (needs a daily rebuild).
+   - Automatic changeover: a daily scheduled check marks a plan "current" on its start date (one
+     commit, only on changeover days).
+   - Later: preview a draft as a reader, and undo a publish from the history page.
 3. **Reader redesign**
    - Plan week/month views, progress, settings, mark as read.
    - `reading_log` migration and signed-out mode.
