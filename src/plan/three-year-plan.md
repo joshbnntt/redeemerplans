@@ -618,7 +618,7 @@ plan:
   - day: Revelation 3, Jeremiah 24
   - day: Revelation 4, Revelation 5, Jeremiah 25
   - day: Revelation 6, Proverbs 10, Jeremiah 26
-  - day: Revelation 7, Psalm 80, Jeremiah 27
+  - day: Revealtion 7, Psalm 80, Jeremiah 27
   - day: Lord's Day
   - day: Revelation 8, Revelation 9, Jeremiah 28
   - day: Revelation 10, Revelation 11, Jeremiah 29
@@ -634,8 +634,8 @@ plan:
   - day: Revelation 21, Jeremiah 41, Psalm 82
   - day: Revelation 22, Jeremiah 42, Proverbs 12
   - day: Lord's Day
-  - day: Jude 1, Jeremiah 43, Jeremiah 44, Jeremiah 45
-  - day: Jeremiah 46, Jeremiah 47
+  - day: Jude, Jeremiah 43, Jeremiah 45
+  - day: Jeremiah 46, Jeremiah 48
   - day: Jeremiah 48, Jeremiah 49
   - day: Jeremiah 50
   - day: Psalm 83, Jeremiah 51
