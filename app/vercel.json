@@ -1,9 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "crons": [
-    {
+  "schedules": {
+    "plan-changeover": {
+      "schedule": "5 0 * * *",
+      "timezone": "America/Chicago",
       "path": "/api/cron/changeover",
-      "schedule": "0 6 * * *"
+      "requestMethod": "GET"
     }
-  ]
+  }
 }
