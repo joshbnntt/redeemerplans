@@ -1,8 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import InstallPrompt from '#lib/components/InstallPrompt.svelte';
-	import { passageUrl } from '#lib/shared/links.js';
-	import { localISODate, longDate, nextPlan, planForDate, shortWeekday, weekOf, type PlanV2 } from '#lib/today.ts';
+	import ReadToggle from '#lib/components/ReadToggle.svelte';
+	import WeekStrip from '#lib/components/WeekStrip.svelte';
+	import { passageUrl, refLabel } from '#lib/shared/links.js';
+	import { prefs } from '#lib/reader/prefs.svelte.ts';
+	import { progress } from '#lib/reader/progress.svelte.ts';
+	import { loadPlan } from '#lib/reader/plans.svelte.ts';
+	import { catchUp, currentStreak, planProgress } from '#lib/reader/stats.ts';
+	import { localISODate, longDate, nextPlan, planForDate, type PlanV2 } from '#lib/today.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -15,15 +21,18 @@
 	const summary = $derived(today ? planForDate(data.plans, today) : undefined);
 	const upcoming = $derived(today ? nextPlan(data.plans, today) : undefined);
 	const day = $derived(plan?.schedule.find((d) => d.date === today));
-	const week = $derived(plan && today ? weekOf(plan, today) : null);
+	const missed = $derived(plan ? catchUp(plan, progress.read, today) : []);
+	const streak = $derived(plan ? currentStreak(plan, progress.read, today) : 0);
+	const pct = $derived(plan ? planProgress(plan, progress.read, today) : null);
+	const shortDay = (iso: string) =>
+		new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
 
 	async function load() {
 		today = localISODate();
 		const s = planForDate(data.plans, today);
 		if (!s) return;
 		try {
-			const res = await fetch(`/api/v2/plans/${s.id}.json`);
-			plan = await res.json();
+			plan = await loadPlan(s.id);
 		} catch {
 			failed = true;
 		}
@@ -51,7 +60,7 @@
 			<h1 class="eyebrow">Today</h1>
 			<p class="lead">There’s no church reading plan scheduled for today.</p>
 			{#if upcoming}<p>The next plan, <a href="/plan/{upcoming.id}/">{upcoming.title}</a>, starts {longDate(upcoming.start!)}.</p>{/if}
-			<p><a href="/plan/">Browse all plans</a></p>
+			<p><a href="/plans/">Browse all plans</a></p>
 		</section>
 	{:else}
 		<div>
@@ -64,40 +73,63 @@
 			{#if failed}
 				<p>Couldn’t load today’s reading. Check your connection and try again.</p>
 			{:else if !day}
-				<p class="skeleton-text">Loading…</p>
+				<p class="muted">Loading…</p>
 			{:else if day.type !== 'reading'}
 				<p class="rest">{day.label}</p>
+				<p class="muted">A day to rest and worship with your church.</p>
 			{:else}
 				<ul class="passages">
 					{#each day.refs as ref (ref.book + ref.chapter + (ref.verses ?? ''))}
 						<li>
-							<a href={passageUrl(ref)}>
-								<span class="ref">{ref.name} {ref.chapter}{ref.verses ? `:${ref.verses}` : ''}</span>
-								<span class="open">Open ↗</span>
+							<a href={passageUrl(ref, prefs)} target="_blank" rel="noopener">
+								<span class="ref">{refLabel(ref)}</span>
+								<span class="open">{prefs.app === 'youversion' ? prefs.translation : 'Open'} ↗</span>
 							</a>
 						</li>
 					{/each}
 				</ul>
 				{#if day.refs.length === 0}<p class="ref">{day.label}</p>{/if}
-				{#if day.alt}
-					<p class="alt">Alternate: {day.alt.label}</p>
-				{/if}
+				{#if day.alt}<p class="alt">Alternate: {day.alt.label}</p>{/if}
+				<ReadToggle big date={today} plan={summary.id} label="Today’s reading" />
 			{/if}
 		</section>
 
-		{#if week}
-			<section class="card" aria-labelledby="week-heading">
-				<h2 id="week-heading" class="eyebrow">This week</h2>
-				<ol class="week">
-					{#each week.days as d (d.n)}
-						<li class:current={d.date === today} class:restday={d.type !== 'reading'}>
-							<span class="dow">{shortWeekday(d.date!)}</span>
-							<span class="label">{d.label}</span>
-						</li>
-					{/each}
-				</ol>
-				<p class="more"><a href="/plan/{summary.id}/">See the whole plan</a></p>
-			</section>
+		{#if plan}
+			<WeekStrip schedule={plan.schedule} {today} />
+
+			{#if missed.length}
+				<section class="card catchup" aria-labelledby="catchup-heading">
+					<h2 id="catchup-heading">{missed.length} day{missed.length === 1 ? '' : 's'} to catch up</h2>
+					<ul>
+						{#each missed as m (m.n)}
+							<li>
+								<div>
+									<p class="when">{shortDay(m.date!)}</p>
+									<p class="what">
+										{#each m.refs as ref, i (i)}<a href={passageUrl(ref, prefs)} target="_blank" rel="noopener">{refLabel(ref)}</a>{i < m.refs.length - 1 ? ', ' : ''}{/each}
+									</p>
+								</div>
+								<ReadToggle date={m.date!} plan={summary.id} label={shortDay(m.date!)} />
+							</li>
+						{/each}
+					</ul>
+				</section>
+			{/if}
+
+			<div class="tiles">
+				<a class="tile" href="/progress/">
+					<span class="big streak">{streak}</span>
+					<span class="muted">day streak</span>
+				</a>
+				<a class="tile" href="/progress/">
+					<span class="big">{pct?.percent ?? 0}%</span>
+					<span class="muted">of the plan so far</span>
+				</a>
+			</div>
+
+			{#if progress.ready && !progress.session && progress.read.size}
+				<p class="note">Your progress is saved on this device. <a href="/settings/#account">Sign in</a> to keep it on all your devices.</p>
+			{/if}
 		{/if}
 	{/if}
 
@@ -138,6 +170,11 @@
 		font-size: 18px;
 		margin: 0 0 8px;
 	}
+	.today {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
 	.passages {
 		list-style: none;
 		margin: 0;
@@ -163,8 +200,11 @@
 		line-height: 1.2;
 	}
 	.rest {
-		margin: 8px 0;
+		margin: 4px 0 0;
 		font-style: italic;
+	}
+	.today .muted {
+		margin: 0;
 		color: var(--muted);
 	}
 	.open {
@@ -174,46 +214,77 @@
 		white-space: nowrap;
 	}
 	.alt {
-		margin: 12px 0 0;
+		margin: 0;
 		color: var(--muted);
 	}
-	.week {
+	.catchup {
+		background: var(--warn-soft);
+		box-shadow: none;
+		border: 1px solid var(--warn-line);
+		padding: 16px;
+	}
+	.catchup h2 {
+		margin: 0 0 6px;
+		font-size: 15px;
+		color: var(--warn-ink);
+	}
+	.catchup ul {
 		list-style: none;
 		margin: 0;
 		padding: 0;
+	}
+	.catchup li {
 		display: flex;
-		flex-direction: column;
-		gap: 2px;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		padding: 6px 0;
 	}
-	.week li {
-		display: flex;
-		gap: 12px;
-		align-items: baseline;
-		padding: 10px 12px;
-		border-radius: 12px;
+	.catchup li + li {
+		border-top: 1px solid var(--warn-line);
 	}
-	.week li.current {
-		background: var(--brand-soft);
+	.catchup p {
+		margin: 0;
 	}
-	.week li.restday .label {
-		font-style: italic;
-		color: var(--muted);
-	}
-	.dow {
-		width: 36px;
-		flex: none;
+	.when {
 		font-size: 13px;
 		font-weight: 600;
-		color: var(--muted);
+		color: var(--warn-ink);
 	}
-	.label {
+	.what {
 		font-family: var(--font-scripture);
-		font-size: 17px;
+		font-size: 16px;
 	}
-	.more {
-		margin: 12px 0 0;
+	.what a {
+		color: var(--ink);
 	}
-	.skeleton-text {
+	.tiles {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px;
+	}
+	.tile {
+		background: var(--surface);
+		border-radius: 16px;
+		padding: 14px 16px;
+		display: flex;
+		flex-direction: column;
+		text-decoration: none;
+		color: var(--ink);
+		font-size: 13px;
+	}
+	.big {
+		font-size: 26px;
+		font-weight: 700;
+		color: var(--brand);
+	}
+	.big.streak {
+		color: var(--streak);
+	}
+	.note {
+		margin: 0;
+		font-size: 14px;
 		color: var(--muted);
+		text-align: center;
 	}
 </style>

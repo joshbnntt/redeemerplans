@@ -3,6 +3,10 @@
 
 	type InstallEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
 
+	/** `always`: show whenever installing is possible (Settings), ignoring visits and "Not now". */
+	let { always = false }: { always?: boolean } = $props();
+	let installed = $state(false);
+
 	let deferred = $state<InstallEvent | null>(null);
 	let showIosHint = $state(false);
 	let dismissed = $state(true);
@@ -26,12 +30,15 @@
 	onMount(() => {
 		const standalone =
 			matchMedia('(display-mode: standalone)').matches || (navigator as Navigator & { standalone?: boolean }).standalone;
-		if (standalone) return;
+		if (standalone) {
+			installed = true;
+			return;
+		}
 
 		// Only offer to install from the second visit on, so first-time readers aren't nagged.
 		const visits = Number(read('visits') ?? '0') + 1;
 		write('visits', String(visits));
-		dismissed = read('install-dismissed') === '1' || visits < 2;
+		dismissed = !always && (read('install-dismissed') === '1' || visits < 2);
 
 		const onPrompt = (e: Event) => {
 			e.preventDefault();
@@ -60,7 +67,9 @@
 	}
 </script>
 
-{#if !dismissed && (deferred || showIosHint)}
+{#if always && installed}
+	<p class="installed">✓ Installed on this device</p>
+{:else if !dismissed && (deferred || showIosHint)}
 	<aside class="install" aria-label="Install the app">
 		<div>
 			<p class="title">Add Bible Reading to your home screen</p>
@@ -72,12 +81,17 @@
 		</div>
 		<div class="actions">
 			{#if deferred}<button class="primary" onclick={install}>Install</button>{/if}
-			<button class="close" onclick={dismiss} aria-label="Not now">Not now</button>
+			{#if !always}<button class="close" onclick={dismiss} aria-label="Not now">Not now</button>{/if}
 		</div>
 	</aside>
 {/if}
 
 <style>
+	.installed {
+		margin: 0;
+		color: var(--ok);
+		font-weight: 600;
+	}
 	.install {
 		display: flex;
 		flex-wrap: wrap;

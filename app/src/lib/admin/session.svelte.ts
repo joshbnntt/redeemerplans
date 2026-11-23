@@ -1,8 +1,8 @@
 /** Sign-in state for the admin pages (browser only). */
-import { createClient, type Session } from '@supabase/supabase-js';
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from '#lib/config.ts';
+import type { Session } from '@supabase/supabase-js';
+import { supabase } from '#lib/supabase.ts';
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export { supabase };
 
 type Status = 'loading' | 'signed-out' | 'not-editor' | 'editor';
 
