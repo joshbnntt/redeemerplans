@@ -11,6 +11,8 @@
 		{ href: '/plan/', label: 'Plans' }
 	];
 	const isActive = (href: string) => (href === '/' ? page.url.pathname === '/' : page.url.pathname.startsWith(href));
+	// The admin has its own layout.
+	const isAdmin = $derived(page.url.pathname.startsWith('/admin'));
 </script>
 
 <svelte:head>
@@ -25,6 +27,9 @@
 	/>
 </svelte:head>
 
+{#if isAdmin}
+	{@render children()}
+{:else}
 <div class="shell">
 	<header>
 		<a class="brand" href="/">
@@ -43,6 +48,7 @@
 		{/each}
 	</nav>
 </div>
+{/if}
 
 <UpdateToast />
 

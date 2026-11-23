@@ -10,7 +10,9 @@ import { parsePlanDate, planDayDate } from './planDate.js';
  * @typedef {{ day?: string, alt?: string } | null | undefined} PlanEntry
  * @typedef {{ title?: string, description?: string, start?: unknown, current?: boolean,
  *             plan?: PlanEntry[], intentional_repeats?: string[] }} PlanData
- * @typedef {{ level: 'error' | 'warning', message: string, day?: number, fix?: string, detail?: string[] }} Issue
+ * @typedef {{ level: 'error' | 'warning', message: string, day?: number, field?: 'day' | 'alt', text?: string,
+ *             fix?: string, detail?: string[] }} Issue
+ *   `day` is 1-based; `field` and `text` say which reference the issue is about, so `fix` can replace it.
  * @typedef {'live' | 'upcoming' | 'past' | 'self-paced'} PlanStatus
  */
 
@@ -47,9 +49,9 @@ export function checkPlan(data) {
   const issues = [];
   const days = Array.isArray(data.plan) ? data.plan : [];
   const start = parsePlanDate(data.start);
-  /** @type {(message: string, day?: number, fix?: string) => void} */
-  const error = (message, day, fix) => {
-    issues.push({ level: 'error', message, day, fix });
+  /** @type {(message: string, day?: number, fix?: string, at?: { field: 'day' | 'alt', text: string }) => void} */
+  const error = (message, day, fix, at) => {
+    issues.push({ level: 'error', message, day, ...(at ?? {}), ...(fix ? { fix } : {}) });
   };
   /** @type {(message: string, day?: number) => void} */
   const warn = (message, day) => {
@@ -95,22 +97,24 @@ export function checkPlan(data) {
       for (const text of splitReferences(value)) {
         const ref = parseReference(text);
         const label = field === 'alt' ? `${where(i)} (alternate)` : where(i);
+        const at = { field, text: ref.text };
         if (!ref.ok) {
           if (ref.reason === 'unknown-book') {
             const guess = suggestBook(ref.bookName || '');
             const fixed = guess ? ref.text.replace(/^.*?(?=\s*\d+(?::[\d\s\-–]+)?$)/, guess.name) : undefined;
-            error(`${label}: "${ref.text}" isn't a book of the Bible.${guess ? ` Did you mean ${guess.name}?` : ''}`, i + 1, fixed);
+            error(`${label}: "${ref.text}" isn't a book of the Bible.${guess ? ` Did you mean ${guess.name}?` : ''}`, i + 1, fixed, at);
           } else if (ref.reason === 'missing-chapter' && ref.book) {
             const single = ref.book.chapters === 1;
             error(
               `${label}: "${ref.text}" has no chapter number.${single ? ` ${ref.book.name} has only one chapter.` : ''}`,
               i + 1,
-              single ? `${ref.book.name} 1` : undefined
+              single ? `${ref.book.name} 1` : undefined,
+              at
             );
           } else if (ref.reason === 'chapter-out-of-range' && ref.book) {
-            error(`${label}: "${ref.text}" doesn't exist. ${ref.book.name} has ${ref.book.chapters} chapters.`, i + 1);
+            error(`${label}: "${ref.text}" doesn't exist. ${ref.book.name} has ${ref.book.chapters} chapters.`, i + 1, undefined, at);
           } else {
-            error(`${label}: couldn't read "${ref.text}".`, i + 1);
+            error(`${label}: couldn't read "${ref.text}".`, i + 1, undefined, at);
           }
           continue;
         }

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { addDays, localISODate, planForDate, weekOf, nextPlan, type PlanSummary, type PlanV2 } from './today.ts';
 
-const plan = (id: string, start: string, end: string): PlanSummary => ({ id, title: id, mode: 'church', start, end, days: 1 });
+const plan = (id: string, start: string, end: string): PlanSummary => ({ id, file: `${id}.md`, title: id, mode: 'church', start, end, days: 1 });
 
 describe('today helpers', () => {
 	it('uses the local calendar date', () => {

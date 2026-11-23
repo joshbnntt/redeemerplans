@@ -1,6 +1,6 @@
 # Redeemer Plans v2: plan
 
-Status: Phases 0 and 1 done. Admin is next, so it's ready for the pastor to write next year's plan. · Mockups: https://claude.ai/artifact/CvyVCA7kfqfKVwGFzmSkbD
+Status: Phases 0–2 done (admin ready for next year's plan). Reader redesign is next. · Mockups: https://claude.ai/artifact/CvyVCA7kfqfKVwGFzmSkbD
 
 ## Decisions
 
@@ -246,10 +246,14 @@ Plan *content* belongs to the pastor: these phases change tooling, never the pla
    - PWA: installable, works offline, and prompts to reload when a new version is deployed
      (verified in a browser for first-time and returning visitors).
    - First screens: Today, the plan list, and a full plan page.
-2. **Admin** (next; needed before the pastor writes next year's plan)
-   - Supabase sign-in plus an admins table, and drafts.
-   - The editor with checks, and paste from spreadsheet.
-   - The publish endpoint (a Vercel Function that commits to GitHub), and history.
+2. **Admin** ✅ (`/admin` in the app)
+   - Sign-in by email link. Editors are the existing `permissions` rows (`readingplan-edit`),
+     managed from the Editors page.
+   - Plan list, paste from spreadsheet, and an editor with checks, one-click fixes and autosaved drafts.
+   - Publish: a Vercel Function that commits the plan file to GitHub, with conflict detection and a
+     single "current" plan. Publishing history comes from a Supabase log.
+   - Later: preview a draft as a reader, undo a publish from the history page, and switch "current"
+     automatically on a plan's start date (needs a daily rebuild).
 3. **Reader redesign**
    - Plan week/month views, progress, settings, mark as read.
    - `reading_log` migration and signed-out mode.

@@ -42,3 +42,34 @@ Until the switchover, this folder deploys as the separate Vercel project **`rede
 (Root Directory `app`); every push gets its own preview URL. The existing `redeemerplans` project
 keeps serving the live 11ty site from the repository root. Keep "Include files outside the root directory in
 the Build Step" enabled (the default), because plans are read from `../src/plan`.
+
+## Admin (`/admin`)
+
+For editors (the pastor and anyone they add). Sign in with an emailed link; editor access is the
+`readingplan-edit` row in Supabase's `permissions` table, managed from the **Editors** page.
+
+- **Plans:** every plan with its dates, status and check results, plus drafts in progress.
+- **Paste from spreadsheet:** paste rows from Google Sheets/Excel or choose a CSV; shows what was
+  typed next to what will be saved ("Gen 1-2" → "Genesis 1, Genesis 2"), then saves a draft.
+- **Editor:** one row per day with dates worked out from the start date, checks with one-click
+  fixes, autosaved drafts, and Publish.
+- **Publish** (`/api/admin/publish`, a Vercel Function): checks the editor, re-runs the plan
+  checks, refuses if the plan changed since it was opened, and commits `src/plan/<name>.md` to
+  GitHub in the same layout as the existing files. Making a plan "current" un-marks the old one in
+  the same commit. Both Vercel projects rebuild, so it's live in about a minute.
+- **Publishing history:** who published what, with a link to each change on GitHub.
+
+Database changes are in `../supabase/migrations/` (drafts, publish log and editor functions; all
+additive).
+
+### Settings (Vercel → redeemerplans-v2 → Settings → Environment Variables)
+
+| Variable | Value |
+|---|---|
+| `GITHUB_TOKEN` | Fine-grained token, this repository only, **Contents: Read and write**. Mark it Sensitive. Without it, editing and drafts work but Publish is off. |
+| `GITHUB_BRANCH` | Preview: `claude/stoic-hawking-earl1m` (already set, so testing never touches the live site). Production: unset, which means `main`. |
+| `GITHUB_REPO` | Optional; defaults to `joshbnntt/redeemerplans`. |
+
+Supabase → Authentication → URL Configuration → **Redirect URLs** must include the admin's address
+(for example `https://redeemerplans-v2-*-joshuabnntts-projects.vercel.app/admin/` and the live
+domain's `/admin/`), or sign-in links will send people to the old site instead.

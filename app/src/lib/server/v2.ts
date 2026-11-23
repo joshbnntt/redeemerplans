@@ -12,6 +12,8 @@ export type Day = { n: number; date?: string; type: DayType } & Reading & { alt?
 
 export type PlanSummary = {
 	id: string;
+	/** file name in src/plan (used by the admin) */
+	file: string;
 	title: string;
 	description?: string;
 	/** church = everyone reads on the same dates · self-paced = each reader picks a start date */
@@ -40,6 +42,7 @@ export function summary(p: Plan): PlanSummary {
 	const { start, end } = planStatus(p);
 	return {
 		id: p.id,
+		file: `${p.fileSlug}.md`,
 		title: p.title,
 		...(p.description ? { description: p.description } : {}),
 		mode: start ? 'church' : 'self-paced',
