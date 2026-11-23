@@ -38,6 +38,7 @@ checks for a new version on launch, when it comes back to the foreground, and ho
 
 ## Deploying (preview)
 
-Until the switchover, deploy this folder as a **separate Vercel project**: import the same
-repository and set **Root Directory** to `app`. Keep "Include files outside the root directory in
+Until the switchover, this folder deploys as the separate Vercel project **`redeemerplans-v2`**
+(Root Directory `app`); every push gets its own preview URL. The existing `redeemerplans` project
+keeps serving the live 11ty site from the repository root. Keep "Include files outside the root directory in
 the Build Step" enabled (the default), because plans are read from `../src/plan`.
