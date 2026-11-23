@@ -3,11 +3,8 @@
 	import InstallPrompt from '#lib/components/InstallPrompt.svelte';
 	import { prefs, type Theme } from '#lib/reader/prefs.svelte.ts';
 	import { progress, signInReader, signOutReader, verifyReaderCode } from '#lib/reader/progress.svelte.ts';
-	import { loadToday } from '#lib/reader/plans.svelte.ts';
 	import { YOUVERSION_IDS, type ReadingApp, type Translation } from '#lib/shared/links.js';
-	import { localISODate, type PlanSummary } from '#lib/today.ts';
 
-	let current = $state<PlanSummary | undefined>(undefined);
 	let host = $state('');
 	let email = $state('');
 	let code = $state('');
@@ -15,9 +12,8 @@
 	let busy = $state(false);
 	let message = $state('');
 
-	onMount(async () => {
+	onMount(() => {
 		host = location.host;
-		current = (await loadToday(localISODate())).summary;
 	});
 
 	const translations = Object.keys(YOUVERSION_IDS) as Translation[];
@@ -85,9 +81,9 @@
 <section>
 	<h2>Reminders &amp; app</h2>
 	<div class="group">
-		{#if current && host}
-			<a class="row link" href="webcal://{host}/cal/{current.id}.ics">
-				<span>Add readings to my calendar<br /><span class="muted small">{current.title}: each day’s reading appears in your calendar app</span></span>
+		{#if host}
+			<a class="row link" href="webcal://{host}/feed.ics">
+				<span>Add readings to my calendar<br /><span class="muted small">Each day’s reading from every church plan appears in your calendar app, including future plans</span></span>
 				<span class="action">Subscribe</span>
 			</a>
 		{/if}
