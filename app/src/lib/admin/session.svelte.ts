@@ -36,12 +36,22 @@ export function startAuth() {
 	});
 }
 
-/** Sends a sign-in link (and code) to the email address. */
-export async function sendSignIn(email: string) {
-	return supabase.auth.signInWithOtp({
+/**
+ * Sends a sign-in link (and code), but only to accounts that already exist: the admin page never
+ * creates accounts. Unknown addresses get the same "check your email" response, so the page
+ * doesn't reveal who has an account. Rate limits and network problems are still reported.
+ */
+export async function sendSignIn(email: string): Promise<{ error: { message: string } | null }> {
+	const { error } = await supabase.auth.signInWithOtp({
 		email,
-		options: { emailRedirectTo: `${location.origin}/admin/`, shouldCreateUser: true }
+		options: { emailRedirectTo: `${location.origin}/admin/`, shouldCreateUser: false }
 	});
+	if (!error) return { error: null };
+	// What Supabase says when the address has no account and account creation is off.
+	const unknownAccount =
+		['otp_disabled', 'signup_disabled', 'user_not_found'].includes(error.code ?? '') ||
+		/signups? not allowed/i.test(error.message);
+	return { error: unknownAccount ? null : { message: error.message } };
 }
 
 /** Signs in with the 6-digit code from the email (handy when the link opens in another browser). */
