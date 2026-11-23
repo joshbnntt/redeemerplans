@@ -62,13 +62,13 @@ export function subsplashXml(p: Plan, { finalNewline = true } = {}): string {
 	return out + '\n</plan>' + (finalNewline ? '\n' : '');
 }
 
-/** /feed.ics: every dated plan in one calendar (legacy; v2 has one feed per plan under /cal/). */
+/** /feed.ics: every dated plan in one calendar (also linked from the reader app's subscribe buttons; v2 also has one feed per plan under /cal/). */
 export function legacyFeed(): string {
 	const cal = new ICalCalendar({
 		name: calendar.title,
 		description: calendar.description,
 		prodId: { company: calendar.organization, product: 'Eleventy' },
-		url: calendar.url + '/public/feed.ics',
+		url: calendar.url + '/feed.ics',
 		method: ICalCalendarMethod.PUBLISH
 	});
 	for (const p of plans) {
