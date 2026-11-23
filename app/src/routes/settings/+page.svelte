@@ -3,9 +3,11 @@
 	import InstallPrompt from '#lib/components/InstallPrompt.svelte';
 	import { prefs, type Theme } from '#lib/reader/prefs.svelte.ts';
 	import { progress, signInReader, signOutReader, verifyReaderCode } from '#lib/reader/progress.svelte.ts';
+	import { feedLinks } from '#lib/reader/calendar.ts';
 	import { YOUVERSION_IDS, type ReadingApp, type Translation } from '#lib/shared/links.js';
 
 	let host = $state('');
+	const cal = $derived(host ? feedLinks(host, navigator.userAgent) : null);
 	let email = $state('');
 	let code = $state('');
 	let sent = $state(false);
@@ -81,14 +83,15 @@
 <section>
 	<h2>Reminders &amp; app</h2>
 	<div class="group">
-		{#if host}
-			<a class="row link" href="webcal://{host}/feed.ics">
+		{#if cal}
+			<a class="row link" href={cal.primary} target={cal.android ? '_blank' : undefined} rel="noopener">
 				<span>Add readings to my calendar<br /><span class="muted small">Each day’s reading from every church plan appears in your calendar app, including future plans</span></span>
 				<span class="action">Subscribe</span>
 			</a>
 		{/if}
 		<div class="row block"><InstallPrompt always /></div>
 	</div>
+	{#if cal && !cal.android}<p class="muted small hint">Use Google Calendar? <a href={cal.google} target="_blank" rel="noopener">Add it to Google Calendar</a> instead.</p>{/if}
 	<p class="muted small hint">If installing isn’t offered, open this site in Safari (iPhone) or Chrome (Android) and use “Add to Home Screen”.</p>
 </section>
 

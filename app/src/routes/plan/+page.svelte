@@ -5,6 +5,7 @@
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
 	import { progress } from '#lib/reader/progress.svelte.ts';
 	import { loadToday } from '#lib/reader/plans.svelte.ts';
+	import { feedLinks } from '#lib/reader/calendar.ts';
 	import { dayStatus } from '#lib/reader/stats.ts';
 	import { addDays, localISODate, longDate, weekday, type Day, type PlanSummary, type PlanV2 } from '#lib/today.ts';
 
@@ -16,6 +17,7 @@
 	let anchor = $state(''); // a date in the week or month being shown
 	let picked = $state(''); // selected day in the month view
 	let host = $state('');
+	const cal = $derived(host ? feedLinks(host, navigator.userAgent) : null);
 
 	onMount(async () => {
 		host = location.host;
@@ -173,7 +175,12 @@
 		{/if}
 	{/if}
 
-	{#if host}<p class="cal"><a href="webcal://{host}/feed.ics">Add the church’s reading plans to your calendar</a></p>{/if}
+	{#if cal}
+		<p class="cal">
+			<a href={cal.primary} target={cal.android ? '_blank' : undefined} rel="noopener">Add the church’s reading plans to your calendar</a>
+			{#if !cal.android}<br /><a href={cal.google} target="_blank" rel="noopener">or add them to Google Calendar</a>{/if}
+		</p>
+	{/if}
 {/if}
 
 <style>
