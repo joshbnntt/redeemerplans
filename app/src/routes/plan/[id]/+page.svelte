@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { passageUrl } from '#lib/shared/links.js';
+	import ReadToggle from '#lib/components/ReadToggle.svelte';
+	import { passageUrl, refLabel } from '#lib/shared/links.js';
+	import { prefs } from '#lib/reader/prefs.svelte.ts';
 	import { shortDate, shortWeekday } from '#lib/today.ts';
 	import type { PageProps } from './$types';
 
@@ -15,7 +17,7 @@
 <h1>{plan.title}</h1>
 {#if plan.description}<p class="desc">{plan.description}</p>{/if}
 {#if plan.mode === 'church'}
-	<p class="cal"><a href="/cal/{plan.id}.ics">Subscribe in your calendar</a></p>
+	<p class="cal"><a href="/cal/{plan.id}.ics">Calendar file for this plan</a> · <a href="/plans/">All plans</a></p>
 {/if}
 
 <ol class="days">
@@ -28,10 +30,11 @@
 				{#if d.type !== 'reading' || d.refs.length === 0}
 					{d.label}
 				{:else}
-					{#each d.refs as ref, i (i)}<a href={passageUrl(ref)}>{ref.name} {ref.chapter}{ref.verses ? `:${ref.verses}` : ''}</a>{i < d.refs.length - 1 ? ', ' : ''}{/each}
+					{#each d.refs as ref, i (i)}<a href={passageUrl(ref, prefs)} target="_blank" rel="noopener">{refLabel(ref)}</a>{i < d.refs.length - 1 ? ', ' : ''}{/each}
 				{/if}
 				{#if d.alt}<span class="alt">Alternate: {d.alt.label}</span>{/if}
 			</span>
+			{#if d.date && d.type === 'reading'}<ReadToggle date={d.date} plan={plan.id} label="Day {d.n}" />{/if}
 		</li>
 	{/each}
 </ol>
@@ -58,6 +61,7 @@
 	}
 	li {
 		display: flex;
+		align-items: center;
 		gap: 12px;
 		padding: 12px 16px;
 		border-top: 1px solid var(--line);
@@ -81,6 +85,7 @@
 		font-weight: 600;
 	}
 	.what {
+		flex: 1;
 		font-family: var(--font-scripture);
 		font-size: 17px;
 		min-width: 0;

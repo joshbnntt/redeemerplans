@@ -1,5 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/thisweek", "destination": "/plan/", "permanent": false },
+    { "source": "/thisweek/", "destination": "/plan/", "permanent": false },
+    { "source": "/current", "destination": "/plan/", "permanent": false },
+    { "source": "/current/", "destination": "/plan/", "permanent": false },
+    { "source": "/login", "destination": "/settings/#account", "permanent": false },
+    { "source": "/login/", "destination": "/settings/#account", "permanent": false }
+  ],
   "schedules": {
     "plan-changeover": {
       "schedule": "5 0 * * *",

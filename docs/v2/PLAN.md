@@ -255,10 +255,15 @@ Plan *content* belongs to the pastor: these phases change tooling, never the pla
    - Automatic changeover: a daily scheduled check marks a plan "current" on its start date (one
      commit, only on changeover days).
    - Later: preview a draft as a reader, and undo a publish from the history page.
-3. **Reader redesign**
-   - Plan week/month views, progress, settings, mark as read.
-   - `reading_log` migration and signed-out mode.
-   - Switch production to the new app, with redirects for `/current/`, `/thisweek/` and `/login/`.
+3. **Reader redesign** (built; switchover next)
+   - Today (mark as read, week strip, catch-up, streak), Plan (week and month views with check marks),
+     whole-plan pages with check marks, Progress (percent, streaks, year heat map, books) and
+     Settings (translation, reading app, appearance, calendar subscription, install, account).
+   - Check-offs use the existing `haveread` table and its `MM/DD/YYYY` dates, so history carries
+     over and the old and new sites stay in sync. Works signed out (saved on the device, uploaded
+     on sign-in) and offline (changes queued).
+   - Old links redirect: `/thisweek/` and `/current/` → `/plan/`, `/login/` → Settings.
+   - Remaining: point `redeemerplans.vercel.app` at the new project and retire the 11ty site.
 4. **Extras**: personal plans, notes, the church count.
 
 ## Still open
