@@ -81,6 +81,14 @@ describe('plan checks', () => {
 		expect(text).toMatch(/isn't on a Sunday/);
 	});
 
+	it('offers “Lord’s Day” for a blank Sunday, but not for a blank weekday', () => {
+		// 2027-01-10 is a Sunday.
+		const { issues } = checkPlan({ title: 'T', start: '2027-01-09', plan: [{ day: '' }, { day: '' }] });
+		expect(issues[0]).toMatchObject({ day: 1, field: 'day', text: '' });
+		expect(issues[0].fix).toBeUndefined();
+		expect(issues[1]).toMatchObject({ day: 2, field: 'day', text: '', fix: "Lord's Day" });
+	});
+
 	it('ignores intentional repeats and split chapters', () => {
 		const { issues } = checkPlan({
 			title: 'T',

@@ -12,6 +12,7 @@
 	import { serializePlanFile, type PlanSource } from '#lib/shared/planFile.js';
 	import { splitReferences } from '#lib/shared/scripture.js';
 	import { addDays, weekday } from '#lib/today.ts';
+	import SheetFormatHelp from '#lib/components/SheetFormatHelp.svelte';
 
 	type Status = { email?: string; publishing: { repo: string; branch: string } | null };
 	type PublishOk = { ok: true; id: string; path: string; url: string; alsoUpdated: string[] };
@@ -60,6 +61,7 @@
 		return scheduleNotes([...rest, mine]).filter((n) => n.includes(mine.title));
 	});
 	const currentElsewhere = $derived(others.find((p) => p.current && p.file !== file));
+	const blankDays = $derived(source.plan.filter((row) => !row.day.trim()).length);
 
 	onMount(async () => {
 		const q = page.url.searchParams;
@@ -167,15 +169,16 @@
 		await tick();
 		document.getElementById(`day-${source.plan.length}`)?.focus();
 	};
-	function fillSundays() {
-		if (!source.start) return;
-		source.plan.forEach((row, i) => {
-			if (!row.day.trim() && weekday(addDays(source.start, i)) === 0) row.day = "Lord's Day";
-		});
+	function fillBlankDays() {
+		for (const row of source.plan) if (!row.day.trim()) row.day = "Lord's Day";
 	}
 	function applyFix(issue: Issue) {
-		if (!issue.day || !issue.field || !issue.text || !issue.fix) return;
+		if (!issue.day || !issue.field || issue.text === undefined || !issue.fix) return;
 		const row = source.plan[issue.day - 1];
+		if (issue.text === '') {
+			row[issue.field] = issue.fix; // a blank day
+			return;
+		}
 		const clean = (s: string) => s.replace(/\s+/g, ' ').trim();
 		const parts = splitReferences(row[issue.field] ?? '').map((p) => (clean(p) === issue.text ? issue.fix! : p));
 		row[issue.field] = parts.join(', ');
@@ -313,7 +316,9 @@
 		<section class="grid-wrap" aria-label="Days">
 			<div class="toolbar">
 				<button class="btn btn-small" onclick={addDay}>Add a day</button>
-				{#if source.start}<button class="btn btn-small" onclick={fillSundays}>Fill empty Sundays with “Lord’s Day”</button>{/if}
+				<button class="btn btn-small" onclick={fillBlankDays} disabled={blankDays === 0}>
+					Fill {blankDays || ''} blank day{blankDays === 1 ? '' : 's'} with “Lord’s Day”
+				</button>
 				<button class="btn btn-small" onclick={() => pasteDialog?.showModal()}>Replace days from a spreadsheet…</button>
 			</div>
 			<p class="muted small hint">
@@ -429,7 +434,7 @@
 
 	<dialog bind:this={pasteDialog} aria-labelledby="paste-title">
 		<h2 id="paste-title">Replace days from a spreadsheet</h2>
-		<p class="muted">Copy the rows in Google Sheets or Excel and paste them here. A date column is optional; if there is one, the first date becomes the start date.</p>
+		<SheetFormatHelp />
 		<label class="field">Rows <textarea bind:value={pasteText} rows="10"></textarea></label>
 		{#if pasteText.trim()}<p class="muted small">{importSheet(pasteText).days.length} days found. This replaces all {source.plan.length} current days.</p>{/if}
 		<div class="dialog-actions">

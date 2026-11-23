@@ -98,9 +98,13 @@ const headerKind = (h) => {
  * @returns {ImportResult}
  */
 export function importSheet(text) {
-  const rows = splitRows(text)
-    .map((cells, i) => ({ cells: cells.map((c) => c.trim()), line: i + 1 }))
-    .filter((r) => r.cells.some(Boolean));
+  // Blank rows at the start and end are ignored, but blank rows in the middle are kept as
+  // blank days; dropping them would shift every later day by one.
+  const all = splitRows(text).map((cells, i) => ({ cells: cells.map((c) => c.trim()), line: i + 1 }));
+  const filled = (/** @type {{ cells: string[] }} */ r) => r.cells.some(Boolean);
+  const first = all.findIndex(filled);
+  const last = all.length - 1 - [...all].reverse().findIndex(filled);
+  const rows = first === -1 ? [] : all.slice(first, last + 1);
   /** @type {string[]} */
   const notes = [];
   if (!rows.length) return { days: [], columns: { day: 0 }, hasHeader: false, notes: ['Nothing to import.'] };
@@ -167,7 +171,7 @@ export function importSheet(text) {
     });
   }
   const empty = days.filter((d) => !d.day).length;
-  if (empty) notes.push(`${empty} row${empty === 1 ? ' has' : 's have'} no reading.`);
+  if (empty) notes.push(`${empty} day${empty === 1 ? ' has' : 's have'} no reading.`);
 
   return { days, ...(start ? { start } : {}), columns, hasHeader, notes };
 }

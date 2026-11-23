@@ -110,6 +110,12 @@ describe('paste from spreadsheet', () => {
 		expect(r.notes[0]).toMatch(/Row 3: the date \(2027-01-07\) doesn't follow/);
 	});
 
+	it('keeps blank rows in the middle as blank days, so later days don’t shift', () => {
+		const r = importSheet('\nMatt 1\nMatt 2\n\nMatt 3\n\n\n');
+		expect(r.days.map((d) => d.day)).toEqual(['Matthew 1', 'Matthew 2', '', 'Matthew 3']);
+		expect(r.notes).toContain('1 day has no reading.');
+	});
+
 	it('parses dates people type', () => {
 		expect(parseSheetDate('Monday, January 4, 2027')).toBe('2027-01-04');
 		expect(parseSheetDate('2/30/2027')).toBeNull();

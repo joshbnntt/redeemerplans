@@ -5,6 +5,7 @@
 	import { importSheet } from '#lib/shared/importSheet.js';
 	import { checkPlan } from '#lib/shared/planCheck.js';
 	import { addDays } from '#lib/today.ts';
+	import SheetFormatHelp from '#lib/components/SheetFormatHelp.svelte';
 
 	let text = $state('');
 	let title = $state('');
@@ -12,11 +13,15 @@
 	let start = $state('');
 	let saving = $state(false);
 	let error = $state('');
+	let fillBlanks = $state(true);
 
 	const result = $derived(text.trim() ? importSheet(text) : null);
 	// Use the first date from the sheet unless one was chosen.
 	const startDate = $derived(start || result?.start || '');
-	const plan = $derived(result?.days.map((d) => ({ day: d.day, ...(d.alt ? { alt: d.alt } : {}) })) ?? []);
+	const blanks = $derived(result?.days.filter((d) => !d.day).length ?? 0);
+	const plan = $derived(
+		result?.days.map((d) => ({ day: d.day || (fillBlanks ? "Lord's Day" : ''), ...(d.alt ? { alt: d.alt } : {}) })) ?? []
+	);
 	const check = $derived(checkPlan({ title: title || 'x', start: startDate, plan }));
 	const errorsByDay = $derived(new Set(check.issues.filter((i) => i.level === 'error').map((i) => i.day)));
 	const changed = $derived(result?.days.filter((d) => d.typed !== d.day).length ?? 0);
@@ -55,10 +60,7 @@
 <div class="layout">
 	<section class="card col">
 		<h2>1 · Paste</h2>
-		<p class="muted small">
-			In Google Sheets or Excel, select the columns (for example Date, Reading, Alternate), copy, and paste below. A header
-			row and a date column are both optional.
-		</p>
+		{#if result}<SheetFormatHelp />{/if}
 		<label class="field">Spreadsheet rows <textarea bind:value={text} rows="14" placeholder={'Date\tReading\n1/4/2027\tGen 1-2\n1/5/2027\tGen 3-4, Ps 1'}></textarea></label>
 		<label class="field">…or choose a .csv file <input type="file" accept=".csv,.tsv,.txt,text/csv,text/plain" onchange={readFile} /></label>
 	</section>
@@ -67,6 +69,7 @@
 		<h2>2 · Check</h2>
 		{#if !result}
 			<p class="muted">Paste rows to see how they’ll be saved.</p>
+			<SheetFormatHelp open />
 		{:else}
 			<p class="stats">
 				<strong>{result.days.length}</strong> days
@@ -74,7 +77,13 @@
 				· {changed} tidied up
 				· {#if errorCount}<span class="error">{errorCount} to fix</span>{:else}<span class="ok">no problems</span>{/if}
 			</p>
-			{#each result.notes as note (note)}<p class="banner small">{note}</p>{/each}
+			{#each result.notes.filter((n) => !(fillBlanks && n.includes('no reading'))) as note (note)}<p class="banner small">{note}</p>{/each}
+			{#if blanks}
+				<label class="fill">
+					<input type="checkbox" bind:checked={fillBlanks} />
+					Fill the {blanks} blank day{blanks === 1 ? '' : 's'} with “Lord’s Day”
+				</label>
+			{/if}
 			<div class="preview">
 				<table>
 					<thead><tr><th>Day</th><th>Date</th><th>You typed</th><th>Saved as</th></tr></thead>
@@ -84,7 +93,7 @@
 								<td>{i + 1}</td>
 								<td>{startDate ? fmt(addDays(startDate, i)) : '—'}</td>
 								<td class="typed">{d.typed}{#if d.typedAlt}<br /><span class="muted">alt: {d.typedAlt}</span>{/if}</td>
-								<td class="saved">{d.day}{#if d.alt}<br /><span class="muted">alt: {d.alt}</span>{/if}</td>
+								<td class="saved">{plan[i].day || '(blank)'}{#if d.alt}<br /><span class="muted">alt: {d.alt}</span>{/if}</td>
 							</tr>
 						{/each}
 					</tbody>
@@ -140,6 +149,18 @@
 	}
 	.stats {
 		margin: 0;
+	}
+	.fill {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		font-size: 14px;
+		min-height: 44px;
+	}
+	.fill input {
+		width: 20px;
+		height: 20px;
+		accent-color: var(--brand);
 	}
 	.ok {
 		color: var(--ok);

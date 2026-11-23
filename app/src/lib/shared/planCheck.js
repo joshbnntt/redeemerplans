@@ -84,7 +84,11 @@ export function checkPlan(data) {
     for (const field of /** @type {const} */ (['day', 'alt'])) {
       const value = entry[field];
       if (value == null || value === '') {
-        if (field === 'day') error(`${where(i)}: no reading.`, i + 1);
+        if (field === 'day') {
+          // A blank Sunday (or any blank day in a plan without dates) is usually a Lord's Day.
+          const sunday = start ? /** @type {Date} */ (planDayDate(start, i)).getUTCDay() === 0 : true;
+          error(`${where(i)}: no reading.`, i + 1, sunday ? "Lord's Day" : undefined, { field: 'day', text: '' });
+        }
         continue;
       }
       if (isSpecialDay(value)) {
