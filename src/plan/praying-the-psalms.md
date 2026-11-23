@@ -1,6 +1,8 @@
 ---
 title: Praying the Psalms
 description: This comes from Praying the Bible by Don Whitney. Each day you look at 5 Psalms that correspond to the day of the month and choose one to pray through. Additionally, a Proverb of the day is included for a dose of daily wisdom.
+intentional_repeats: # day 31 re-reads Psalm 119 by design
+  - Psalm 119
 plan:
   - day: Psalm 1, Psalm 31, Psalm 61, Psalm 91, Psalm 121, Proverbs 1
   - day: Psalm 2, Psalm 32, Psalm 62, Psalm 92, Psalm 122, Proverbs 2
