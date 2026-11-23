@@ -236,7 +236,8 @@ document.addEventListener('alpine:init', () => {
                 const { data, error } = await supabase.auth.signInWithOtp({
                   email,
                   options: {
-                    emailRedirectTo: 'https://redeemerbiblereading.info/thisweek/'
+                    // Return to whichever address the site is on (the old .info domain is gone).
+                    emailRedirectTo: `${location.origin}/thisweek/`
                    }
                })
                if (error) {
