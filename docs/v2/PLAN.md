@@ -1,6 +1,6 @@
 # Redeemer Plans v2: plan
 
-Status: decisions agreed, ready for Phase 0 · Mockups: https://claude.ai/artifact/CvyVCA7kfqfKVwGFzmSkbD
+Status: Phase 0 done (see below); Phase 1 next · Mockups: https://claude.ai/artifact/CvyVCA7kfqfKVwGFzmSkbD
 
 ## Decisions
 

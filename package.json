@@ -8,8 +8,12 @@
     "dev": "npx @11ty/eleventy --serve",
     "serve": "npx @11ty/eleventy --serve",
     "watch": "npx @11ty/eleventy --watch",
-    "build": "npx @11ty/eleventy",
-    "clean": "del-cli _site"
+    "build": "npm run check:plans && npx @11ty/eleventy",
+    "clean": "del-cli _site",
+    "check:plans": "node scripts/check-plans.js",
+    "test": "node --test tests/*.test.js",
+    "test:output": "npm run build && node --test tests/output.test.js",
+    "snapshot:update": "node scripts/output-snapshot.js"
   },
   "keywords": [],
   "author": "",
