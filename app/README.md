@@ -47,6 +47,9 @@ the Build Step" enabled (the default), because plans are read from `../src/plan`
 
 For editors (the pastor and anyone they add). Sign in with an emailed link; editor access is the
 `readingplan-edit` row in Supabase's `permissions` table, managed from the **Editors** page.
+An editor can add someone by email even before they have an account: they're invited, and editing
+switches on the first time they sign in. The admin sign-in page never creates accounts for anyone
+else.
 
 - **Plans:** every plan with its dates, status and check results, plus drafts in progress.
 - **Paste from spreadsheet:** paste rows from Google Sheets/Excel or choose a CSV; shows what was
