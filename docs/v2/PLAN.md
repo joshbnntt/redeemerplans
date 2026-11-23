@@ -1,6 +1,17 @@
 # Redeemer Plans v2: plan
 
-Status: proposal · Mockups: https://claude.ai/artifact/CvyVCA7kfqfKVwGFzmSkbD
+Status: decisions agreed, ready for Phase 0 · Mockups: https://claude.ai/artifact/CvyVCA7kfqfKVwGFzmSkbD
+
+## Decisions
+
+| Topic | Decision |
+|---|---|
+| Hosting | **Vercel** (moving off Netlify) |
+| Frontend | **SvelteKit** (Svelte 5), replacing 11ty + Alpine + Turbo |
+| Publish latency | About a minute from Publish to live is fine, so the site stays static |
+| Subsplash XML | Still used by the church app, so it stays **byte-compatible at the same URLs** |
+| Reminders | **Calendar subscription only** (no email: avoids an extra service and its cost) |
+| PWA | Must be installable and must tell the reader when an update is available |
 
 ## Goals
 
@@ -11,57 +22,99 @@ Status: proposal · Mockups: https://claude.ai/artifact/CvyVCA7kfqfKVwGFzmSkbD
 3. **Catch mistakes before readers do.** Automated checks for typos, impossible chapters,
    duplicates, gaps and date problems.
 4. **A better reading experience.** A clear "Today" screen, progress and streaks, catch-up,
-   personal self-paced plans, calendar subscription.
+   personal self-paced plans, calendar subscription. Installable, works offline, and announces updates.
 
-## Recommended architecture: "publish = commit"
+## Architecture
 
-The site stays static. What changes is the **path by which plans get edited**: there is no
-change to how they are read.
+A single SvelteKit app on Vercel with `@sveltejs/adapter-vercel`. **Every page and data file is
+prerendered at build time** and served from Vercel's CDN as static files. The only server code is
+the admin **publish** endpoint, which runs as a Vercel Function.
 
 ```
- Pastor ──► /admin (static page)
-              │  sign in: Supabase magic link (already used for readers) + admins table
+ Reader ──► static HTML/JSON/ICS/XML on Vercel CDN  (prerendered, same as today in spirit)
+              └─► Supabase: sign-in + reading progress only (as today)
+
+ Pastor ──► /admin (prerendered page; data loads client-side)
+              │  sign in: Supabase magic link + admins table
               │  drafts autosave to Supabase (no build per keystroke)
               ▼
-         "Publish" ──► Supabase Edge Function (checks admin, runs validator again)
-                            │  commits plans/<slug>.yaml via GitHub API (fine-grained token,
-                            │  contents:write on this repo only)
+         "Publish" ──► /api/admin/publish  (Vercel Function)
+                            │  verifies the Supabase session belongs to an admin
+                            │  re-runs the validator (errors are rejected)
+                            │  commits src/plans/<slug>.yaml via the GitHub API
+                            │  (fine-grained token: contents:write on this repo only,
+                            │   stored as a Vercel env var)
                             ▼
-                     GitHub ──► Netlify auto-build (~1 min) ──► static JSON / HTML / ICS
+                     push to main ──► Vercel build (~1 min) ──► live
 ```
 
-Why this over moving plans into a live database:
+Why this works well on Vercel:
 
-| | Publish = commit (recommended) | Plans live in Supabase |
-|---|---|---|
-| Reader stability | Unchanged: static files on a CDN | Site depends on DB uptime and the free-tier pause policy |
-| Cost | Free | Free until limits |
-| Edit to live | ~1 min, automatic | Instant |
-| History / undo | Every publish is a git commit | Needs building |
-| Spreadsheet → data | Same YAML as today | Needs an export path for backups |
+- **Preview deployments:** every branch or PR gets its own URL, which is useful while v2 is
+  built alongside the live site.
+- **Rollback:** "Publishing history" in the admin lists git commits, and reverting one is a new
+  commit. Vercel's instant rollback is also there as a safety net.
+- **No moving parts for readers:** if Supabase is down or paused, plans still load. Only check-offs
+  and sign-in are affected.
 
-There is still a build, but nobody has to run it: the pastor clicks Publish and the site
-updates about a minute later. If changes **must** be instant, the fallback is a hybrid where
-Supabase is the source of truth and a build hook exports JSON. That has more moving parts, so I'd only do it if the
-one-minute delay is a real problem.
-
-**Why not the existing `/admin`?** It loads `netlify-cms@^2`, the old name of Decap CMS, which
-is no longer updated, and it depends on Netlify Identity and Git Gateway, which Netlify has
-deprecated. A generic CMS also can't do the plan-specific checks, the paste-from-spreadsheet
-step, or the "did you mean…?" fixes. As a **stopgap**, swapping it for Sveltia CMS
-(which is Decap-config compatible and uses a GitHub login) would keep basic editing working
-while v2 is built.
+> Hosting note: Vercel's free Hobby plan is described as for personal, non-commercial use. A church
+> reading site is probably fine, but it's worth reading their fair-use terms once. Pro is the paid fallback.
 
 ### Derive "current plan" from dates
 
-Today a person has to flip `current: true/false` and rebuild when a plan changes over. In v2 the
-client picks the plan whose date range contains today, so plan changeovers need no edits.
+Today someone has to flip `current: true/false` and rebuild when one plan ends and the next starts. In v2 the
+client picks the church plan whose date range contains today, so changeovers need no edits.
 `current` stays as an optional manual override.
+
+## Project layout (proposed)
+
+```
+src/
+  lib/
+    scripture/        canon.ts (books, chapter + verse counts, aliases, OSIS ids)
+                      parse.ts, validate.ts, links.ts   ← shared by build, admin and tests
+    plans/            load.ts (reads src/plans/*.yaml at build time), dates.ts
+    stores/           progress, preferences, auth (Supabase)
+    components/       TodayCard, WeekStrip, DayRow, Heatmap, UpdateToast, InstallPrompt, …
+  routes/
+    +page.svelte                  Today
+    plan/+page.svelte             Week / Month / Whole plan
+    plan/[id]/+page.svelte        any plan (archived, self-paced)
+    progress/+page.svelte
+    settings/+page.svelte
+    admin/…                       plans list, editor, import, history (ssr = false)
+    api/current.json/+server.ts   ┐
+    api/plans.json/+server.ts     │ v1 endpoints: same URLs, same shape
+    api/plan/[id].json/+server.ts ┘
+    api/v2/…/+server.ts           v2 endpoints
+    subsplash/[id].xml/+server.ts Subsplash feed, same URL
+    cal/[id].ics/+server.ts       calendar subscription
+    api/admin/publish/+server.ts  the only non-prerendered route
+  plans/*.yaml        plan data (moved from src/plan/*.md)
+scripts/check-plans.ts            `npm run check:plans`, also run in the Vercel build
+```
+
+## PWA: install and updates
+
+Use `@vite-pwa/sveltekit` (Workbox under the hood).
+
+- **Installable:** web manifest with the existing icons in `src/assets/images`. A small "Install"
+  prompt appears on Today after a reader's second visit (`beforeinstallprompt` on Android/desktop).
+  On iOS, which has no prompt event, a one-time "Add to Home Screen" hint is shown instead.
+- **Knows about updates:** `registerType: 'prompt'`. When a new deploy has a new service worker, the
+  app shows a toast: *"A new version is available · Reload"*. The app also calls
+  `registration.update()` on launch and whenever it comes back to the foreground, because installed
+  PWAs can stay open for days.
+- **Plan data stays fresh without a reload:** the app shell is precached. The plan JSON uses
+  stale-while-revalidate, so plans open instantly offline and the next screen shows the latest
+  publish. When a plan the reader is viewing changes, the page refreshes its data in place.
+- **Offline check-offs:** marking a day read offline is queued locally and synced to Supabase when
+  the device is back online.
 
 ## Data model
 
-Plans move from Markdown front matter to pure data files, `src/plans/<slug>.yaml`. The
-`day` string format stays the same so spreadsheet exports keep working:
+Plans move from Markdown front matter to pure data files, `src/plans/<slug>.yaml`. The `day`
+string format stays the same so spreadsheet exports keep working:
 
 ```yaml
 title: 2027 Bible Reading Plan
@@ -80,18 +133,20 @@ plan:
 The input is forgiving (`Gen 1-2`, `Ps 23`, `Song of Songs 1`, `;` or `,` separators). The
 admin normalizes it to the canonical form on save, so the files stay clean.
 
-A shared `scripture` module (one JS file, used by **both** the build and the admin page in
-the browser) owns:
+### URLs that must not change
 
-- the canon: 66 books, chapter counts, verse counts per chapter, aliases/abbreviations, OSIS ids
-- `parse("Gen 1-2; Ps 23:1-6")` → structured references
-- `validate(plan, otherPlans)` → issues with severity, location and a suggested fix
-- link builders: YouVersion, ESV.org, Bible Gateway, Logos
+| URL | Used by | v2 |
+|---|---|---|
+| `/subsplash/<slug>.xml` | Church app (Subsplash) | Same output; checked against today's files by a test (below) |
+| `/api/current.json` | Current site | Same shape, kept |
+| `/api/plans.json`, `/api/plan/<slug>.json` | Current site, maybe others | Same shape, kept |
+| `/plan/<slug>/` | Shared links | Same paths |
 
-### Static API v2 (v1 stays as it is)
+**Subsplash safety net:** before removing 11ty, save today's generated XML for every plan into
+`tests/fixtures/subsplash/`. A test then compares SvelteKit's output with those files, so the
+church app can't break silently. The test pins exactly what the app receives today, whitespace included.
 
-`/api/v1/...` and the existing `current.json`, `plans.json`, `plan/<slug>.json` and Subsplash
-XML keep working unchanged for existing consumers. New:
+### Static API v2
 
 - `/api/v2/plans.json`: index only (id, title, start, end, mode, days): small and fast
 - `/api/v2/plans/<id>.json`: full plan with structured references:
@@ -105,10 +160,13 @@ XML keep working unchanged for existing consumers. New:
             { "n": 326, "date": "2026-11-22", "type": "lords-day", "label": "Lord's Day" } ] }
 ```
 
-The client builds links from `refs` and the reader's preferences, rather than receiving
-prebuilt HTML anchors with a hard-coded translation id.
+The client builds links from `refs` and the reader's preferences (translation, YouVersion /
+ESV.org / Bible Gateway / Logos), rather than receiving prebuilt HTML anchors with a hard-coded
+translation id.
 
-- `/cal/<id>.ics`: calendar subscription per plan (`ical-generator` is already a dependency)
+- `/cal/<id>.ics`: an all-day event per reading day, with the passages in the title and a link to
+  the day. Calendar apps re-fetch these feeds periodically, so edits show up there without readers doing
+  anything. This replaces email reminders.
 
 ## Checks (the validator)
 
@@ -127,8 +185,8 @@ prebuilt HTML anchors with a hard-coded translation id.
 | Gap with no church plan | Warning | Shown as a banner on the admin home |
 | Empty rows, stray whitespace, non-canonical names | Auto-fix | |
 
-Errors block Publish. Warnings don't. The same validator runs in the Netlify build
-(`npm run check`), so a bad hand edit to YAML fails the deploy instead of shipping.
+Errors block Publish. Warnings don't. The same validator runs in the Vercel build, so a bad hand
+edit to YAML fails the deploy and the live site stays on the last good version.
 
 ### What it finds in the current repo today
 
@@ -159,9 +217,9 @@ I ran a prototype of these checks over `src/plan/*.md`:
   styled as rest, "Subscribe in your calendar".
 - **Progress**: percent of the plan to date, current and best streak, a year heat map, per-book progress.
 - **Plans & settings**: the church plan plus optional **personal self-paced plans** (e.g. Praying
-  the Psalms from any start date); translation; which app opens passages; theme; reminders.
+  the Psalms from any start date); translation; which app opens passages; theme; calendar subscription;
+  install the app.
 - Works signed out: progress is kept on the device and merged into the account when the reader signs in.
-- PWA/offline stays.
 
 ### Supabase changes
 
@@ -185,26 +243,35 @@ Today's `haveread(plan_day text)` stores a date string. v2:
   fill every Sunday with "Lord's Day", insert or delete a row (dates shift), CSV download.
 - **Paste from spreadsheet**: paste or upload CSV/XLSX, map columns automatically, and see a preview of
   what will be saved, with abbreviations expanded and problems flagged, then save as a draft.
-- **Preview as reader** before publishing. **Publishing history** shows each commit with who made it and a one-click revert.
+- **Preview as reader** renders the draft client-side with the real reader components before
+  publishing. **Publishing history** shows each commit with who made it and a one-click revert.
 - Later: an engagement view with aggregate readers per day.
 
 ## Phases
 
-0. **Quick wins (this week)**: fix the data errors above; add `npm run check` to the build;
-   add aliases for Song of Songs and Psalm/Psalms; parse dates as ISO/UTC.
-1. **Data and API**: the `scripture` module, the YAML plan files, API v2 plus v1 compatibility, ICS feeds,
-   and the current plan derived from dates.
-2. **Admin**: auth and admins table, drafts, editor, checks, import, the publish function, and history.
-3. **Reader redesign**: Today, Plan, Progress and Settings, `reading_log` migration, signed-out mode.
-4. **Extras**: personal plans, notes, the church count, optional email reminders.
+0. **Quick wins, on the current 11ty site**
+   - Fix the data errors listed above.
+   - Decide what happens after Jan 3, 2027.
+   - Add aliases for Song of Songs and Psalm/Psalms.
+   - Parse dates as ISO/UTC.
+   - Add a plan checker to the build.
+   - Capture Subsplash/API golden files.
+   - Add a `vercel.json` or confirm the Vercel build settings.
+1. **SvelteKit foundation**
+   - Scaffold SvelteKit, port the `scripture` module with unit tests, and move plans to YAML.
+   - Add the v1 endpoints (passing the golden-file tests), v2 endpoints and ICS feeds.
+   - Set up the PWA shell with the update toast, and deploy to a Vercel preview.
+2. **Reader redesign**
+   - Build Today, Plan, Progress and Settings.
+   - Migrate `reading_log`, add signed-out mode and offline check-offs.
+   - Switch production over.
+3. **Admin**
+   - Auth and admins table, drafts, editor, checks, import.
+   - The publish function and history.
+4. **Extras**: personal plans, notes, the church count.
 
-## Open questions
+## Still open
 
-1. Hosting is Netlify, right? (The admin config points at Git Gateway.) Is the publish function OK
-   to run on Supabase Edge Functions, or would you prefer Netlify Functions?
-2. Is the ~1 minute between Publish and live acceptable, or is "instant" a hard requirement?
-3. Is the Subsplash XML feed still used by the church app? If so, that is a reason to keep it byte-for-byte.
-4. Who besides the pastor should be an admin?
-5. Frontend stack: stay on 11ty + Alpine (smallest change), or move the reader app to
-   something component-based (e.g. Svelte/Preact islands) given the richer UI?
-6. Are email reminders wanted, or is a calendar subscription enough?
+1. Who besides the pastor should be an admin?
+2. Is the `/api/*.json` used by anything outside this site (another app or integration)? If not, the v1
+   endpoints can be retired later, once Subsplash is the only external consumer.
