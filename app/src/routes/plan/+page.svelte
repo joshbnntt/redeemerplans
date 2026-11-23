@@ -173,7 +173,7 @@
 		{/if}
 	{/if}
 
-	{#if host}<p class="cal"><a href="webcal://{host}/cal/{plan.id}.ics">Add this plan to your calendar</a></p>{/if}
+	{#if host}<p class="cal"><a href="webcal://{host}/feed.ics">Add the church’s reading plans to your calendar</a></p>{/if}
 {/if}
 
 <style>
