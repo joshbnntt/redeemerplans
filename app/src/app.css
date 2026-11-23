@@ -1,0 +1,102 @@
+/* Design tokens from the v2 mockups. Dark mode follows the device unless the reader picks one. */
+:root {
+	--ground: #f6f4ef;
+	--surface: #ffffff;
+	--surface-muted: #f1eee8;
+	--ink: #1c1917;
+	--muted: #57534e;
+	--line: #e7e2d9;
+	--brand: #0c4a6e;
+	--brand-ink: #ffffff;
+	--brand-soft: #e3eef5;
+	--streak: #b45309;
+	--ok: #166534;
+	--ok-soft: #ecfdf3;
+	--warn-ink: #7c2d12;
+	--warn-soft: #fff7ed;
+	--warn-line: #fdba74;
+	--radius: 16px;
+	--shadow: 0 1px 2px rgb(28 25 23 / 0.06), 0 8px 24px rgb(28 25 23 / 0.06);
+	--font-ui: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--font-scripture: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+	color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		--ground: #141210;
+		--surface: #1f1c19;
+		--surface-muted: #2a2622;
+		--ink: #f3f0ea;
+		--muted: #b8b0a5;
+		--line: #3a3530;
+		--brand: #7dc4ec;
+		--brand-ink: #0b2233;
+		--brand-soft: #16303f;
+		--streak: #f5a35c;
+		--ok: #7ee2a0;
+		--ok-soft: #12291b;
+		--warn-ink: #fed7aa;
+		--warn-soft: #2b1d12;
+		--warn-line: #9a4a1c;
+		--shadow: none;
+		color-scheme: dark;
+	}
+}
+:root[data-theme='dark'] {
+	--ground: #141210;
+	--surface: #1f1c19;
+	--surface-muted: #2a2622;
+	--ink: #f3f0ea;
+	--muted: #b8b0a5;
+	--line: #3a3530;
+	--brand: #7dc4ec;
+	--brand-ink: #0b2233;
+	--brand-soft: #16303f;
+	--streak: #f5a35c;
+	--ok: #7ee2a0;
+	--ok-soft: #12291b;
+	--warn-ink: #fed7aa;
+	--warn-soft: #2b1d12;
+	--warn-line: #9a4a1c;
+	--shadow: none;
+	color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--ground);
+	color: var(--ink);
+	font-family: var(--font-ui);
+	font-size: 16px;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: var(--brand);
+}
+
+button {
+	font: inherit;
+}
+
+:focus-visible {
+	outline: 3px solid var(--brand);
+	outline-offset: 2px;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}

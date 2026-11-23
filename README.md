@@ -70,6 +70,19 @@ The site will be available at `http://localhost:8080`
 - `npm run watch` - Watch for changes without serving
 - `npm run build` - Build for production
 - `npm run clean` - Remove the `_site` build directory
+- `npm run check:plans` - Check every plan for typos, chapters that don't exist, repeats and schedule gaps (add `-- -v` for full detail). Also runs as part of `npm run build`, so a plan with errors fails the deploy.
+- `npm test` - Unit tests
+- `npm run test:output` - Build, then compare the Subsplash XML, JSON API and calendar feed with the snapshot in `tests/fixtures`. After an intentional change (such as editing a plan), refresh it with `npm run snapshot:update`.
+
+### Plan checks
+
+A plan can mark repeats that are on purpose so they aren't reported:
+
+```yaml
+intentional_repeats:
+  - Proverbs      # a whole book
+  - Psalm 119     # or a single chapter
+```
 
 ## Project Structure
 

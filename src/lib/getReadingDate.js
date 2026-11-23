@@ -1,12 +1,11 @@
+const { planDayDate, formatUS } = require('./planDate');
+
 /**
- * 
- * @param {@type string} startdate 
- * @param {@type number} offset 
- * @returns {@type string}
+ * @param {string} startdate plan start date ("MM-DD-YYYY" or "YYYY-MM-DD")
+ * @param {number} offset zero-based day index
+ * @returns {string} "MM/DD/YYYY", or "" when the plan has no start date
  */
 module.exports = function getReadingDate(startdate, offset) {
-    if (startdate === "") return ""
-    const date = new Date(startdate)
-    date.setDate(date.getDate() + offset)
-    return date.toLocaleString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" })
+    const date = planDayDate(startdate, offset)
+    return date ? formatUS(date) : ""
 }
