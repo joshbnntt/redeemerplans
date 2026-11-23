@@ -8,3 +8,6 @@ export const SUPABASE_ANON_KEY =
 
 /** Where plan files live in the repository. */
 export const PLAN_DIR = 'src/plan';
+
+/** The church's time zone: plan days start at midnight here (North Santa Rosa County, FL). */
+export const CHURCH_TIME_ZONE = 'America/Chicago';

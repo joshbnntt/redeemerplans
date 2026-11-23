@@ -14,6 +14,10 @@ export const variables = defineEnvVars({
 		schema: (value) => optional(value) ?? 'joshbnntt/redeemerplans',
 		description: 'Repository that holds the plan files, as owner/name.'
 	},
+	CRON_SECRET: {
+		schema: optional,
+		description: 'Vercel sends this with scheduled requests; /api/cron/* refuses anything without it.'
+	},
 	GITHUB_BRANCH: {
 		schema: (value) => optional(value) ?? 'main',
 		description: 'Branch that publishing commits to. The live site deploys from main.'
