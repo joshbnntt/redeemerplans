@@ -9,7 +9,7 @@ import type { RequestHandler } from './$types';
 export const prerender = false;
 
 /**
- * Called once a day by Vercel's scheduler (see vercel.json). `?dryRun=1` reports what it would do
+ * Called once a day by a Vercel Schedule at 12:05am Central (see vercel.json). `?dryRun=1` reports what it would do
  * without changing anything; `?today=YYYY-MM-DD` (dry run only) checks a future date.
  */
 export const GET: RequestHandler = async ({ request, url }) => {

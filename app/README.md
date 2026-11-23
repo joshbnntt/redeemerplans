@@ -76,7 +76,8 @@ domain's `/admin/`), or sign-in links will send people to the old site instead.
 
 ## Daily plan changeover (`/api/cron/changeover`)
 
-Vercel runs this once a day at 06:00 UTC (just after midnight Central time; see `vercel.json`).
+Vercel runs this once a day at 12:05am Central time (a Vercel Schedule in `vercel.json`; Vercel
+handles daylight saving, and on the free plan may start it up to 15 minutes late).
 If a church plan started today (or up to 3 days ago, to catch up a missed run) and isn't
 "current" yet, it makes one commit that marks it current and un-marks the old one, changing only
 the `current:` line in each file. On every other day it does nothing, so it costs no builds.
