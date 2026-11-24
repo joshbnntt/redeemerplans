@@ -22,6 +22,7 @@
 	const apps: { value: ReadingApp; label: string }[] = [
 		{ value: 'youversion', label: 'YouVersion (Bible app)' },
 		{ value: 'esv', label: 'ESV.org' },
+		{ value: 'lsb', label: 'LSB (read.lsbible.org)' },
 		{ value: 'biblegateway', label: 'Bible Gateway' }
 	];
 	const themes: { value: Theme; label: string }[] = [
@@ -63,7 +64,7 @@
 				{#each apps as a (a.value)}<option value={a.value}>{a.label}</option>{/each}
 			</select>
 		</label>
-		{#if prefs.app !== 'esv'}
+		{#if prefs.app !== 'esv' && prefs.app !== 'lsb'}
 			<label class="row">
 				<span>Translation</span>
 				<select bind:value={prefs.translation}>
