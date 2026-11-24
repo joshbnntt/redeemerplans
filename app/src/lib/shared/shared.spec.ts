@@ -130,6 +130,7 @@ describe('links', () => {
 		expect(passageUrl(ref)).toBe('https://www.bible.com/bible/59/PSA.119.1-32');
 		expect(passageUrl(ref, { translation: 'CSB' })).toBe('https://www.bible.com/bible/1713/PSA.119.1-32');
 		expect(passageUrl(ref, { app: 'esv' })).toBe('https://www.esv.org/Psalm+119%3A1-32/');
+		expect(passageUrl(ref, { app: 'lsb', translation: 'NIV' })).toBe('https://read.lsbible.org/?q=Psalm+119%3A1-32');
 		expect(passageUrl(ref, { app: 'biblegateway', translation: 'NIV' })).toBe(
 			'https://www.biblegateway.com/passage/?search=Psalm%20119%3A1-32&version=NIV'
 		);

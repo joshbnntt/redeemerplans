@@ -83,7 +83,7 @@
 						<li>
 							<a href={passageUrl(ref, prefs)} target="_blank" rel="noopener">
 								<span class="ref">{refLabel(ref)}</span>
-								<span class="open">{prefs.app === 'youversion' ? prefs.translation : 'Open'} ↗</span>
+								<span class="open">{prefs.app === 'youversion' ? prefs.translation : prefs.app === 'lsb' ? 'LSB' : 'Open'} ↗</span>
 							</a>
 						</li>
 					{/each}

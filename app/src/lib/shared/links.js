@@ -9,7 +9,7 @@ export const YOUVERSION_IDS = /** @type {const} */ ({
 });
 
 /** @typedef {keyof typeof YOUVERSION_IDS} Translation */
-/** @typedef {'youversion' | 'esv' | 'biblegateway'} ReadingApp */
+/** @typedef {'youversion' | 'esv' | 'lsb' | 'biblegateway'} ReadingApp */
 
 /**
  * @param {Ref} ref
@@ -18,6 +18,8 @@ export const YOUVERSION_IDS = /** @type {const} */ ({
 export function passageUrl(ref, { app = 'youversion', translation = 'ESV' } = {}) {
   const label = `${ref.name} ${ref.chapter}${ref.verses ? `:${ref.verses}` : ''}`;
   if (app === 'esv') return `https://www.esv.org/${encodeURIComponent(label).replace(/%20/g, '+')}/`;
+  // read.lsbible.org only has the LSB, so the translation choice doesn't apply.
+  if (app === 'lsb') return `https://read.lsbible.org/?q=${encodeURIComponent(label).replace(/%20/g, '+')}`;
   if (app === 'biblegateway') {
     return `https://www.biblegateway.com/passage/?search=${encodeURIComponent(label)}&version=${translation}`;
   }
