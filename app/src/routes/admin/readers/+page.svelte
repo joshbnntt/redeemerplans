@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { supabase } from '#lib/admin/session.svelte.ts';
-	import { ago, presence, presenceLabel, summarize, type ReaderRow } from '#lib/admin/readers.ts';
+	import { ago, presence, presenceLabel, summarize, type ReaderPlanRow, type ReaderRow } from '#lib/admin/readers.ts';
 	import { niceDate } from '#lib/admin/plans.ts';
 	import { loadIndex, loadPlan } from '#lib/reader/plans.svelte.ts';
 	import { dayStatus } from '#lib/reader/stats.ts';
 	import { localISODate, planForDate, shortDate, type PlanSummary, type PlanV2 } from '#lib/today.ts';
 
 	let rows = $state<ReaderRow[]>([]);
+	let planRows = $state<ReaderPlanRow[]>([]);
+	let index = $state<PlanSummary[]>([]);
 	let plans = $state<PlanSummary[]>([]);
 	let planId = $state('');
 	let plan = $state<PlanV2 | null>(null);
@@ -19,11 +21,17 @@
 
 	onMount(async () => {
 		try {
-			const [res, index] = await Promise.all([supabase.rpc('list_readers'), loadIndex()]);
+			const [res, perPlan, idx] = await Promise.all([supabase.rpc('list_readers'), supabase.rpc('list_reader_plans'), loadIndex()]);
 			if (res.error) throw new Error(res.error.message);
+			if (perPlan.error) throw new Error(perPlan.error.message);
 			rows = res.data as ReaderRow[];
-			plans = index.filter((p) => p.mode === 'church' && !p.supplemental && p.start && p.start <= today).sort((a, b) => (a.start! < b.start! ? 1 : -1));
-			planId = (planForDate(index, today) ?? plans[0])?.id ?? '';
+			planRows = perPlan.data as ReaderPlanRow[];
+			index = idx;
+			// Church plans that have started (newest first), then extra and start-any-day plans.
+			const churchPlans = idx.filter((p) => p.mode === 'church' && !p.supplemental && p.start && p.start <= today).sort((a, b) => (a.start! < b.start! ? 1 : -1));
+			const others = idx.filter((p) => p.supplemental || p.mode === 'self-paced');
+			plans = [...churchPlans, ...others];
+			planId = (planForDate(idx, today) ?? plans[0])?.id ?? '';
 		} catch (e) {
 			failed = e instanceof Error ? e.message : 'Couldn’t load readers.';
 		} finally {
@@ -39,10 +47,9 @@
 		});
 	});
 
-	// Progress is counted up to today, or up to the plan's last day for a finished plan.
-	const asOf = $derived(plan?.end && plan.end < today ? plan.end : today);
+	const church = $derived(planForDate(index, today));
 	const readers = $derived.by(() => {
-		const list = summarize(rows, plan, asOf);
+		const list = summarize(rows, planRows, plan, index, church, today);
 		if (sort === 'email') return list.sort((a, b) => a.email.localeCompare(b.email));
 		if (sort === 'progress') return list.sort((a, b) => (b.plan?.percent ?? -1) - (a.plan?.percent ?? -1) || a.email.localeCompare(b.email));
 		return list.sort((a, b) => (b.last_active_at ?? '').localeCompare(a.last_active_at ?? ''));
@@ -51,10 +58,10 @@
 		total: rows.length,
 		signedIn: rows.filter((r) => r.signed_in_devices > 0).length,
 		week: rows.filter((r) => r.last_active_at && Date.now() - Date.parse(r.last_active_at) < 7 * 86400_000).length,
-		reading: readers.filter((r) => r.plan && r.plan.total > 0).length
+		reading: readers.filter((r) => r.following).length
 	});
-	// The last two weeks of the plan, for the strip under each reader.
-	const recent = $derived(plan ? plan.schedule.filter((d) => d.date && d.date <= asOf).slice(-14) : []);
+	// The last two weeks of the plan on a reader's dates, for the strip under each reader.
+	const recentFor = (r: (typeof readers)[number]) => (r.dated ? r.dated.schedule.filter((d) => d.date && d.date <= r.asOf).slice(-14) : []);
 </script>
 
 <h1 class="page">Readers</h1>
@@ -69,7 +76,7 @@
 		<div class="tile card"><span class="big">{counts.total}</span><span class="muted">accounts</span></div>
 		<div class="tile card"><span class="big">{counts.signedIn}</span><span class="muted">signed in on a device</span></div>
 		<div class="tile card"><span class="big">{counts.week}</span><span class="muted">active this week</span></div>
-		{#if plan}<div class="tile card"><span class="big">{counts.reading}</span><span class="muted">reading this plan</span></div>{/if}
+		{#if plan}<div class="tile card"><span class="big">{counts.reading}</span><span class="muted">following this plan</span></div>{/if}
 	</div>
 
 	<div class="controls">
@@ -90,7 +97,8 @@
 	</div>
 	{#if plan}
 		<p class="muted small">
-			{niceDate(plan.start!)} – {niceDate(plan.end!)} · counting reading days up to {asOf === today ? 'today' : niceDate(asOf)}
+			{#if plan.start && plan.end}{niceDate(plan.start)} – {niceDate(plan.end)}{:else}Start any day{/if} · counted on each reader’s dates (their own if
+			they’ve reset them), up to today
 		</p>
 	{/if}
 
@@ -102,6 +110,8 @@
 					<span class="who">
 						<strong>{r.email}</strong>
 						{#if r.is_editor}<span class="pill selfpaced">Editor</span>{/if}
+						{#if plan && r.ownDates}<span class="pill">Own dates</span>{/if}
+						{#if plan && !r.following && r.plan}<span class="pill">Not following</span>{/if}
 						<br />
 						<span class="muted small">
 							<span class="dot {state}" aria-hidden="true"></span>{presenceLabel[state]}{state === 'never' ? '' : ` · last active ${ago(r.last_active_at)}`}
@@ -121,17 +131,17 @@
 							<div><dt>Last signed in</dt><dd>{r.last_sign_in_at ? ago(r.last_sign_in_at) : 'never'}</dd></div>
 							<div><dt>Signed in on</dt><dd>{r.signed_in_devices} device{r.signed_in_devices === 1 ? '' : 's'}</dd></div>
 							<div><dt>Last check-off</dt><dd>{ago(r.last_read_at)}</dd></div>
-							<div><dt>Days checked off (all plans)</dt><dd>{r.read.size}</dd></div>
+							<div><dt>Follows</dt><dd>{r.follows.length ? r.follows.join(', ') : 'No plans'}</dd></div>
 							{#if r.plan}
 								<div><dt>Current streak</dt><dd>{r.plan.streak} day{r.plan.streak === 1 ? '' : 's'}</dd></div>
 								<div><dt>Behind</dt><dd>{r.plan.behind ? `${r.plan.behind} day${r.plan.behind === 1 ? '' : 's'}` : 'Caught up'}</dd></div>
 							{/if}
 						</dl>
-						{#if plan && recent.length}
-							<p class="muted small">Last {recent.length} days of {plan.title}</p>
+						{#if plan && recentFor(r).length}
+							<p class="muted small">Last {recentFor(r).length} days of {plan.title}{r.ownDates ? ' (on their own dates)' : ''}</p>
 							<div class="strip">
-								{#each recent as d (d.n)}
-									{@const s = dayStatus(d, r.days, asOf)}
+								{#each recentFor(r) as d (d.n)}
+									{@const s = dayStatus(d, r.days, r.asOf)}
 									<span class="cell {s}" title="{shortDate(d.date!)} · {d.label} · {s}"><span>{shortDate(d.date!)}</span></span>
 								{/each}
 							</div>

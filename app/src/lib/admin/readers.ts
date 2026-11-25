@@ -1,5 +1,5 @@
 /** Readers list for the admin: who has an account, when they were last seen, how far along they are. */
-import type { PlanV2 } from '#lib/today.ts';
+import { withDates, type PlanSummary, type PlanV2 } from '#lib/today.ts';
 import { currentStreak, fromStored, planProgress } from '#lib/reader/stats.ts';
 
 export type ReaderRow = {
@@ -15,25 +15,69 @@ export type ReaderRow = {
 	last_read_at: string | null;
 };
 
+/** One reader's check-offs and choices in one plan (from list_reader_plans). */
+export type ReaderPlanRow = {
+	user_id: string;
+	plan_id: string;
+	days: number[];
+	last_read_at: string | null;
+	/** null when the reader hasn't chosen (the church plan is followed by default) */
+	following: boolean | null;
+	start_date: string | null;
+};
+
 export type ReaderSummary = ReaderRow & {
 	read: Set<string>;
 	/** Day numbers read in the chosen plan. */
 	days: Set<number>;
-	/** Progress in the chosen plan, or null when no plan is chosen. */
+	/** The chosen plan on this reader's dates (their own, if they've set them). */
+	dated: PlanV2 | null;
+	/** Progress counted up to this date: today, or the plan's last day once it's over. */
+	asOf: string;
+	/** Whether they follow the chosen plan, and on whose dates. */
+	following: boolean;
+	ownDates: boolean;
+	/** Titles of every plan they follow. */
+	follows: string[];
+	/** Progress in the chosen plan, or null when they haven't read in it or don't follow it. */
 	plan: { done: number; due: number; percent: number; streak: number; behind: number; total: number } | null;
 };
 
 /** An open app refreshes its sign-in about once an hour. */
 export const ACTIVE_WINDOW_MS = 75 * 60 * 1000;
 
-export function summarize(rows: ReaderRow[], plan: PlanV2 | null, today: string): ReaderSummary[] {
+/**
+ * @param plan the plan chosen on the page
+ * @param church the church's current plan (followed by default)
+ */
+export function summarize(
+	rows: ReaderRow[],
+	planRows: ReaderPlanRow[],
+	plan: PlanV2 | null,
+	index: PlanSummary[],
+	church: PlanSummary | undefined,
+	today: string
+): ReaderSummary[] {
 	return rows.map((r) => {
 		const read = new Set(r.read_days.map(fromStored));
-		if (!plan) return { ...r, read, days: new Set<number>(), plan: null };
-		// haveread is date-only: the days of this plan whose dates were checked off.
-		const days = new Set(plan.schedule.filter((d) => d.date && read.has(d.date)).map((d) => d.n));
-		const p = planProgress(plan, days, today);
-		return { ...r, read, days, plan: { ...p, streak: currentStreak(plan, days, today), behind: p.due - p.done, total: days.size } };
+		const mine = planRows.filter((p) => p.user_id === r.user_id);
+		const choice = (id: string) => mine.find((p) => p.plan_id === id);
+		const followsPlan = (p: PlanSummary) => choice(p.id)?.following ?? p.id === church?.id;
+		const follows = index.filter((p) => followsPlan(p) && (!p.end || p.end >= today || !!choice(p.id)?.start_date)).map((p) => p.title);
+		const base = { ...r, read, follows };
+		if (!plan) return { ...base, days: new Set<number>(), dated: null, asOf: today, following: false, ownDates: false, plan: null };
+
+		const row = choice(plan.id);
+		const dated = withDates(plan, row?.start_date ?? undefined);
+		const days = new Set(row?.days ?? []);
+		// Check-offs made on the current site are only in haveread (by date), on the church's dates.
+		if (!dated.personal) for (const d of plan.schedule) if (d.date && read.has(d.date)) days.add(d.n);
+		const following = followsPlan(plan);
+		const asOf = dated.end && dated.end < today ? dated.end : today;
+		const shown = { ...base, days, dated, asOf, following, ownDates: !!dated.personal && !!plan.start };
+		if (!dated.start || (!days.size && !following)) return { ...shown, plan: null };
+		const p = planProgress(dated, days, asOf);
+		return { ...shown, plan: { ...p, streak: currentStreak(dated, days, asOf), behind: p.due - p.done, total: days.size } };
 	});
 }
 
