@@ -202,10 +202,10 @@
 		font-size: 15px;
 	}
 	tr.bad td {
-		background: #fef3f2;
+		background: var(--danger-soft);
 	}
 	tr.bad td.saved {
-		color: #b42318;
+		color: var(--danger);
 	}
 	.save {
 		display: flex;

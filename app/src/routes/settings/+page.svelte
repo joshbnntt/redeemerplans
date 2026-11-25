@@ -149,7 +149,7 @@
 		font-size: 13px;
 	}
 	.error {
-		color: #b42318;
+		color: var(--danger);
 	}
 	.group {
 		background: var(--surface);

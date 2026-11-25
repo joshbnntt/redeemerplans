@@ -223,7 +223,7 @@
 		color: var(--muted);
 	}
 	.admin :global(.error) {
-		color: #b42318;
+		color: var(--danger);
 	}
 	.admin :global(.btn) {
 		min-height: 44px;
@@ -303,8 +303,8 @@
 		color: var(--muted);
 	}
 	.admin :global(.pill.live) {
-		background: #dcfce7;
-		color: #14532d;
+		background: var(--ok-soft);
+		color: var(--ok);
 	}
 	.admin :global(.pill.upcoming),
 	.admin :global(.pill.draft) {
@@ -316,12 +316,12 @@
 		color: #4c1d95;
 	}
 	.admin :global(.pill.bad) {
-		background: #fee4e2;
-		color: #912018;
+		background: var(--danger-soft);
+		color: var(--danger);
 	}
 	.admin :global(.pill.note) {
-		background: #fef3c7;
-		color: #78350f;
+		background: var(--warn-soft);
+		color: var(--warn-ink);
 	}
 	.admin :global(.banner) {
 		border-radius: 14px;
