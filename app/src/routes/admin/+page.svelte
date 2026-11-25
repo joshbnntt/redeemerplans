@@ -98,6 +98,7 @@
 					<span class="pills">
 						<span class="pill {status === 'self-paced' ? 'selfpaced' : status}">{statusLabel[status]}</span>
 						{#if p.current}<span class="pill live">Current</span>{/if}
+						{#if p.supplemental}<span class="pill">Extra plan</span>{/if}
 						{#if p.errors && (status === 'live' || status === 'upcoming')}<span class="pill bad">{p.errors} to fix</span>
 						{:else if p.errors || p.notes}<span class="pill note">{p.errors + p.notes} note{p.errors + p.notes === 1 ? '' : 's'}</span>
 						{:else}<span class="pill">All good</span>{/if}

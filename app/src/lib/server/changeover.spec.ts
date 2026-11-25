@@ -81,6 +81,13 @@ describe('plan changeover (real plan files + a 2027 plan)', () => {
 		expect(commits).toHaveLength(0);
 	});
 
+	it('never makes an extra plan (e.g. Advent) current', async () => {
+		const advent = '---\ntitle: Advent 2026\nstart: 11-29-2026\ncurrent: false\nsupplemental: true\nplan:\n' + '  - day: Luke 1\n'.repeat(26) + '---\n';
+		const { gh, commits } = fakeGitHub(realPlans({ 'src/plan/advent-2026.md': advent }));
+		expect(await runChangeover(gh, '2026-11-29')).toMatchObject({ changed: false, reason: '“2026 Bible Reading Plan” is already current.' });
+		expect(commits).toHaveLength(0);
+	});
+
 	it('does nothing when no church plan covers today', async () => {
 		const { gh, commits } = fakeGitHub(realPlans({ 'src/plan/2027-bible-reading-plan.md': '---\ntitle: Later\nstart: 03-01-2027\nplan:\n  - day: John 1\n---\n' }));
 		expect(await runChangeover(gh, '2027-01-10')).toMatchObject({ changed: false, reason: 'No church plan covers today.' });
@@ -98,6 +105,55 @@ describe('changeover helpers', () => {
 			'2026-01-02'
 		);
 		expect(d).toMatchObject({ action: 'switch', to: { file: 'b' } });
+	});
+
+	it('never moves the flag between two plans that start the same day, whichever file name sorts first', () => {
+		for (const [a, b] of [
+			[true, false],
+			[false, true]
+		]) {
+			const d = decideChangeover(
+				[
+					{ file: 'a', title: 'A', start: '2027-01-04', days: 364, current: a },
+					{ file: 'b', title: 'B', start: '2027-01-04', days: 364, current: b }
+				],
+				'2027-01-04'
+			);
+			expect(d.action).toBe('none');
+		}
+	});
+
+	it('leaves a current plan alone when the other plan started earlier', () => {
+		const d = decideChangeover(
+			[
+				{ file: 'a', title: 'A', start: '2027-01-01', days: 364, current: false },
+				{ file: 'b', title: 'B', start: '2027-01-04', days: 364, current: true }
+			],
+			'2027-01-05'
+		);
+		expect(d).toMatchObject({ action: 'none' });
+	});
+
+	it('leaves a manually chosen upcoming plan alone', () => {
+		const d = decideChangeover(
+			[
+				{ file: 'a', title: 'A', start: '2027-01-01', days: 364, current: false },
+				{ file: 'b', title: 'B', start: '2027-02-01', days: 364, current: true }
+			],
+			'2027-01-01'
+		);
+		expect(d).toMatchObject({ action: 'none' });
+	});
+
+	it('ignores extra plans', () => {
+		const d = decideChangeover(
+			[
+				{ file: 'a', title: 'A', start: '2026-01-01', days: 368, current: true },
+				{ file: 'advent', title: 'Advent', start: '2026-12-01', days: 24, current: false, supplemental: true }
+			],
+			'2026-12-01'
+		);
+		expect(d).toMatchObject({ action: 'none', reason: '“A” is already current.' });
 	});
 
 	it('adds a current line when a file has none', () => {

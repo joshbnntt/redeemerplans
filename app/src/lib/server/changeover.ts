@@ -4,6 +4,7 @@
  */
 import { decideChangeover, setCurrentFlag, type ChangeoverPlan } from '#lib/shared/changeover.js';
 import { parsePlanFile } from '#lib/shared/planFile.js';
+import { isSupplemental } from '#lib/shared/planCheck.js';
 import { PLAN_DIR } from '#lib/config.ts';
 import type { gitHub } from './github.ts';
 
@@ -22,7 +23,7 @@ export async function runChangeover(github: GitHub, today: string, { dryRun = fa
 		if (!f) continue;
 		texts.set(f.path, f.text);
 		const p = parsePlanFile(f.text);
-		plans.push({ file: f.path, title: p.title, start: p.start, current: p.current, days: p.plan.length });
+		plans.push({ file: f.path, title: p.title, start: p.start, current: p.current, days: p.plan.length, supplemental: isSupplemental(p) });
 	}
 
 	const decision = decideChangeover(plans, today);

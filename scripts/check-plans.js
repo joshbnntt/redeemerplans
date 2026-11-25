@@ -8,12 +8,13 @@
  *
  * Runs as part of `npm run build`. Only errors in a plan readers are on now, or will be on
  * soon (bad book name, chapter that doesn't exist, missing chapter number, bad start date),
- * stop a deploy. Anything in past or self-paced plans is just reported.
+ * stop a deploy, as does anything wrong with which plan is current (more than one, or an extra
+ * plan), since that's what the church app shows. Anything in past or self-paced plans is just reported.
  */
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
-const { checkPlan, checkSchedule, planStatus } = require('../app/src/lib/shared/planCheck.js');
+const { checkCurrent, checkPlan, checkSchedule, isSupplemental, planStatus } = require('../app/src/lib/shared/planCheck.js');
 
 const PLAN_DIR = path.join(__dirname, '..', 'src', 'plan');
 
@@ -39,11 +40,17 @@ function run(argv = process.argv.slice(2), today = new Date()) {
   const verbose = argv.includes('-v') || argv.includes('--verbose');
   const results = loadPlans().map(({ file, data, error }) => {
     if (error) return { file, title: file, status: 'live', issues: [{ level: 'error', message: error }] };
-    return { file, title: data.title || file, ...planStatus(data, today), ...checkPlan(data) };
+    const title = data.title || file;
+    return { file, title, current: data.current === true, supplemental: isSupplemental(data), ...planStatus(data, today), ...checkPlan(data) };
   });
-  const blocking = results.flatMap((r) =>
-    ['live', 'upcoming'].includes(r.status) ? r.issues.filter((i) => i.level === 'error').map((i) => ({ ...i, plan: r.title })) : []
-  );
+  // Which plan is current decides what the church app (Subsplash) shows: always blocking.
+  const current = checkCurrent(results);
+  const blocking = [
+    ...current.errors.map((message) => ({ plan: 'Current plan', message })),
+    ...results.flatMap((r) =>
+      ['live', 'upcoming'].includes(r.status) ? r.issues.filter((i) => i.level === 'error').map((i) => ({ ...i, plan: r.title })) : []
+    ),
+  ];
 
   console.log(`Plan checks: ${results.length} plans, ${blocking.length ? `${blocking.length} problem(s) to fix` : 'nothing blocking'}.`);
   for (const b of blocking) console.log(`  ✗ ${b.plan}: ${b.message}${b.fix ? ` → "${b.fix}"` : ''}`);
@@ -60,7 +67,7 @@ function run(argv = process.argv.slice(2), today = new Date()) {
       for (const d of n.detail || []) console.log(`        ${d}`);
     }
   }
-  for (const w of checkSchedule(results, today)) console.log(`  · ${w}`);
+  for (const w of [...current.warnings, ...checkSchedule(results, today)]) console.log(`  · ${w}`);
   if (!verbose && results.some((r) => r.issues.length)) console.log('  (npm run check:plans -- -v for details)');
   return blocking.length ? 1 : 0;
 }

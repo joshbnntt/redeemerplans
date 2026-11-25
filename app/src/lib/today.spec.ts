@@ -21,6 +21,21 @@ describe('today helpers', () => {
 		expect(nextPlan(plans, '2025-12-31')?.id).toBe('2026');
 	});
 
+	it('prefers the current plan, skips extra plans, and is stable on ties', () => {
+		const a = plan('a', '2027-01-04', '2028-01-02');
+		const b = plan('b', '2027-01-04', '2028-01-02');
+		const advent = { ...plan('advent', '2027-11-28', '2027-12-24'), supplemental: true as const };
+		expect(planForDate([a, { ...b, current: true }], '2027-01-04')?.id).toBe('b');
+		expect(planForDate([{ ...b, current: true }, a], '2027-01-04')?.id).toBe('b');
+		expect(planForDate([b, a], '2027-01-04')?.id).toBe('a');
+		expect(planForDate([{ ...a, current: true }, advent], '2027-12-01')?.id).toBe('a');
+		// The current plan wins while it runs, even if a newer church plan has started.
+		const old = { ...plan('old', '2026-01-01', '2027-01-06'), current: true as const };
+		expect(planForDate([old, a], '2027-01-05')?.id).toBe('old');
+		expect(planForDate([old, a], '2027-01-07')?.id).toBe('a');
+		expect(nextPlan([a, advent], '2027-06-01')).toBeUndefined();
+	});
+
 	it('finds the whole week across New Year', () => {
 		const schedule = Array.from({ length: 10 }, (_, i) => ({
 			n: i + 1,

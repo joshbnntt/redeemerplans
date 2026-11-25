@@ -2,7 +2,7 @@
 import { ICalCalendar, ICalCalendarMethod } from 'ical-generator';
 import { isSpecialDay, parseReference, splitReferences } from '#lib/shared/scripture.js';
 import { formatISO, planDayDate } from '#lib/shared/planDate.js';
-import { planStatus } from '#lib/shared/planCheck.js';
+import { isSupplemental, planStatus } from '#lib/shared/planCheck.js';
 import { calendar, type Plan } from './plans.ts';
 
 export type Ref = { book: string; name: string; chapter: number; verses?: string };
@@ -21,6 +21,10 @@ export type PlanSummary = {
 	start?: string;
 	end?: string;
 	days: number;
+	/** the church's current plan: the one the church app (Subsplash) shows. Only present when true. */
+	current?: true;
+	/** an extra plan (e.g. Advent) to follow alongside the church plan. Only present when true. */
+	supplemental?: true;
 };
 
 export type PlanV2 = PlanSummary & { days: number; schedule: Day[] };
@@ -47,7 +51,9 @@ export function summary(p: Plan): PlanSummary {
 		...(p.description ? { description: p.description } : {}),
 		mode: start ? 'church' : 'self-paced',
 		...(start && end ? { start: formatISO(start), end: formatISO(end) } : {}),
-		days: p.plan.length
+		days: p.plan.length,
+		...(p.current ? { current: true as const } : {}),
+		...(isSupplemental(p) ? { supplemental: true as const } : {})
 	};
 }
 

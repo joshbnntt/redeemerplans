@@ -29,10 +29,10 @@ export const statusLabel: Record<Status, string> = {
 };
 
 /** Overlaps and "nothing scheduled after …" across church plans. */
-export function scheduleNotes(plans: { title: string; start?: string; end?: string }[], today = localISODate()): string[] {
+export function scheduleNotes(plans: { title: string; start?: string; end?: string; supplemental?: boolean }[], today = localISODate()): string[] {
 	const asDate = (iso?: string) => (iso ? new Date(`${iso}T00:00:00Z`) : null);
 	return checkSchedule(
-		plans.map((p) => ({ title: p.title, start: asDate(p.start), end: asDate(p.end) })),
+		plans.map((p) => ({ title: p.title, start: asDate(p.start), end: asDate(p.end), supplemental: p.supplemental })),
 		new Date(`${today}T00:00:00Z`)
 	);
 }

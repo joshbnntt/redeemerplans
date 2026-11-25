@@ -5,7 +5,7 @@
  */
 import yaml from 'js-yaml';
 import slug from 'slugify';
-import { planStatus } from '#lib/shared/planCheck.js';
+import { isSupplemental, planStatus } from '#lib/shared/planCheck.js';
 import { parsePlanDate } from '#lib/shared/planDate.js';
 
 export type PlanEntry = { day?: string; alt?: string; [key: string]: unknown };
@@ -61,16 +61,19 @@ export function getPlan(id: string): Plan | undefined {
 	return plans.find((p) => p.id === id);
 }
 
-/** The plan marked `current: true` (what the v1 API and Subsplash call "current"). */
+/**
+ * The plan marked `current: true`: what the v1 API and the church app (Subsplash) call "current".
+ * Only the flag decides this, never dates. The build's plan checks fail if more than one plan is
+ * flagged or an extra plan is, so this is never ambiguous.
+ */
 export const flaggedCurrentPlan = plans.find((p) => p.current);
 
-/** The church plan whose dates contain `today`, falling back to the `current` flag. */
+/** The church plan readers see on a date: the current plan while it runs, else the newest church plan running. */
 export function currentPlan(today = new Date()): Plan | undefined {
-	// When two plans overlap for a few days, the one that started most recently wins.
 	const live = plans
-		.filter((p) => p.start && planStatus(p, today).status === 'live')
+		.filter((p) => p.start && !isSupplemental(p) && planStatus(p, today).status === 'live')
 		.sort((a, b) => +parsePlanDate(b.start)! - +parsePlanDate(a.start)!);
-	return live[0] ?? flaggedCurrentPlan;
+	return live.find((p) => p.current) ?? live[0] ?? flaggedCurrentPlan;
 }
 
 const dataFile = (name: string) => {

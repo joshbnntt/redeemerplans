@@ -20,17 +20,21 @@ export function addDays(iso: string, days: number): string {
 /** Day of week (0 = Sunday) of a YYYY-MM-DD date. */
 export const weekday = (iso: string) => new Date(`${iso}T00:00:00Z`).getUTCDay();
 
-/** The church plan whose dates include `today`; when two overlap, the newest one. */
+/**
+ * The church plan for `today`: the current plan (the one the church app shows) while its dates
+ * include today; otherwise, when two church plans overlap, the newest one. Extra plans are skipped.
+ */
 export function planForDate(plans: PlanSummary[], today: string): PlanSummary | undefined {
-	return plans
-		.filter((p) => p.mode === 'church' && p.start && p.end && p.start <= today && today <= p.end)
-		.sort((a, b) => (a.start! < b.start! ? 1 : -1))[0];
+	const live = plans
+		.filter((p) => p.mode === 'church' && !p.supplemental && p.start && p.end && p.start <= today && today <= p.end)
+		.sort((a, b) => (a.start! < b.start! ? 1 : a.start! > b.start! ? -1 : a.id < b.id ? -1 : 1));
+	return live.find((p) => p.current) ?? live[0];
 }
 
 /** The next church plan that hasn't started yet. */
 export function nextPlan(plans: PlanSummary[], today: string): PlanSummary | undefined {
 	return plans
-		.filter((p) => p.mode === 'church' && p.start && p.start > today)
+		.filter((p) => p.mode === 'church' && !p.supplemental && p.start && p.start > today)
 		.sort((a, b) => (a.start! < b.start! ? -1 : 1))[0];
 }
 

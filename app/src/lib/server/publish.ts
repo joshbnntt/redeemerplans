@@ -1,7 +1,7 @@
 /**
  * Publishing a plan = committing its file to GitHub. Vercel then rebuilds both sites (~1 min).
  */
-import { checkPlan, type Issue } from '#lib/shared/planCheck.js';
+import { checkPlan, isSupplemental, type Issue } from '#lib/shared/planCheck.js';
 import { parsePlanFile, serializePlanFile, type PlanSource } from '#lib/shared/planFile.js';
 import { PLAN_DIR } from '#lib/config.ts';
 import { legacySlug } from './plans.ts';
@@ -53,6 +53,10 @@ export async function publishPlan(github: GitHub, input: PublishInput, knownIds:
 	const { source } = input;
 	const title = source.title.trim();
 	if (!title) return { ok: false, status: 400, message: 'The plan needs a title.' };
+
+	if (source.current && isSupplemental(source)) {
+		return { ok: false, status: 422, message: 'An extra plan can’t be the current church plan. Untick one of the two.' };
+	}
 
 	const errors = checkPlan(source).issues.filter((i) => i.level === 'error');
 	if (errors.length) {

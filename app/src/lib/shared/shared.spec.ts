@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { BOOKS, resolveBook, parseReference, suggestBook, splitReferences } from './scripture.js';
 import { parsePlanDate, planDayDate, formatUS, formatISO } from './planDate.js';
-import { checkPlan, checkSchedule, planStatus } from './planCheck.js';
+import { checkCurrent, checkPlan, checkSchedule, isSupplemental, planStatus } from './planCheck.js';
 import { generateBibleLinks } from './legacyLinks.js';
 import { passageUrl } from './links.js';
 
@@ -113,6 +113,22 @@ describe('plan checks', () => {
 		const notes = checkSchedule([a, b], new Date(Date.UTC(2026, 0, 2)));
 		expect(notes[0]).toMatch(/"A" and "B" overlap by 3 days/);
 		expect(notes[1]).toMatch(/No plan is scheduled after Sat, Jan 17, 2026/);
+	});
+
+	it('leaves extra plans out of the overlap notes', () => {
+		const a = { title: 'A', ...planStatus({ start: '2026-01-01', plan: Array(30).fill({ day: 'John 1' }) }) };
+		const advent = { title: 'Advent', supplemental: true, ...planStatus({ start: '2026-01-08', plan: Array(5).fill({ day: 'John 1' }) }) };
+		expect(checkSchedule([a, advent], new Date(Date.UTC(2025, 0, 2))).join(' ')).not.toMatch(/overlap/);
+	});
+
+	it('requires exactly one current plan, and never an extra one', () => {
+		expect(checkCurrent([{ title: 'A', current: true }, { title: 'B' }])).toEqual({ errors: [], warnings: [] });
+		expect(checkCurrent([{ title: 'A', current: true }, { title: 'B', current: true }]).errors[0]).toMatch(/2 plans are marked current/);
+		expect(checkCurrent([{ title: 'Advent', current: true, supplemental: true }]).errors[0]).toMatch(/extra plan/);
+		expect(checkCurrent([{ title: 'A' }]).warnings[0]).toMatch(/No plan is marked current/);
+		expect(isSupplemental({ supplemental: true })).toBe(true);
+		expect(isSupplemental({ extra: { supplemental: true } })).toBe(true);
+		expect(isSupplemental({})).toBe(false);
 	});
 });
 

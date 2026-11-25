@@ -188,6 +188,12 @@
 		el?.scrollIntoView({ block: 'center', behavior: 'smooth' });
 		el?.focus({ preventScroll: true });
 	}
+	function setSupplemental(on: boolean) {
+		if (on) {
+			source.extra.supplemental = true;
+			source.current = false;
+		} else delete source.extra.supplemental;
+	}
 	function setSelfPaced(on: boolean) {
 		if (on) {
 			source.start = '';
@@ -301,7 +307,14 @@
 				<button class="btn btn-quiet btn-small" onclick={() => setSelfPaced(true)}>Make it start-any-day</button>
 			{/if}
 		</div>
-		{#if source.start}
+		<label class="toggle">
+			<input type="checkbox" bind:checked={() => source.extra.supplemental === true, setSupplemental} />
+			<span>
+				<strong>Extra plan</strong>: readers can follow it alongside the church plan (Advent, Psalms &amp; Proverbs, …).
+				It never becomes the current plan, so the church app (Subsplash) never shows it.
+			</span>
+		</label>
+		{#if source.start && source.extra.supplemental !== true}
 			<label class="toggle">
 				<input type="checkbox" bind:checked={source.current} />
 				<span>

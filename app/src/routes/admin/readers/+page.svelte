@@ -22,7 +22,7 @@
 			const [res, index] = await Promise.all([supabase.rpc('list_readers'), loadIndex()]);
 			if (res.error) throw new Error(res.error.message);
 			rows = res.data as ReaderRow[];
-			plans = index.filter((p) => p.mode === 'church' && p.start && p.start <= today).sort((a, b) => (a.start! < b.start! ? 1 : -1));
+			plans = index.filter((p) => p.mode === 'church' && !p.supplemental && p.start && p.start <= today).sort((a, b) => (a.start! < b.start! ? 1 : -1));
 			planId = (planForDate(index, today) ?? plans[0])?.id ?? '';
 		} catch (e) {
 			failed = e instanceof Error ? e.message : 'Couldn’t load readers.';
