@@ -3,12 +3,15 @@
 	import InstallPrompt from '#lib/components/InstallPrompt.svelte';
 	import ReadToggle from '#lib/components/ReadToggle.svelte';
 	import WeekStrip from '#lib/components/WeekStrip.svelte';
+	import ExtraPlanCard from '#lib/components/ExtraPlanCard.svelte';
+	import FollowButton from '#lib/components/FollowButton.svelte';
+	import { followedPlans, following, isFollowing, startOf } from '#lib/reader/following.svelte.ts';
 	import { passageUrl, refLabel } from '#lib/shared/links.js';
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
 	import { hasProgress, progress, readIn } from '#lib/reader/progress.svelte.ts';
 	import { loadPlan } from '#lib/reader/plans.svelte.ts';
 	import { catchUp, currentStreak, planProgress } from '#lib/reader/stats.ts';
-	import { localISODate, longDate, nextPlan, planForDate, type PlanV2 } from '#lib/today.ts';
+	import { localISODate, longDate, nextPlan, planForDate, withDates, type PlanV2 } from '#lib/today.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -19,6 +22,16 @@
 	let failed = $state(false);
 
 	const summary = $derived(today ? planForDate(data.plans, today) : undefined);
+	// The church plan is shown unless the reader has stopped following it.
+	const churchShown = $derived(!summary || isFollowing(summary, summary));
+	// Other plans the reader follows, each with dates (their own, or from the reader's start date).
+	const extras = $derived(today && following.ready ? followedPlans(data.plans, today).filter((p) => p.id !== summary?.id) : []);
+	let extraPlans = $state<Record<string, PlanV2>>({});
+	$effect(() => {
+		for (const p of extras) {
+			if (!extraPlans[p.id]) loadPlan(p.id).then((full) => (extraPlans[p.id] = full)).catch(() => {});
+		}
+	});
 	const upcoming = $derived(today ? nextPlan(data.plans, today) : undefined);
 	const day = $derived(plan?.schedule.find((d) => d.date === today));
 	const read = $derived(plan ? readIn(plan.id) : new Set<number>());
@@ -62,6 +75,12 @@
 			<p class="lead">There’s no church reading plan scheduled for today.</p>
 			{#if upcoming}<p>The next plan, <a href="/plan/{upcoming.id}/">{upcoming.title}</a>, starts {longDate(upcoming.start!)}.</p>{/if}
 			<p><a href="/plans/">Browse all plans</a></p>
+		</section>
+	{:else if !churchShown}
+		<section class="card">
+			<p class="meta">{longDate(today)}</p>
+			<p>You’re not following the church’s plan, <a href="/plan/{summary.id}/">{summary.title}</a>.</p>
+			<FollowButton plan={summary} church={summary} />
 		</section>
 	{:else}
 		<div>
@@ -132,6 +151,13 @@
 				<p class="note">Your progress is saved on this device. <a href="/settings/#account">Sign in</a> to keep it on all your devices.</p>
 			{/if}
 		{/if}
+	{/if}
+
+	{#if today}
+		{#each extras as p (p.id)}
+			{#if extraPlans[p.id]}<ExtraPlanCard plan={withDates(extraPlans[p.id], startOf(p.id))} {today} />{/if}
+		{/each}
+		<p class="more"><a href="/plans/">{extras.length ? 'Add another plan' : 'Add a plan alongside the church’s'}</a></p>
 	{/if}
 
 	<InstallPrompt />
@@ -281,6 +307,10 @@
 	}
 	.big.streak {
 		color: var(--streak);
+	}
+	.more {
+		margin: 0 4px;
+		font-size: 14px;
 	}
 	.note {
 		margin: 0;

@@ -46,6 +46,20 @@ export function locateDate(plans: PlanSummary[], iso: string, slug?: string | nu
 	return plan && n ? { plan, n } : undefined;
 }
 
+/**
+ * A plan with dates on every day: its own, or, for a plan without dates, counted from the reader's
+ * `start`. Without either it's returned as it is.
+ */
+export function withDates(plan: PlanV2, start?: string): PlanV2 {
+	if (plan.start || !start) return plan;
+	return {
+		...plan,
+		start,
+		end: addDays(start, plan.schedule.length - 1),
+		schedule: plan.schedule.map((d) => ({ ...d, date: addDays(start, d.n - 1) }))
+	};
+}
+
 /** Day of week (0 = Sunday) of a YYYY-MM-DD date. */
 export const weekday = (iso: string) => new Date(`${iso}T00:00:00Z`).getUTCDay();
 

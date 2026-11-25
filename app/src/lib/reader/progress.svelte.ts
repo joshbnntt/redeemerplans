@@ -39,14 +39,16 @@ export const isRead = (plan: string, n: number) => readIn(plan).has(n);
 export const hasProgress = () => [...progress.log.values()].some((s) => s.size > 0);
 
 /**
- * Dates read in dated plans, on each plan's own schedule (for the year calendar).
+ * Dates read, on each plan's schedule (for the year calendar).
  * @param plans the plan index
+ * @param startOf the reader's start date for a plan without dates of its own
  */
-export function readDates(plans: PlanSummary[]): Set<string> {
+export function readDates(plans: PlanSummary[], startOf: (id: string) => string | undefined = () => undefined): Set<string> {
 	const dates = new Set<string>();
 	for (const p of plans) {
-		if (!p.start) continue;
-		for (const n of readIn(p.id)) dates.add(dayDate(p, n)!);
+		const start = p.start ?? startOf(p.id);
+		if (!start) continue;
+		for (const n of readIn(p.id)) dates.add(dayDate({ start }, n)!);
 	}
 	return dates;
 }

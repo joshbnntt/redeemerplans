@@ -5,6 +5,7 @@
 	import UpdateToast from '#lib/components/UpdateToast.svelte';
 	import { startPrefs } from '#lib/reader/prefs.svelte.ts';
 	import { startProgress } from '#lib/reader/progress.svelte.ts';
+	import { startFollowing } from '#lib/reader/following.svelte.ts';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
@@ -14,7 +15,10 @@
 
 	onMount(() => {
 		startPrefs();
-		if (!page.url.pathname.startsWith('/admin')) startProgress();
+		if (!page.url.pathname.startsWith('/admin')) {
+			startProgress();
+			startFollowing();
+		}
 	});
 
 	const tabs = [

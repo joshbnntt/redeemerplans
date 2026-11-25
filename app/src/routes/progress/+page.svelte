@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { progress, readDates, readIn } from '#lib/reader/progress.svelte.ts';
+	import { startOf } from '#lib/reader/following.svelte.ts';
 	import { loadToday } from '#lib/reader/plans.svelte.ts';
 	import { bestStreak, bookProgress, currentStreak, planProgress, yearGrid } from '#lib/reader/stats.ts';
 	import { localISODate, type PlanSummary, type PlanV2 } from '#lib/today.ts';
@@ -26,7 +27,7 @@
 	const rest = $derived(new Set((plan?.schedule ?? []).filter((d) => d.date && d.type !== 'reading').map((d) => d.date!)));
 	const read = $derived(plan ? readIn(plan.id) : new Set<number>());
 	// Dates read in any dated plan, on each plan's own schedule.
-	const dates = $derived(readDates(index));
+	const dates = $derived(readDates(index, startOf));
 	const pct = $derived(plan ? planProgress(plan, read, today) : null);
 	const streak = $derived(plan ? currentStreak(plan, read, today) : 0);
 	const best = $derived(plan ? bestStreak(plan, read, today) : 0);

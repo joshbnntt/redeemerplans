@@ -2,11 +2,24 @@
 	import ReadToggle from '#lib/components/ReadToggle.svelte';
 	import { passageUrl, refLabel } from '#lib/shared/links.js';
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
-	import { shortDate, shortWeekday } from '#lib/today.ts';
+	import { onMount } from 'svelte';
+	import FollowButton from '#lib/components/FollowButton.svelte';
+	import { isFollowing, startOf } from '#lib/reader/following.svelte.ts';
+	import { loadIndex } from '#lib/reader/plans.svelte.ts';
+	import { localISODate, longDate, planForDate, shortDate, shortWeekday, withDates, type PlanSummary } from '#lib/today.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	const plan = $derived(data.plan);
+	let today = $state('');
+	let church = $state<PlanSummary | undefined>(undefined);
+	onMount(async () => {
+		today = localISODate();
+		church = planForDate(await loadIndex().catch(() => []), today);
+	});
+	const followed = $derived(!!today && isFollowing(data.plan, church));
+	// A plan without dates gets the reader's own once they follow it.
+	const plan = $derived(followed ? withDates(data.plan, startOf(data.plan.id)) : data.plan);
+	const ended = $derived(!!today && !!data.plan.end && data.plan.end < today);
 </script>
 
 <svelte:head>
@@ -16,7 +29,14 @@
 
 <h1>{plan.title}</h1>
 {#if plan.description}<p class="desc">{plan.description}</p>{/if}
-{#if plan.mode === 'church'}
+{#if today && !ended}
+	<div class="follow">
+		<FollowButton plan={data.plan} {church} />
+		{#if church?.id === data.plan.id}<span class="muted small">The church’s current plan</span>
+		{:else if followed && !data.plan.start && plan.start}<span class="muted small">Started {longDate(plan.start)}</span>{/if}
+	</div>
+{/if}
+{#if data.plan.mode === 'church'}
 	<p class="cal"><a href="/cal/{plan.id}.ics">Calendar file for this plan</a> · <a href="/plans/">All plans</a></p>
 {/if}
 
@@ -45,6 +65,19 @@
 		font-weight: 600;
 		font-size: 28px;
 		margin: 8px 4px 4px;
+	}
+	.follow {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin: 0 4px 12px;
+	}
+	.muted {
+		color: var(--muted);
+	}
+	.small {
+		font-size: 13px;
 	}
 	.desc,
 	.cal {
