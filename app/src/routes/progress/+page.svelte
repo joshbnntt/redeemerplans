@@ -1,27 +1,40 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { progress, readDates, readIn } from '#lib/reader/progress.svelte.ts';
-	import { startOf } from '#lib/reader/following.svelte.ts';
-	import { loadToday } from '#lib/reader/plans.svelte.ts';
+	import { following, followedPlans, startOf } from '#lib/reader/following.svelte.ts';
+	import { shownPlan } from '#lib/reader/chosen.svelte.ts';
+	import { loadIndex, loadPlan } from '#lib/reader/plans.svelte.ts';
+	import PlanPicker from '#lib/components/PlanPicker.svelte';
 	import { bestStreak, bookProgress, currentStreak, planProgress, yearGrid } from '#lib/reader/stats.ts';
 	import { localISODate, withDates, type PlanSummary, type PlanV2 } from '#lib/today.ts';
 
 	let today = $state('');
-	let raw = $state<PlanV2 | null>(null);
-	// The church plan on the reader's dates (their own, if they've reset them).
-	const plan = $derived(raw ? withDates(raw, startOf(raw.id)) : null);
 	let index = $state<PlanSummary[]>([]);
-	let loaded = $state(false);
+	let indexLoaded = $state(false);
+	let raw = $state<PlanV2 | null>(null);
+	const followed = $derived(today && following.ready ? followedPlans(index, today) : []);
+	const shown = $derived(today && following.ready ? shownPlan(index, today) : undefined);
+	// The shown plan on the reader's dates (their own, if they've set them).
+	const plan = $derived(raw && raw.id === shown?.id ? withDates(raw, startOf(raw.id)) : null);
+	const loaded = $derived(indexLoaded && following.ready && (!shown || !!plan));
 
 	onMount(async () => {
 		today = localISODate();
 		try {
-			const r = await loadToday(today);
-			raw = r.plan;
-			index = r.plans;
+			index = await loadIndex();
 		} finally {
-			loaded = true;
+			indexLoaded = true;
 		}
+	});
+
+	$effect(() => {
+		const id = shown?.id;
+		if (!id || raw?.id === id) return;
+		loadPlan(id)
+			.then((p) => {
+				if (shown?.id === id) raw = p;
+			})
+			.catch(() => {});
 	});
 
 	const year = $derived(today ? Number(today.slice(0, 4)) : 0);
@@ -63,6 +76,7 @@
 	<p class="muted">Loading…</p>
 {:else}
 	{#if plan && pct}
+		<PlanPicker plans={followed} selected={plan.id} />
 		<section class="card">
 			<div class="row">
 				<h2>{plan.title}</h2>

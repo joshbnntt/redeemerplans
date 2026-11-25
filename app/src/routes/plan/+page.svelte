@@ -4,18 +4,26 @@
 	import { passageUrl, refLabel } from '#lib/shared/links.js';
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
 	import { readIn } from '#lib/reader/progress.svelte.ts';
-	import { startOf } from '#lib/reader/following.svelte.ts';
-	import { loadToday } from '#lib/reader/plans.svelte.ts';
+	import { following, followedPlans, startOf } from '#lib/reader/following.svelte.ts';
+	import { shownPlan } from '#lib/reader/chosen.svelte.ts';
+	import { loadIndex, loadPlan } from '#lib/reader/plans.svelte.ts';
+	import PlanPicker from '#lib/components/PlanPicker.svelte';
 	import { feedLinks } from '#lib/reader/calendar.ts';
 	import { dayStatus } from '#lib/reader/stats.ts';
-	import { addDays, withDates, localISODate, longDate, weekday, type Day, type PlanSummary, type PlanV2 } from '#lib/today.ts';
+	import { addDays, withDates, localISODate, longDate, nextPlan, weekday, type Day, type PlanSummary, type PlanV2 } from '#lib/today.ts';
 
 	let today = $state('');
+	let index = $state<PlanSummary[]>([]);
+	let indexLoaded = $state(false);
 	let raw = $state<PlanV2 | null>(null);
-	// The church plan on the reader's dates (their own, if they've reset them).
-	const plan = $derived(raw ? withDates(raw, startOf(raw.id)) : null);
-	let upcoming = $state<PlanSummary | undefined>(undefined);
-	let loaded = $state(false);
+	let failed = $state(false);
+	// The plans the reader follows, and the one being shown (church plan first).
+	const followed = $derived(today && following.ready ? followedPlans(index, today) : []);
+	const shown = $derived(today && following.ready ? shownPlan(index, today) : undefined);
+	// The shown plan on the reader's dates (their own, if they've set them).
+	const plan = $derived(raw && raw.id === shown?.id ? withDates(raw, startOf(raw.id)) : null);
+	const upcoming = $derived(today ? nextPlan(index, today) : undefined);
+	const loaded = $derived(indexLoaded && following.ready && (!shown || !!plan || failed));
 	let view = $state<'week' | 'month'>('week');
 	let anchor = $state(''); // a date in the week or month being shown
 	let picked = $state(''); // selected day in the month view
@@ -28,12 +36,30 @@
 		anchor = today;
 		picked = today;
 		try {
-			const r = await loadToday(today);
-			raw = r.plan;
-			upcoming = r.upcoming;
+			index = await loadIndex();
 		} finally {
-			loaded = true;
+			indexLoaded = true;
 		}
+	});
+
+	$effect(() => {
+		const id = shown?.id;
+		if (!id || raw?.id === id) return;
+		failed = false;
+		loadPlan(id)
+			.then((p) => {
+				if (shown?.id === id) raw = p;
+			})
+			.catch(() => (failed = true));
+	});
+
+	// Open on this week, or on the first week of a plan that hasn't started yet.
+	let shownFor = '';
+	$effect(() => {
+		if (!plan || shownFor === plan.id) return;
+		shownFor = plan.id;
+		anchor = plan.start && plan.start > today ? plan.start : today;
+		picked = anchor;
 	});
 
 	const byDate = $derived(new Map((plan?.schedule ?? []).filter((d) => d.date).map((d) => [d.date!, d])));
@@ -87,14 +113,17 @@
 
 {#if !loaded}
 	<p class="muted">Loading…</p>
+{:else if failed}
+	<section class="card"><p>Couldn’t load the plan. Check your connection and try again.</p></section>
 {:else if !plan}
 	<section class="card">
-		<p>There’s no church reading plan running today.</p>
-		{#if upcoming}<p>The next plan, <a href="/plan/{upcoming.id}/">{upcoming.title}</a>, starts {longDate(upcoming.start!)}.</p>{/if}
+		<p>You’re not following a plan right now.</p>
+		{#if upcoming}<p>The church’s next plan, <a href="/plan/{upcoming.id}/">{upcoming.title}</a>, starts {longDate(upcoming.start!)}.</p>{/if}
 		<p><a href="/plans/">Browse all plans</a></p>
 	</section>
 {:else}
-	<p class="muted sub">{plan.title}</p>
+	<PlanPicker plans={followed} selected={plan.id} />
+	<p class="muted sub">{plan.title}{#if plan.personal && shown?.start}{' · your own dates'}{/if}</p>
 
 	<div class="tabs" role="tablist" aria-label="View">
 		<button role="tab" aria-selected={view === 'week'} onclick={() => (view = 'week')}>Week</button>
