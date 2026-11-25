@@ -24,7 +24,8 @@ const plan: PlanV2 = {
 		};
 	})
 };
-const read = (...dates: string[]) => new Set(dates);
+/** Day numbers for the given dates (day 1 is Nov 15). */
+const read = (...dates: string[]) => new Set(dates.map((d) => plan.schedule.find((x) => x.date === d)!.n));
 
 describe('reading stats', () => {
 	it('labels each day', () => {

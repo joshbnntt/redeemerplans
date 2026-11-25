@@ -17,6 +17,35 @@ export function addDays(iso: string, days: number): string {
 	return new Date(Date.UTC(y, m - 1, d + days)).toISOString().slice(0, 10);
 }
 
+/** Whole days from `a` to `b` (both YYYY-MM-DD). */
+export const daysBetween = (a: string, b: string) => Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86400000);
+
+/** Day number (1-based) of a date in a dated plan, or undefined if the plan doesn't run that day. */
+export function dayNumber(plan: Pick<PlanSummary, 'start' | 'end'>, iso: string): number | undefined {
+	if (!plan.start || !plan.end || iso < plan.start || iso > plan.end) return undefined;
+	return daysBetween(plan.start, iso) + 1;
+}
+
+/** The scheduled date of day `n` in a dated plan. */
+export const dayDate = (plan: Pick<PlanSummary, 'start'>, n: number) => (plan.start ? addDays(plan.start, n - 1) : undefined);
+
+/**
+ * Whether check-offs in this plan are also written to the old date-only `haveread` table, which the
+ * current site and the admin Readers page read. Only the church plan on its own dates is.
+ */
+export const isLegacyPlan = (p: Pick<PlanSummary, 'mode' | 'supplemental'>) => p.mode === 'church' && !p.supplemental;
+
+/**
+ * Which plan day an old date-only check-off belongs to: the plan it was tagged with when that plan
+ * ran on the date, otherwise the church plan for that date.
+ */
+export function locateDate(plans: PlanSummary[], iso: string, slug?: string | null): { plan: PlanSummary; n: number } | undefined {
+	const tagged = slug ? plans.find((p) => p.id === slug && isLegacyPlan(p) && dayNumber(p, iso)) : undefined;
+	const plan = tagged ?? planForDate(plans, iso);
+	const n = plan && dayNumber(plan, iso);
+	return plan && n ? { plan, n } : undefined;
+}
+
 /** Day of week (0 = Sunday) of a YYYY-MM-DD date. */
 export const weekday = (iso: string) => new Date(`${iso}T00:00:00Z`).getUTCDay();
 

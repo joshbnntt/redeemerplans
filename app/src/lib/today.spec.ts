@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addDays, localISODate, planForDate, weekOf, nextPlan, type PlanSummary, type PlanV2 } from './today.ts';
+import { addDays, dayDate, dayNumber, isLegacyPlan, localISODate, locateDate, planForDate, weekOf, nextPlan, type PlanSummary, type PlanV2 } from './today.ts';
 
 const plan = (id: string, start: string, end: string): PlanSummary => ({ id, file: `${id}.md`, title: id, mode: 'church', start, end, days: 1 });
 
@@ -34,6 +34,35 @@ describe('today helpers', () => {
 		expect(planForDate([old, a], '2027-01-05')?.id).toBe('old');
 		expect(planForDate([old, a], '2027-01-07')?.id).toBe('a');
 		expect(nextPlan([a, advent], '2027-06-01')).toBeUndefined();
+	});
+
+	it('maps dates to plan days and back', () => {
+		const p = plan('2026', '2026-01-01', '2027-01-03');
+		expect(dayNumber(p, '2026-01-01')).toBe(1);
+		expect(dayNumber(p, '2026-03-01')).toBe(60);
+		expect(dayNumber(p, '2025-12-31')).toBeUndefined();
+		expect(dayNumber(p, '2027-01-04')).toBeUndefined();
+		expect(dayDate(p, 60)).toBe('2026-03-01');
+	});
+
+	it('finds the plan day an old date-only check-off belongs to', () => {
+		const old = plan('2025-jul-dec', '2025-07-07', '2026-01-03');
+		const now = { ...plan('2026', '2026-01-01', '2027-01-03'), current: true as const };
+		const advent = { ...plan('advent', '2026-11-29', '2026-12-24'), supplemental: true as const };
+		const plans = [old, now, advent];
+		// Untagged: the church plan for that date (the current one while it runs).
+		expect(locateDate(plans, '2026-01-02')).toMatchObject({ plan: { id: '2026' }, n: 2 });
+		expect(locateDate(plans, '2025-12-31')).toMatchObject({ plan: { id: '2025-jul-dec' }, n: 178 });
+		// Tagged with a plan that ran that day: that plan.
+		expect(locateDate(plans, '2026-01-02', '2025-jul-dec')).toMatchObject({ plan: { id: '2025-jul-dec' }, n: 180 });
+		// Tagged with a plan that didn't run that day, or an extra plan: the church plan instead.
+		expect(locateDate(plans, '2026-03-01', '2025-jul-dec')).toMatchObject({ plan: { id: '2026' }, n: 60 });
+		expect(locateDate(plans, '2026-12-01', 'advent')).toMatchObject({ plan: { id: '2026' } });
+		// No plan that day.
+		expect(locateDate(plans, '2027-02-01')).toBeUndefined();
+		expect(isLegacyPlan(now)).toBe(true);
+		expect(isLegacyPlan(advent)).toBe(false);
+		expect(isLegacyPlan({ mode: 'self-paced' })).toBe(false);
 	});
 
 	it('finds the whole week across New Year', () => {

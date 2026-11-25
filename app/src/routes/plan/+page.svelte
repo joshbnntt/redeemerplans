@@ -3,7 +3,7 @@
 	import ReadToggle from '#lib/components/ReadToggle.svelte';
 	import { passageUrl, refLabel } from '#lib/shared/links.js';
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
-	import { progress } from '#lib/reader/progress.svelte.ts';
+	import { readIn } from '#lib/reader/progress.svelte.ts';
 	import { loadToday } from '#lib/reader/plans.svelte.ts';
 	import { feedLinks } from '#lib/reader/calendar.ts';
 	import { dayStatus } from '#lib/reader/stats.ts';
@@ -39,7 +39,8 @@
 	// Week view
 	const weekStart = $derived(anchor ? addDays(anchor, -weekday(anchor)) : '');
 	const weekDays = $derived(weekStart ? Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)) : []);
-	const weekRead = $derived(weekDays.filter((d) => progress.read.has(d) && byDate.get(d)?.type === 'reading').length);
+	const read = $derived(plan ? readIn(plan.id) : new Set<number>());
+	const weekRead = $derived(weekDays.filter((d) => byDate.get(d)?.type === 'reading' && read.has(byDate.get(d)!.n)).length);
 	const weekDue = $derived(weekDays.filter((d) => byDate.get(d)?.type === 'reading').length);
 
 	// Month view
@@ -67,7 +68,7 @@
 	};
 
 	const fmt = (iso: string, opts: Intl.DateTimeFormatOptions) => new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', { ...opts, timeZone: 'UTC' });
-	const status = (d: Day) => dayStatus(d, progress.read, today);
+	const status = (d: Day) => dayStatus(d, read, today);
 	const statusText = { read: 'Read', missed: 'Not read', today: 'Today', upcoming: '', rest: '' };
 </script>
 
@@ -135,7 +136,7 @@
 							{#if statusText[status(d)]}<span class="small state {status(d)}">{statusText[status(d)]}</span>{/if}
 						{/if}
 					</div>
-					{#if d && d.type === 'reading'}<ReadToggle {date} plan={plan.id} label={fmt(date, { weekday: 'long' })} />{/if}
+					{#if d && d.type === 'reading'}<ReadToggle day={d} {plan} label={fmt(date, { weekday: 'long' })} />{/if}
 				</li>
 			{/each}
 		</ul>
@@ -152,7 +153,7 @@
 						class:picked={picked === date}
 						class:is-today={date === today}
 						disabled={!inPlan(date)}
-						aria-label="{fmt(date, { weekday: 'long', month: 'long', day: 'numeric' })}{d ? `, ${d.label}` : ''}{d && progress.read.has(date) ? ', read' : ''}"
+						aria-label="{fmt(date, { weekday: 'long', month: 'long', day: 'numeric' })}{d ? `, ${d.label}` : ''}{d && read.has(d.n) ? ', read' : ''}"
 						onclick={() => (picked = date)}>{Number(date.slice(8))}</button>
 				{/if}
 			{/each}
@@ -170,7 +171,7 @@
 						{/if}
 					</p>
 				</div>
-				{#if pickedDay.type === 'reading'}<ReadToggle date={picked} plan={plan.id} label={fmt(picked, { weekday: 'long' })} />{/if}
+				{#if pickedDay.type === 'reading'}<ReadToggle day={pickedDay} {plan} label={fmt(picked, { weekday: 'long' })} />{/if}
 			</section>
 		{/if}
 	{/if}

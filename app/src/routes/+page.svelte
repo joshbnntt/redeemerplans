@@ -5,7 +5,7 @@
 	import WeekStrip from '#lib/components/WeekStrip.svelte';
 	import { passageUrl, refLabel } from '#lib/shared/links.js';
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
-	import { progress } from '#lib/reader/progress.svelte.ts';
+	import { hasProgress, progress, readIn } from '#lib/reader/progress.svelte.ts';
 	import { loadPlan } from '#lib/reader/plans.svelte.ts';
 	import { catchUp, currentStreak, planProgress } from '#lib/reader/stats.ts';
 	import { localISODate, longDate, nextPlan, planForDate, type PlanV2 } from '#lib/today.ts';
@@ -21,9 +21,10 @@
 	const summary = $derived(today ? planForDate(data.plans, today) : undefined);
 	const upcoming = $derived(today ? nextPlan(data.plans, today) : undefined);
 	const day = $derived(plan?.schedule.find((d) => d.date === today));
-	const missed = $derived(plan ? catchUp(plan, progress.read, today) : []);
-	const streak = $derived(plan ? currentStreak(plan, progress.read, today) : 0);
-	const pct = $derived(plan ? planProgress(plan, progress.read, today) : null);
+	const read = $derived(plan ? readIn(plan.id) : new Set<number>());
+	const missed = $derived(plan ? catchUp(plan, read, today) : []);
+	const streak = $derived(plan ? currentStreak(plan, read, today) : 0);
+	const pct = $derived(plan ? planProgress(plan, read, today) : null);
 	const shortDay = (iso: string) =>
 		new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
 
@@ -90,12 +91,12 @@
 				</ul>
 				{#if day.refs.length === 0}<p class="ref">{day.label}</p>{/if}
 				{#if day.alt}<p class="alt">Alternate: {day.alt.label}</p>{/if}
-				<ReadToggle big date={today} plan={summary.id} label="Today’s reading" />
+				<ReadToggle big {day} plan={summary} label="Today’s reading" />
 			{/if}
 		</section>
 
 		{#if plan}
-			<WeekStrip schedule={plan.schedule} {today} />
+			<WeekStrip plan={plan.id} schedule={plan.schedule} {today} />
 
 			{#if missed.length}
 				<section class="card catchup" aria-labelledby="catchup-heading">
@@ -109,7 +110,7 @@
 										{#each m.refs as ref, i (i)}<a href={passageUrl(ref, prefs)} target="_blank" rel="noopener">{refLabel(ref)}</a>{i < m.refs.length - 1 ? ', ' : ''}{/each}
 									</p>
 								</div>
-								<ReadToggle date={m.date!} plan={summary.id} label={shortDay(m.date!)} />
+								<ReadToggle day={m} plan={summary} label={shortDay(m.date!)} />
 							</li>
 						{/each}
 					</ul>
@@ -127,7 +128,7 @@
 				</a>
 			</div>
 
-			{#if progress.ready && !progress.session && progress.read.size}
+			{#if progress.ready && !progress.session && hasProgress()}
 				<p class="note">Your progress is saved on this device. <a href="/settings/#account">Sign in</a> to keep it on all your devices.</p>
 			{/if}
 		{/if}

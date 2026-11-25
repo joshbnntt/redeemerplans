@@ -34,7 +34,7 @@
 				{/if}
 				{#if d.alt}<span class="alt">Alternate: {d.alt.label}</span>{/if}
 			</span>
-			{#if d.date && d.type === 'reading'}<ReadToggle date={d.date} plan={plan.id} label="Day {d.n}" />{/if}
+			{#if d.date && d.type === 'reading'}<ReadToggle day={d} {plan} label="Day {d.n}" />{/if}
 		</li>
 	{/each}
 </ol>

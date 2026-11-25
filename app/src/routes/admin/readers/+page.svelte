@@ -131,7 +131,7 @@
 							<p class="muted small">Last {recent.length} days of {plan.title}</p>
 							<div class="strip">
 								{#each recent as d (d.n)}
-									{@const s = dayStatus(d, r.read, asOf)}
+									{@const s = dayStatus(d, r.days, asOf)}
 									<span class="cell {s}" title="{shortDate(d.date!)} · {d.label} · {s}"><span>{shortDate(d.date!)}</span></span>
 								{/each}
 							</div>

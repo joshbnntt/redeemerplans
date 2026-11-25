@@ -17,6 +17,8 @@ export type ReaderRow = {
 
 export type ReaderSummary = ReaderRow & {
 	read: Set<string>;
+	/** Day numbers read in the chosen plan. */
+	days: Set<number>;
 	/** Progress in the chosen plan, or null when no plan is chosen. */
 	plan: { done: number; due: number; percent: number; streak: number; behind: number; total: number } | null;
 };
@@ -27,10 +29,11 @@ export const ACTIVE_WINDOW_MS = 75 * 60 * 1000;
 export function summarize(rows: ReaderRow[], plan: PlanV2 | null, today: string): ReaderSummary[] {
 	return rows.map((r) => {
 		const read = new Set(r.read_days.map(fromStored));
-		if (!plan) return { ...r, read, plan: null };
-		const p = planProgress(plan, read, today);
-		const total = plan.schedule.filter((d) => d.date && read.has(d.date)).length;
-		return { ...r, read, plan: { ...p, streak: currentStreak(plan, read, today), behind: p.due - p.done, total } };
+		if (!plan) return { ...r, read, days: new Set<number>(), plan: null };
+		// haveread is date-only: the days of this plan whose dates were checked off.
+		const days = new Set(plan.schedule.filter((d) => d.date && read.has(d.date)).map((d) => d.n));
+		const p = planProgress(plan, days, today);
+		return { ...r, read, days, plan: { ...p, streak: currentStreak(plan, days, today), behind: p.due - p.done, total: days.size } };
 	});
 }
 

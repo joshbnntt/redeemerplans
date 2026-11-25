@@ -1,18 +1,21 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { progress } from '#lib/reader/progress.svelte.ts';
+	import { progress, readDates, readIn } from '#lib/reader/progress.svelte.ts';
 	import { loadToday } from '#lib/reader/plans.svelte.ts';
 	import { bestStreak, bookProgress, currentStreak, planProgress, yearGrid } from '#lib/reader/stats.ts';
-	import { localISODate, type PlanV2 } from '#lib/today.ts';
+	import { localISODate, type PlanSummary, type PlanV2 } from '#lib/today.ts';
 
 	let today = $state('');
 	let plan = $state<PlanV2 | null>(null);
+	let index = $state<PlanSummary[]>([]);
 	let loaded = $state(false);
 
 	onMount(async () => {
 		today = localISODate();
 		try {
-			plan = (await loadToday(today)).plan;
+			const r = await loadToday(today);
+			plan = r.plan;
+			index = r.plans;
 		} finally {
 			loaded = true;
 		}
@@ -21,17 +24,20 @@
 	const year = $derived(today ? Number(today.slice(0, 4)) : 0);
 	const grid = $derived(year ? yearGrid(year) : []);
 	const rest = $derived(new Set((plan?.schedule ?? []).filter((d) => d.date && d.type !== 'reading').map((d) => d.date!)));
-	const pct = $derived(plan ? planProgress(plan, progress.read, today) : null);
-	const streak = $derived(plan ? currentStreak(plan, progress.read, today) : 0);
-	const best = $derived(plan ? bestStreak(plan, progress.read, today) : 0);
+	const read = $derived(plan ? readIn(plan.id) : new Set<number>());
+	// Dates read in any dated plan, on each plan's own schedule.
+	const dates = $derived(readDates(index));
+	const pct = $derived(plan ? planProgress(plan, read, today) : null);
+	const streak = $derived(plan ? currentStreak(plan, read, today) : 0);
+	const best = $derived(plan ? bestStreak(plan, read, today) : 0);
 	const todayN = $derived(plan?.schedule.find((d) => d.date === today)?.n ?? Infinity);
-	const books = $derived(plan ? bookProgress(plan, progress.read).filter((b) => b.firstDay <= todayN) : []);
+	const books = $derived(plan ? bookProgress(plan, read).filter((b) => b.firstDay <= todayN) : []);
 	const chapters = $derived(books.reduce((n, b) => n + b.done, 0));
-	const readThisYear = $derived([...progress.read].filter((d) => d.startsWith(String(year))).length);
+	const readThisYear = $derived([...dates].filter((d) => d.startsWith(String(year))).length);
 
 	const cellClass = (date: string | null) => {
 		if (!date) return 'blank';
-		if (progress.read.has(date)) return 'read';
+		if (dates.has(date)) return 'read';
 		if (date > today) return 'future';
 		if (rest.has(date)) return 'rest';
 		return 'none';

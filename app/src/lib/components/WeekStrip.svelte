@@ -2,10 +2,10 @@
 	import type { Day } from '#lib/today.ts';
 	import { addDays, weekday } from '#lib/today.ts';
 	import { dayStatus } from '#lib/reader/stats.ts';
-	import { progress } from '#lib/reader/progress.svelte.ts';
+	import { readIn } from '#lib/reader/progress.svelte.ts';
 
 	/** Sunday–Saturday dots for the week containing `today`. */
-	let { schedule, today }: { schedule: Day[]; today: string } = $props();
+	let { plan, schedule, today }: { plan: string; schedule: Day[]; today: string } = $props();
 
 	const days = $derived.by(() => {
 		const sunday = addDays(today, -weekday(today));
@@ -13,7 +13,7 @@
 		return Array.from({ length: 7 }, (_, i) => {
 			const date = addDays(sunday, i);
 			const day = byDate.get(date);
-			return { date, num: Number(date.slice(8)), letter: 'SMTWTFS'[i], status: day ? dayStatus(day, progress.read, today) : 'upcoming' };
+			return { date, num: Number(date.slice(8)), letter: 'SMTWTFS'[i], status: day ? dayStatus(day, readIn(plan), today) : 'upcoming' };
 		});
 	});
 	const words = { read: 'read', missed: 'not read', today: 'today', upcoming: '', rest: 'rest day' };
