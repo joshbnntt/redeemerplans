@@ -3,14 +3,15 @@
  *
  * - The church plan (the current one, which the church app also shows) is followed unless the
  *   reader turns it off. Every other plan is followed only once the reader starts it.
- * - A plan with no dates (e.g. Praying the Psalms) gets a start date when it's followed, so it has
- *   a day for today. (Moving a dated plan to the reader's own pace comes later.)
+ * - `start` is the reader's own start date. A plan with no dates (e.g. Praying the Psalms), or one
+ *   whose dates are over, gets one when it's followed; any plan can be moved to the reader's own
+ *   pace ("Reset my dates") and back to its own dates.
  * - Signed out: kept on this device, and saved to the account when the reader signs in.
  */
 import { SvelteMap } from 'svelte/reactivity';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '#lib/supabase.ts';
-import { localISODate, planForDate, type PlanSummary } from '#lib/today.ts';
+import { addDays, localISODate, planForDate, type PlanSummary } from '#lib/today.ts';
 import { load, save } from './storage.ts';
 
 export type Choice = { following: boolean; start?: string };
@@ -41,13 +42,22 @@ export function isFollowing(plan: Pick<PlanSummary, 'id'>, church?: Pick<PlanSum
 /** The reader's start date for a plan they follow without set dates. */
 export const startOf = (planId: string) => following.choices.get(planId)?.start;
 
+/** The last day of a plan on the reader's dates (undefined for a plan with no dates yet). */
+export function endOf(p: Pick<PlanSummary, 'id' | 'end' | 'days'>): string | undefined {
+	const start = startOf(p.id);
+	return start ? addDays(start, p.days - 1) : p.end;
+}
+
 /**
  * The plans the reader follows, church plan first, then the rest by when they were started.
- * Plans whose dates are over are left out; plans that haven't started yet are kept.
+ * Plans that are over (on the reader's dates) are left out; plans that haven't started are kept.
  */
 export function followedPlans(plans: PlanSummary[], today: string): PlanSummary[] {
 	const church = planForDate(plans, today);
-	const out = plans.filter((p) => isFollowing(p, church) && (!p.end || p.end >= today));
+	const out = plans.filter((p) => {
+		const end = endOf(p);
+		return isFollowing(p, church) && (!end || end >= today);
+	});
 	const order = [...following.choices.keys()];
 	return out.sort((a, b) => {
 		if (a.id === church?.id) return -1;
@@ -129,8 +139,8 @@ export function startFollowing() {
 }
 
 async function choose(planId: string, c: Choice) {
-	// Re-adding moves a plan to the end of the list.
-	following.choices.delete(planId);
+	// Starting to follow a plan moves it to the end of the list; changing its dates keeps its place.
+	if (!following.choices.get(planId)?.following) following.choices.delete(planId);
 	following.choices.set(planId, c);
 	if (!session) {
 		save(KEYS.guest, snapshot());
@@ -141,15 +151,24 @@ async function choose(planId: string, c: Choice) {
 	await flush();
 }
 
-/** Starts following a plan. A plan without dates starts today (or on `start`). */
-export function follow(plan: Pick<PlanSummary, 'id' | 'start'>, start = localISODate()) {
-	const existing = following.choices.get(plan.id)?.start;
-	return choose(plan.id, { following: true, ...(plan.start ? {} : { start: existing ?? start }) });
+/**
+ * Starts following a plan: on its own dates if it has some that aren't over, otherwise from today.
+ * A start date the reader chose before is kept.
+ */
+export function follow(plan: Pick<PlanSummary, 'id' | 'start' | 'end'>, today = localISODate()) {
+	const ended = !!plan.end && plan.end < today;
+	const start = startOf(plan.id) ?? (!plan.start || ended ? today : undefined);
+	return choose(plan.id, { following: true, ...(start ? { start } : {}) });
 }
 
 /** Stops following a plan. Progress in it is kept, so following it again picks up where it was. */
-export function unfollow(plan: Pick<PlanSummary, 'id' | 'start'>) {
-	const start = following.choices.get(plan.id)?.start;
+export function unfollow(plan: Pick<PlanSummary, 'id'>) {
+	const start = startOf(plan.id);
 	return choose(plan.id, { following: false, ...(start ? { start } : {}) });
 }
 
+/** Puts a plan on the reader's own dates, starting on `start` (and follows it). */
+export const setStart = (plan: Pick<PlanSummary, 'id'>, start: string) => choose(plan.id, { following: true, start });
+
+/** Puts a plan back on its own dates (the church schedule). */
+export const useOwnDates = (plan: Pick<PlanSummary, 'id'>) => choose(plan.id, { following: true });

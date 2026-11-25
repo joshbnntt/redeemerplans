@@ -25,6 +25,8 @@ export type PlanSummary = {
 	current?: true;
 	/** an extra plan (e.g. Advent) to follow alongside the church plan. Only present when true. */
 	supplemental?: true;
+	/** set in the app (never by the API) when the dates are the reader's own, not the plan's */
+	personal?: true;
 };
 
 export type PlanV2 = PlanSummary & { days: number; schedule: Day[] };

@@ -4,6 +4,7 @@
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
 	import { onMount } from 'svelte';
 	import FollowButton from '#lib/components/FollowButton.svelte';
+	import PaceControls from '#lib/components/PaceControls.svelte';
 	import { isFollowing, startOf } from '#lib/reader/following.svelte.ts';
 	import { loadIndex } from '#lib/reader/plans.svelte.ts';
 	import { localISODate, longDate, planForDate, shortDate, shortWeekday, withDates, type PlanSummary } from '#lib/today.ts';
@@ -17,7 +18,7 @@
 		church = planForDate(await loadIndex().catch(() => []), today);
 	});
 	const followed = $derived(!!today && isFollowing(data.plan, church));
-	// A plan without dates gets the reader's own once they follow it.
+	// On the reader's dates once they follow it (a plan without dates, or one they've reset).
 	const plan = $derived(followed ? withDates(data.plan, startOf(data.plan.id)) : data.plan);
 	const ended = $derived(!!today && !!data.plan.end && data.plan.end < today);
 </script>
@@ -29,12 +30,14 @@
 
 <h1>{plan.title}</h1>
 {#if plan.description}<p class="desc">{plan.description}</p>{/if}
-{#if today && !ended}
+{#if today}
 	<div class="follow">
 		<FollowButton plan={data.plan} {church} />
 		{#if church?.id === data.plan.id}<span class="muted small">The church’s current plan</span>
-		{:else if followed && !data.plan.start && plan.start}<span class="muted small">Started {longDate(plan.start)}</span>{/if}
+		{:else if !followed && ended}<span class="muted small">Its dates are over; following it starts it today.</span>
+		{:else if followed && !data.plan.start && plan.start}<span class="muted small">Day 1 was {longDate(plan.start)}</span>{/if}
 	</div>
+	{#if followed && plan.start}<PaceControls {plan} own={data.plan} {today} />{/if}
 {/if}
 {#if data.plan.mode === 'church'}
 	<p class="cal"><a href="/cal/{plan.id}.ics">Calendar file for this plan</a> · <a href="/plans/">All plans</a></p>

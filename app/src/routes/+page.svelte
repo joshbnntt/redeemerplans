@@ -5,6 +5,7 @@
 	import WeekStrip from '#lib/components/WeekStrip.svelte';
 	import ExtraPlanCard from '#lib/components/ExtraPlanCard.svelte';
 	import FollowButton from '#lib/components/FollowButton.svelte';
+	import PaceControls from '#lib/components/PaceControls.svelte';
 	import { followedPlans, following, isFollowing, startOf } from '#lib/reader/following.svelte.ts';
 	import { passageUrl, refLabel } from '#lib/shared/links.js';
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
@@ -18,8 +19,10 @@
 
 	// Empty until the browser knows the reader's date (the page is generated ahead of time).
 	let today = $state('');
-	let plan = $state<PlanV2 | null>(null);
+	let loaded = $state<PlanV2 | null>(null);
 	let failed = $state(false);
+	// The church plan on the reader's dates (their own, if they've reset them).
+	const plan = $derived(loaded ? withDates(loaded, startOf(loaded.id)) : null);
 
 	const summary = $derived(today ? planForDate(data.plans, today) : undefined);
 	// The church plan is shown unless the reader has stopped following it.
@@ -46,7 +49,7 @@
 		const s = planForDate(data.plans, today);
 		if (!s) return;
 		try {
-			plan = await loadPlan(s.id);
+			loaded = await loadPlan(s.id);
 		} catch {
 			failed = true;
 		}
@@ -85,15 +88,17 @@
 	{:else}
 		<div>
 			<p class="meta">{longDate(today)}</p>
-			<p class="meta">{summary.title}{#if day}{` · Day ${day.n} of ${summary.days}`}{/if}</p>
+			<p class="meta">{summary.title}{#if day}{` · Day ${day.n} of ${summary.days}`}{/if}{#if plan?.personal}{' · your own dates'}{/if}</p>
 		</div>
 
 		<section class="card today" aria-labelledby="today-heading">
 			<h1 id="today-heading" class="eyebrow">Today’s reading</h1>
 			{#if failed}
 				<p>Couldn’t load today’s reading. Check your connection and try again.</p>
-			{:else if !day}
+			{:else if !plan}
 				<p class="muted">Loading…</p>
+			{:else if !day}
+				<p>{plan.start && today < plan.start ? `Your dates for this plan start ${longDate(plan.start)}.` : 'You’ve finished this plan. Well done!'}</p>
 			{:else if day.type !== 'reading'}
 				<p class="rest">{day.label}</p>
 				<p class="muted">A day to rest and worship with your church.</p>
@@ -110,7 +115,7 @@
 				</ul>
 				{#if day.refs.length === 0}<p class="ref">{day.label}</p>{/if}
 				{#if day.alt}<p class="alt">Alternate: {day.alt.label}</p>{/if}
-				<ReadToggle big {day} plan={summary} label="Today’s reading" />
+				<ReadToggle big {day} {plan} label="Today’s reading" />
 			{/if}
 		</section>
 
@@ -129,10 +134,11 @@
 										{#each m.refs as ref, i (i)}<a href={passageUrl(ref, prefs)} target="_blank" rel="noopener">{refLabel(ref)}</a>{i < m.refs.length - 1 ? ', ' : ''}{/each}
 									</p>
 								</div>
-								<ReadToggle day={m} plan={summary} label={shortDay(m.date!)} />
+								<ReadToggle day={m} {plan} label={shortDay(m.date!)} />
 							</li>
 						{/each}
 					</ul>
+					<div class="reset"><PaceControls compact {plan} own={summary} {today} /></div>
 				</section>
 			{/if}
 
@@ -155,7 +161,7 @@
 
 	{#if today}
 		{#each extras as p (p.id)}
-			{#if extraPlans[p.id]}<ExtraPlanCard plan={withDates(extraPlans[p.id], startOf(p.id))} {today} />{/if}
+			{#if extraPlans[p.id]}<ExtraPlanCard plan={withDates(extraPlans[p.id], startOf(p.id))} own={p} {today} />{/if}
 		{/each}
 		<p class="more"><a href="/plans/">{extras.length ? 'Add another plan' : 'Add a plan alongside the church’s'}</a></p>
 	{/if}
@@ -307,6 +313,9 @@
 	}
 	.big.streak {
 		color: var(--streak);
+	}
+	.reset {
+		margin-top: 10px;
 	}
 	.more {
 		margin: 0 4px;

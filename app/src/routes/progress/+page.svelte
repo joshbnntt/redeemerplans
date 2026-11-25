@@ -4,10 +4,12 @@
 	import { startOf } from '#lib/reader/following.svelte.ts';
 	import { loadToday } from '#lib/reader/plans.svelte.ts';
 	import { bestStreak, bookProgress, currentStreak, planProgress, yearGrid } from '#lib/reader/stats.ts';
-	import { localISODate, type PlanSummary, type PlanV2 } from '#lib/today.ts';
+	import { localISODate, withDates, type PlanSummary, type PlanV2 } from '#lib/today.ts';
 
 	let today = $state('');
-	let plan = $state<PlanV2 | null>(null);
+	let raw = $state<PlanV2 | null>(null);
+	// The church plan on the reader's dates (their own, if they've reset them).
+	const plan = $derived(raw ? withDates(raw, startOf(raw.id)) : null);
 	let index = $state<PlanSummary[]>([]);
 	let loaded = $state(false);
 
@@ -15,7 +17,7 @@
 		today = localISODate();
 		try {
 			const r = await loadToday(today);
-			plan = r.plan;
+			raw = r.plan;
 			index = r.plans;
 		} finally {
 			loaded = true;

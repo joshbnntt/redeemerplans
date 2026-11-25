@@ -4,13 +4,16 @@
 	import { passageUrl, refLabel } from '#lib/shared/links.js';
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
 	import { readIn } from '#lib/reader/progress.svelte.ts';
+	import { startOf } from '#lib/reader/following.svelte.ts';
 	import { loadToday } from '#lib/reader/plans.svelte.ts';
 	import { feedLinks } from '#lib/reader/calendar.ts';
 	import { dayStatus } from '#lib/reader/stats.ts';
-	import { addDays, localISODate, longDate, weekday, type Day, type PlanSummary, type PlanV2 } from '#lib/today.ts';
+	import { addDays, withDates, localISODate, longDate, weekday, type Day, type PlanSummary, type PlanV2 } from '#lib/today.ts';
 
 	let today = $state('');
-	let plan = $state<PlanV2 | null>(null);
+	let raw = $state<PlanV2 | null>(null);
+	// The church plan on the reader's dates (their own, if they've reset them).
+	const plan = $derived(raw ? withDates(raw, startOf(raw.id)) : null);
 	let upcoming = $state<PlanSummary | undefined>(undefined);
 	let loaded = $state(false);
 	let view = $state<'week' | 'month'>('week');
@@ -26,7 +29,7 @@
 		picked = today;
 		try {
 			const r = await loadToday(today);
-			plan = r.plan;
+			raw = r.plan;
 			upcoming = r.upcoming;
 		} finally {
 			loaded = true;

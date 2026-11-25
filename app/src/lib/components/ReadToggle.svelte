@@ -8,7 +8,7 @@
 		day,
 		label,
 		big = false
-	}: { plan: Pick<PlanSummary, 'id' | 'mode' | 'supplemental'>; day: Pick<Day, 'n' | 'date'>; label: string; big?: boolean } = $props();
+	}: { plan: Pick<PlanSummary, 'id' | 'mode' | 'supplemental' | 'personal'>; day: Pick<Day, 'n' | 'date'>; label: string; big?: boolean } = $props();
 	const done = $derived(isRead(plan.id, day.n));
 	const toggle = () => setRead(plan, day.n, !done, day.date);
 </script>

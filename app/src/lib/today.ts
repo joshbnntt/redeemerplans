@@ -33,7 +33,7 @@ export const dayDate = (plan: Pick<PlanSummary, 'start'>, n: number) => (plan.st
  * Whether check-offs in this plan are also written to the old date-only `haveread` table, which the
  * current site and the admin Readers page read. Only the church plan on its own dates is.
  */
-export const isLegacyPlan = (p: Pick<PlanSummary, 'mode' | 'supplemental'>) => p.mode === 'church' && !p.supplemental;
+export const isLegacyPlan = (p: Pick<PlanSummary, 'mode' | 'supplemental' | 'personal'>) => p.mode === 'church' && !p.supplemental && !p.personal;
 
 /**
  * Which plan day an old date-only check-off belongs to: the plan it was tagged with when that plan
@@ -47,15 +47,16 @@ export function locateDate(plans: PlanSummary[], iso: string, slug?: string | nu
 }
 
 /**
- * A plan with dates on every day: its own, or, for a plan without dates, counted from the reader's
- * `start`. Without either it's returned as it is.
+ * A plan on the reader's dates: counted from `start` when the reader has their own start date (for
+ * a plan without dates, or one they've moved to their own pace), otherwise the plan's own dates.
  */
 export function withDates(plan: PlanV2, start?: string): PlanV2 {
-	if (plan.start || !start) return plan;
+	if (!start || start === plan.start) return plan;
 	return {
 		...plan,
 		start,
 		end: addDays(start, plan.schedule.length - 1),
+		personal: true,
 		schedule: plan.schedule.map((d) => ({ ...d, date: addDays(start, d.n - 1) }))
 	};
 }

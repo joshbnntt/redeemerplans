@@ -41,12 +41,12 @@ export const hasProgress = () => [...progress.log.values()].some((s) => s.size >
 /**
  * Dates read, on each plan's schedule (for the year calendar).
  * @param plans the plan index
- * @param startOf the reader's start date for a plan without dates of its own
+ * @param startOf the reader's own start date for a plan, if they have one
  */
 export function readDates(plans: PlanSummary[], startOf: (id: string) => string | undefined = () => undefined): Set<string> {
 	const dates = new Set<string>();
 	for (const p of plans) {
-		const start = p.start ?? startOf(p.id);
+		const start = startOf(p.id) ?? p.start;
 		if (!start) continue;
 		for (const n of readIn(p.id)) dates.add(dayDate({ start }, n)!);
 	}
@@ -235,7 +235,7 @@ export function startProgress() {
  * @param n day number
  * @param date the day's date, when it's on the plan's own schedule
  */
-export async function setRead(plan: Pick<PlanSummary, 'id' | 'mode' | 'supplemental'>, n: number, value: boolean, date?: string) {
+export async function setRead(plan: Pick<PlanSummary, 'id' | 'mode' | 'supplemental' | 'personal'>, n: number, value: boolean, date?: string) {
 	let s = progress.log.get(plan.id);
 	if (!s) progress.log.set(plan.id, (s = new SvelteSet()));
 	if (value) s.add(n);

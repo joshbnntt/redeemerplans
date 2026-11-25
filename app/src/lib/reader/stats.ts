@@ -62,6 +62,18 @@ export function catchUp(plan: PlanV2, read: ReadonlySet<number>, today: string, 
 	return plan.schedule.filter((d) => d.date && d.date >= from && d.date < today && isReadingDay(d) && !read.has(d.n));
 }
 
+/**
+ * Where a reader picks up a plan: the first unread reading day after the last day they read
+ * (day 1 if they haven't read any). Undefined once everything is read.
+ */
+export function resumeDay(plan: PlanV2, read: ReadonlySet<number>): number | undefined {
+	const last = Math.max(0, ...read);
+	return plan.schedule.find((d) => d.n > last && isReadingDay(d) && !read.has(d.n))?.n;
+}
+
+/** The start date that puts day `n` on `today`. */
+export const startForDay = (n: number, today: string) => addDays(today, -(n - 1));
+
 /** Chapters read per book in this plan (counting a split chapter once). */
 export function bookProgress(plan: PlanV2, read: ReadonlySet<number>) {
 	const books = new Map<string, { name: string; total: Set<number>; done: Set<number>; firstDay: number }>();

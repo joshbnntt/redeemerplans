@@ -3,7 +3,7 @@
 	import type { PlanSummary } from '#lib/today.ts';
 
 	/** Follow / Following toggle for a plan. `church` is the plan the church is reading now. */
-	let { plan, church }: { plan: Pick<PlanSummary, 'id' | 'start' | 'title'>; church?: Pick<PlanSummary, 'id'> } = $props();
+	let { plan, church }: { plan: Pick<PlanSummary, 'id' | 'start' | 'end' | 'title'>; church?: Pick<PlanSummary, 'id'> } = $props();
 	const on = $derived(isFollowing(plan, church));
 </script>
 

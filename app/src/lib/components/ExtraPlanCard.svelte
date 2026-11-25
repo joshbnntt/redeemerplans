@@ -1,13 +1,17 @@
 <script lang="ts">
 	import ReadToggle from '#lib/components/ReadToggle.svelte';
+	import PaceControls from '#lib/components/PaceControls.svelte';
 	import { passageUrl, refLabel } from '#lib/shared/links.js';
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
 	import { readIn } from '#lib/reader/progress.svelte.ts';
 	import { catchUp } from '#lib/reader/stats.ts';
-	import { longDate, type PlanV2 } from '#lib/today.ts';
+	import { longDate, type PlanSummary, type PlanV2 } from '#lib/today.ts';
 
-	/** Today's reading in a plan the reader follows besides the church plan. `plan` has dates. */
-	let { plan, today }: { plan: PlanV2; today: string } = $props();
+	/**
+	 * Today's reading in a plan the reader follows besides the church plan. `plan` is on the
+	 * reader's dates; `own` is the plan as published.
+	 */
+	let { plan, own, today }: { plan: PlanV2; own: PlanSummary; today: string } = $props();
 	const day = $derived(plan.schedule.find((d) => d.date === today));
 	const missed = $derived(catchUp(plan, readIn(plan.id), today).length);
 </script>
@@ -31,7 +35,10 @@
 		{#if day.alt}<p class="muted small">Alternate: {day.alt.label}</p>{/if}
 		<ReadToggle big {day} {plan} label="{plan.title}, today" />
 	{/if}
-	{#if missed}<p class="small"><a href="/plan/{plan.id}/">{missed} day{missed === 1 ? '' : 's'} to catch up</a></p>{/if}
+	{#if missed}
+		<p class="small"><a href="/plan/{plan.id}/">{missed} day{missed === 1 ? '' : 's'} to catch up</a></p>
+		<PaceControls compact {plan} {own} {today} />
+	{/if}
 </section>
 
 <style>
