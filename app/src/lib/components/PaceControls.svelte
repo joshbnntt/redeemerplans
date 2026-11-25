@@ -18,6 +18,19 @@
 	const canGoBack = $derived(!!plan.personal && !!own.start && !!own.end && own.end >= today);
 	const backLabel = $derived(isLegacyPlan(own) ? 'Back to the church schedule' : 'Back to the plan’s dates');
 	let confirmBack = $state(false);
+	let editing = $state(false);
+	let picked = $state('');
+	function openEdit() {
+		picked = plan.start ?? today;
+		editing = true;
+	}
+	function saveStart() {
+		if (!picked) return;
+		// Picking the plan's own start date puts it back on its own dates.
+		if (picked === own.start) useOwnDates(plan);
+		else setStart(plan, picked);
+		editing = false;
+	}
 
 	const reset = () => next && setStart(plan, startForDay(next, today));
 </script>
@@ -30,14 +43,22 @@
 	<div class="pace">
 		{#if plan.personal && plan.start}
 			<p>
-				You’re reading this plan on your own dates{#if plan.start <= today}, day 1 was {longDate(plan.start)}{:else}, starting {longDate(plan.start)}{/if}.
+				{own.start ? 'You’re reading this plan on your own dates. ' : ''}Day 1 {plan.start <= today ? 'was' : 'is'} {longDate(plan.start)}.
 			</p>
 		{/if}
 		{#if behind && next}
 			<p class="muted small">You’re {behind} day{behind === 1 ? '' : 's'} behind. Resetting your dates makes day {next} today, so nothing is overdue.</p>
 		{/if}
+		{#if editing}
+			<form class="edit" onsubmit={(e) => (e.preventDefault(), saveStart())}>
+				<label>Day 1 is <input type="date" bind:value={picked} max={today} required /></label>
+				<button class="btn" type="submit">Save</button>
+				<button class="btn quiet" type="button" onclick={() => (editing = false)}>Cancel</button>
+			</form>
+		{/if}
 		<div class="buttons">
 			{#if behind && next}<button class="btn" onclick={reset}>Reset my dates</button>{/if}
+			{#if !editing}<button class="btn quiet" onclick={openEdit}>Change start date</button>{/if}
 			{#if canGoBack}
 				{#if confirmBack}
 					<span class="small">Go back to {isLegacyPlan(own) ? 'reading with the church' : 'the plan’s dates'}? Days you’ve read stay read.</span>
@@ -60,6 +81,22 @@
 	}
 	p {
 		margin: 0;
+	}
+	.edit {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 8px;
+	}
+	.edit input {
+		font: inherit;
+		min-height: 40px;
+		padding: 0 10px;
+		border-radius: 10px;
+		border: 1px solid var(--line);
+		background: var(--surface);
+		color: inherit;
+		margin-left: 6px;
 	}
 	.buttons {
 		display: flex;

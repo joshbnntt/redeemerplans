@@ -35,7 +35,7 @@
 		<FollowButton plan={data.plan} {church} />
 		{#if church?.id === data.plan.id}<span class="muted small">The church’s current plan</span>
 		{:else if !followed && ended}<span class="muted small">Its dates are over; following it starts it today.</span>
-		{:else if followed && !data.plan.start && plan.start}<span class="muted small">Day 1 was {longDate(plan.start)}</span>{/if}
+{/if}
 	</div>
 	{#if followed && plan.start}<PaceControls {plan} own={data.plan} {today} />{/if}
 {/if}
