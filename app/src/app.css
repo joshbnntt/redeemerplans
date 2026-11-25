@@ -15,6 +15,9 @@
 	--warn-ink: #7c2d12;
 	--warn-soft: #fff7ed;
 	--warn-line: #fdba74;
+	--danger: #b42318;
+	--danger-line: #d92d20;
+	--danger-soft: #fef3f2;
 	--radius: 16px;
 	--shadow: 0 1px 2px rgb(28 25 23 / 0.06), 0 8px 24px rgb(28 25 23 / 0.06);
 	--font-ui: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -39,6 +42,9 @@
 		--warn-ink: #fed7aa;
 		--warn-soft: #2b1d12;
 		--warn-line: #9a4a1c;
+		--danger: #fda29b;
+		--danger-line: #f97066;
+		--danger-soft: #3a1714;
 		--shadow: none;
 		color-scheme: dark;
 	}
@@ -59,6 +65,9 @@
 	--warn-ink: #fed7aa;
 	--warn-soft: #2b1d12;
 	--warn-line: #9a4a1c;
+	--danger: #fda29b;
+	--danger-line: #f97066;
+	--danger-soft: #3a1714;
 	--shadow: none;
 	color-scheme: dark;
 }

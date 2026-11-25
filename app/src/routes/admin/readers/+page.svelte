@@ -284,7 +284,7 @@
 	}
 	.cell.missed,
 	.cell.today {
-		background: #fee4e2;
+		background: var(--danger-soft);
 	}
 	.cell.rest {
 		background: var(--surface-muted);

@@ -581,12 +581,12 @@
 		box-shadow: 0 0 0 3px var(--brand-soft);
 	}
 	.cell input[aria-invalid='true'] {
-		border-color: #d92d20;
-		background: #fef3f2;
+		border-color: var(--danger-line);
+		background: var(--danger-soft);
 	}
 	.msg {
 		font-size: 13px;
-		color: #b42318;
+		color: var(--danger);
 		display: flex;
 		flex-wrap: wrap;
 		gap: 4px 8px;
@@ -684,7 +684,7 @@
 		margin: 0 0 10px;
 	}
 	.count.bad {
-		color: #b42318;
+		color: var(--danger);
 	}
 	.count.ok {
 		color: var(--ok);
@@ -698,9 +698,9 @@
 		margin: 0;
 	}
 	.issue.err {
-		background: #fef3f2;
-		border: 1px solid #fda29b;
-		color: #1c1917;
+		background: var(--danger-soft);
+		border: 1px solid var(--danger-line);
+		color: var(--ink);
 	}
 	.issue.note {
 		background: var(--warn-soft);
