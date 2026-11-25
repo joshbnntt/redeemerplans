@@ -60,6 +60,10 @@ else.
   checks, refuses if the plan changed since it was opened, and commits `src/plan/<name>.md` to
   GitHub in the same layout as the existing files. Making a plan "current" un-marks the old one in
   the same commit. Both Vercel projects rebuild, so it's live in about a minute.
+- **Readers:** everyone with an account: when they joined and were last active, whether they're
+  still signed in on any device, and their progress (percent, streak, days behind, last two weeks)
+  in the current plan or any earlier church plan. Data comes from the editor-only `list_readers()`
+  function.
 - **Publishing history:** who published what, with a link to each change on GitHub.
 
 Database changes are in `../supabase/migrations/` (drafts, publish log and editor functions; all

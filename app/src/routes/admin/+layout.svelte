@@ -35,6 +35,7 @@
 
 	const nav = [
 		{ href: '/admin/', label: 'Plans' },
+		{ href: '/admin/readers/', label: 'Readers' },
 		{ href: '/admin/editors/', label: 'Editors' },
 		{ href: '/admin/history/', label: 'Publishing history' }
 	];
