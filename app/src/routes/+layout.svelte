@@ -6,6 +6,7 @@
 	import { startPrefs } from '#lib/reader/prefs.svelte.ts';
 	import { startProgress } from '#lib/reader/progress.svelte.ts';
 	import { startFollowing } from '#lib/reader/following.svelte.ts';
+	import { auth, startAuth } from '#lib/admin/session.svelte.ts';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
@@ -19,6 +20,8 @@
 			startProgress();
 			startFollowing();
 		}
+		// Shares the reader's sign-in; only asks the server about editor access when signed in.
+		startAuth();
 	});
 
 	const tabs = [
@@ -56,6 +59,9 @@
 				<span class="mark" aria-hidden="true">R</span>
 				<span>Redeemer Reading</span>
 			</a>
+			{#if auth.status === 'editor'}
+				<a class="admin-link" href="/admin/">Admin</a>
+			{/if}
 		</header>
 
 		<main>
@@ -86,6 +92,26 @@
 		max-width: 720px;
 		width: 100%;
 		margin: 0 auto;
+	}
+	header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+	}
+	.admin-link {
+		min-height: 44px;
+		display: inline-flex;
+		align-items: center;
+		padding: 0 14px;
+		border-radius: 10px;
+		text-decoration: none;
+		color: var(--brand);
+		font-weight: 600;
+		font-size: 14px;
+	}
+	.admin-link:hover {
+		background: var(--brand-soft);
 	}
 	.brand {
 		display: inline-flex;
