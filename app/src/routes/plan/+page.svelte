@@ -3,16 +3,27 @@
 	import ReadToggle from '#lib/components/ReadToggle.svelte';
 	import { passageUrl, refLabel } from '#lib/shared/links.js';
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
-	import { progress } from '#lib/reader/progress.svelte.ts';
-	import { loadToday } from '#lib/reader/plans.svelte.ts';
+	import { readIn } from '#lib/reader/progress.svelte.ts';
+	import { following, followedPlans, startOf } from '#lib/reader/following.svelte.ts';
+	import { shownPlan } from '#lib/reader/chosen.svelte.ts';
+	import { loadIndex, loadPlan } from '#lib/reader/plans.svelte.ts';
+	import PlanPicker from '#lib/components/PlanPicker.svelte';
 	import { feedLinks } from '#lib/reader/calendar.ts';
 	import { dayStatus } from '#lib/reader/stats.ts';
-	import { addDays, localISODate, longDate, weekday, type Day, type PlanSummary, type PlanV2 } from '#lib/today.ts';
+	import { addDays, withDates, localISODate, longDate, nextPlan, weekday, type Day, type PlanSummary, type PlanV2 } from '#lib/today.ts';
 
 	let today = $state('');
-	let plan = $state<PlanV2 | null>(null);
-	let upcoming = $state<PlanSummary | undefined>(undefined);
-	let loaded = $state(false);
+	let index = $state<PlanSummary[]>([]);
+	let indexLoaded = $state(false);
+	let raw = $state<PlanV2 | null>(null);
+	let failed = $state(false);
+	// The plans the reader follows, and the one being shown (church plan first).
+	const followed = $derived(today && following.ready ? followedPlans(index, today) : []);
+	const shown = $derived(today && following.ready ? shownPlan(index, today) : undefined);
+	// The shown plan on the reader's dates (their own, if they've set them).
+	const plan = $derived(raw && raw.id === shown?.id ? withDates(raw, startOf(raw.id)) : null);
+	const upcoming = $derived(today ? nextPlan(index, today) : undefined);
+	const loaded = $derived(indexLoaded && following.ready && (!shown || !!plan || failed));
 	let view = $state<'week' | 'month'>('week');
 	let anchor = $state(''); // a date in the week or month being shown
 	let picked = $state(''); // selected day in the month view
@@ -25,12 +36,30 @@
 		anchor = today;
 		picked = today;
 		try {
-			const r = await loadToday(today);
-			plan = r.plan;
-			upcoming = r.upcoming;
+			index = await loadIndex();
 		} finally {
-			loaded = true;
+			indexLoaded = true;
 		}
+	});
+
+	$effect(() => {
+		const id = shown?.id;
+		if (!id || raw?.id === id) return;
+		failed = false;
+		loadPlan(id)
+			.then((p) => {
+				if (shown?.id === id) raw = p;
+			})
+			.catch(() => (failed = true));
+	});
+
+	// Open on this week, or on the first week of a plan that hasn't started yet.
+	let shownFor = '';
+	$effect(() => {
+		if (!plan || shownFor === plan.id) return;
+		shownFor = plan.id;
+		anchor = plan.start && plan.start > today ? plan.start : today;
+		picked = anchor;
 	});
 
 	const byDate = $derived(new Map((plan?.schedule ?? []).filter((d) => d.date).map((d) => [d.date!, d])));
@@ -39,7 +68,8 @@
 	// Week view
 	const weekStart = $derived(anchor ? addDays(anchor, -weekday(anchor)) : '');
 	const weekDays = $derived(weekStart ? Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)) : []);
-	const weekRead = $derived(weekDays.filter((d) => progress.read.has(d) && byDate.get(d)?.type === 'reading').length);
+	const read = $derived(plan ? readIn(plan.id) : new Set<number>());
+	const weekRead = $derived(weekDays.filter((d) => byDate.get(d)?.type === 'reading' && read.has(byDate.get(d)!.n)).length);
 	const weekDue = $derived(weekDays.filter((d) => byDate.get(d)?.type === 'reading').length);
 
 	// Month view
@@ -67,7 +97,7 @@
 	};
 
 	const fmt = (iso: string, opts: Intl.DateTimeFormatOptions) => new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', { ...opts, timeZone: 'UTC' });
-	const status = (d: Day) => dayStatus(d, progress.read, today);
+	const status = (d: Day) => dayStatus(d, read, today);
 	const statusText = { read: 'Read', missed: 'Not read', today: 'Today', upcoming: '', rest: '' };
 </script>
 
@@ -83,14 +113,17 @@
 
 {#if !loaded}
 	<p class="muted">Loading…</p>
+{:else if failed}
+	<section class="card"><p>Couldn’t load the plan. Check your connection and try again.</p></section>
 {:else if !plan}
 	<section class="card">
-		<p>There’s no church reading plan running today.</p>
-		{#if upcoming}<p>The next plan, <a href="/plan/{upcoming.id}/">{upcoming.title}</a>, starts {longDate(upcoming.start!)}.</p>{/if}
+		<p>You’re not following a plan right now.</p>
+		{#if upcoming}<p>The church’s next plan, <a href="/plan/{upcoming.id}/">{upcoming.title}</a>, starts {longDate(upcoming.start!)}.</p>{/if}
 		<p><a href="/plans/">Browse all plans</a></p>
 	</section>
 {:else}
-	<p class="muted sub">{plan.title}</p>
+	<PlanPicker plans={followed} selected={plan.id} />
+	<p class="muted sub">{plan.title}{#if plan.personal && shown?.start}{' · your own dates'}{/if}</p>
 
 	<div class="tabs" role="tablist" aria-label="View">
 		<button role="tab" aria-selected={view === 'week'} onclick={() => (view = 'week')}>Week</button>
@@ -135,7 +168,7 @@
 							{#if statusText[status(d)]}<span class="small state {status(d)}">{statusText[status(d)]}</span>{/if}
 						{/if}
 					</div>
-					{#if d && d.type === 'reading'}<ReadToggle {date} plan={plan.id} label={fmt(date, { weekday: 'long' })} />{/if}
+					{#if d && d.type === 'reading'}<ReadToggle day={d} {plan} label={fmt(date, { weekday: 'long' })} />{/if}
 				</li>
 			{/each}
 		</ul>
@@ -152,7 +185,7 @@
 						class:picked={picked === date}
 						class:is-today={date === today}
 						disabled={!inPlan(date)}
-						aria-label="{fmt(date, { weekday: 'long', month: 'long', day: 'numeric' })}{d ? `, ${d.label}` : ''}{d && progress.read.has(date) ? ', read' : ''}"
+						aria-label="{fmt(date, { weekday: 'long', month: 'long', day: 'numeric' })}{d ? `, ${d.label}` : ''}{d && read.has(d.n) ? ', read' : ''}"
 						onclick={() => (picked = date)}>{Number(date.slice(8))}</button>
 				{/if}
 			{/each}
@@ -170,7 +203,7 @@
 						{/if}
 					</p>
 				</div>
-				{#if pickedDay.type === 'reading'}<ReadToggle date={picked} plan={plan.id} label={fmt(picked, { weekday: 'long' })} />{/if}
+				{#if pickedDay.type === 'reading'}<ReadToggle day={pickedDay} {plan} label={fmt(picked, { weekday: 'long' })} />{/if}
 			</section>
 		{/if}
 	{/if}

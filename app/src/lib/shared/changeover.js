@@ -5,12 +5,20 @@
  */
 import { parsePlanDate, planDayDate } from './planDate.js';
 
+/*
+ * The current plan is what the church app (Subsplash) shows, so this is deliberately cautious:
+ * - extra plans (`supplemental: true`, e.g. Advent) are never switched to;
+ * - a plan only takes over from the current one if it starts strictly later, so two plans
+ *   starting the same day never move the flag;
+ * - and only within CATCH_UP_DAYS of its start.
+ */
+
 /** A plan is only switched to within this many days of its start, so a manual choice made
  *  later is never overridden, while a missed daily run is still caught up. */
 export const CATCH_UP_DAYS = 3;
 
 /**
- * @typedef {{ file: string, title: string, start: unknown, current: boolean, days: number }} ChangeoverPlan
+ * @typedef {{ file: string, title: string, start: unknown, current: boolean, days: number, supplemental?: boolean }} ChangeoverPlan
  * @typedef {{ action: 'none', reason: string }
  *         | { action: 'switch', to: ChangeoverPlan, from: ChangeoverPlan[] }} ChangeoverDecision
  */
@@ -23,17 +31,30 @@ export const CATCH_UP_DAYS = 3;
 export function decideChangeover(plans, today) {
   const t = /** @type {Date} */ (parsePlanDate(today));
   const live = plans
+    .filter((p) => !p.supplemental)
     .map((p) => {
       const start = parsePlanDate(p.start);
       const end = start && p.days ? planDayDate(start, p.days - 1) : null;
       return { p, start, end };
     })
     .filter((x) => x.start && x.end && x.start <= t && t <= x.end)
-    .sort((a, b) => +(/** @type {Date} */ (b.start)) - +(/** @type {Date} */ (a.start)));
+    // Newest first; on the same start date the current plan wins, then file name (so it's stable).
+    .sort(
+      (a, b) =>
+        +(/** @type {Date} */ (b.start)) - +(/** @type {Date} */ (a.start)) ||
+        Number(b.p.current) - Number(a.p.current) ||
+        (a.p.file < b.p.file ? -1 : a.p.file > b.p.file ? 1 : 0)
+    );
 
   const newest = live[0];
   if (!newest) return { action: 'none', reason: 'No church plan covers today.' };
   if (newest.p.current) return { action: 'none', reason: `“${newest.p.title}” is already current.` };
+
+  // Never replace the current plan with one that started on the same day or earlier.
+  const flaggedStarts = plans.filter((p) => p.current).map((p) => parsePlanDate(p.start)).filter((d) => d !== null);
+  if (flaggedStarts.some((d) => +d >= +(/** @type {Date} */ (newest.start)))) {
+    return { action: 'none', reason: `“${newest.p.title}” doesn’t start after the current plan; leaving the current plan alone.` };
+  }
 
   const daysSinceStart = Math.round((+t - +(/** @type {Date} */ (newest.start))) / 86400000);
   if (daysSinceStart > CATCH_UP_DAYS) {

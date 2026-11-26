@@ -1,6 +1,5 @@
 /** Loads plans for the reader screens, once per visit. */
 import type { PlanSummary, PlanV2 } from '#lib/today.ts';
-import { localISODate, planForDate, nextPlan } from '#lib/today.ts';
 
 let index: Promise<PlanSummary[]> | null = null;
 const cache = new Map<string, Promise<PlanV2>>();
@@ -22,9 +21,3 @@ export function loadPlan(id: string, fetchImpl: typeof fetch = fetch): Promise<P
 	return p;
 }
 
-/** Today's church plan (or null), plus the next one if none is running. */
-export async function loadToday(today = localISODate()) {
-	const plans = await loadIndex();
-	const summary = planForDate(plans, today);
-	return { plans, summary, upcoming: summary ? undefined : nextPlan(plans, today), plan: summary ? await loadPlan(summary.id) : null };
-}

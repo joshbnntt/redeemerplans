@@ -8,7 +8,7 @@ import { parsePlanDate, planDayDate } from './planDate.js';
 
 /**
  * @typedef {{ day?: string, alt?: string } | null | undefined} PlanEntry
- * @typedef {{ title?: string, description?: string, start?: unknown, current?: boolean,
+ * @typedef {{ title?: string, description?: string, start?: unknown, current?: boolean, supplemental?: boolean,
  *             plan?: PlanEntry[], intentional_repeats?: string[] }} PlanData
  * @typedef {{ level: 'error' | 'warning', message: string, day?: number, field?: 'day' | 'alt', text?: string,
  *             fix?: string, detail?: string[] }} Issue
@@ -166,15 +166,43 @@ export function checkPlan(data) {
 }
 
 /**
- * Checks across plans: overlapping dates, and whether anything is scheduled ahead.
- * @param {{ title: string, start: Date | null, end: Date | null }[]} plans
+ * An extra plan (Advent, Psalms & Proverbs, …) that readers can follow alongside the church plan.
+ * It is never the church's current plan, so it never reaches the church app (Subsplash).
+ * Set with `supplemental: true` in the plan file.
+ * @param {{ supplemental?: unknown, extra?: { supplemental?: unknown } } | null | undefined} data
+ */
+export const isSupplemental = (data) => data?.supplemental === true || data?.extra?.supplemental === true;
+
+/**
+ * Which plan is current decides what the church app (Subsplash) shows, so it must be exactly one
+ * church plan. Errors here stop a deploy.
+ * @param {{ title: string, current?: boolean, supplemental?: boolean }[]} plans
+ * @returns {{ errors: string[], warnings: string[] }}
+ */
+export function checkCurrent(plans) {
+  const flagged = plans.filter((p) => p.current);
+  const errors = [];
+  if (flagged.length > 1) {
+    errors.push(`${flagged.length} plans are marked current (${flagged.map((p) => `"${p.title}"`).join(', ')}); only one can be.`);
+  }
+  for (const p of flagged) {
+    if (p.supplemental) errors.push(`"${p.title}" is an extra plan, so it can't be the current church plan.`);
+  }
+  const warnings = flagged.length === 0 ? ['No plan is marked current, so the church app has no plan.'] : [];
+  return { errors, warnings };
+}
+
+/**
+ * Checks across church plans: overlapping dates, and whether anything is scheduled ahead.
+ * Extra plans are left out: they're meant to run alongside the church plan.
+ * @param {{ title: string, start: Date | null, end: Date | null, supplemental?: boolean }[]} plans
  * @param {Date} [today]
  * @param {number} [lookaheadDays] warn when the last plan ends within this many days
  * @returns {string[]}
  */
 export function checkSchedule(plans, today = new Date(), lookaheadDays = 60) {
   const warnings = [];
-  const dated = /** @type {{ title: string, start: Date, end: Date }[]} */ (plans.filter((p) => p.start && p.end)).sort(
+  const dated = /** @type {{ title: string, start: Date, end: Date }[]} */ (plans.filter((p) => p.start && p.end && !p.supplemental)).sort(
     (a, b) => +a.start - +b.start
   );
   for (let i = 1; i < dated.length; i++) {

@@ -3,27 +3,44 @@
 	import InstallPrompt from '#lib/components/InstallPrompt.svelte';
 	import ReadToggle from '#lib/components/ReadToggle.svelte';
 	import WeekStrip from '#lib/components/WeekStrip.svelte';
+	import ExtraPlanCard from '#lib/components/ExtraPlanCard.svelte';
+	import FollowButton from '#lib/components/FollowButton.svelte';
+	import PaceControls from '#lib/components/PaceControls.svelte';
+	import { followedPlans, following, isFollowing, startOf } from '#lib/reader/following.svelte.ts';
 	import { passageUrl, refLabel } from '#lib/shared/links.js';
 	import { prefs } from '#lib/reader/prefs.svelte.ts';
-	import { progress } from '#lib/reader/progress.svelte.ts';
+	import { hasProgress, progress, readIn } from '#lib/reader/progress.svelte.ts';
 	import { loadPlan } from '#lib/reader/plans.svelte.ts';
 	import { catchUp, currentStreak, planProgress } from '#lib/reader/stats.ts';
-	import { localISODate, longDate, nextPlan, planForDate, type PlanV2 } from '#lib/today.ts';
+	import { localISODate, longDate, nextPlan, planForDate, withDates, type PlanV2 } from '#lib/today.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 
 	// Empty until the browser knows the reader's date (the page is generated ahead of time).
 	let today = $state('');
-	let plan = $state<PlanV2 | null>(null);
+	let loaded = $state<PlanV2 | null>(null);
 	let failed = $state(false);
+	// The church plan on the reader's dates (their own, if they've reset them).
+	const plan = $derived(loaded ? withDates(loaded, startOf(loaded.id)) : null);
 
 	const summary = $derived(today ? planForDate(data.plans, today) : undefined);
+	// The church plan is shown unless the reader has stopped following it.
+	const churchShown = $derived(!summary || isFollowing(summary, summary));
+	// Other plans the reader follows, each with dates (their own, or from the reader's start date).
+	const extras = $derived(today && following.ready ? followedPlans(data.plans, today).filter((p) => p.id !== summary?.id) : []);
+	let extraPlans = $state<Record<string, PlanV2>>({});
+	$effect(() => {
+		for (const p of extras) {
+			if (!extraPlans[p.id]) loadPlan(p.id).then((full) => (extraPlans[p.id] = full)).catch(() => {});
+		}
+	});
 	const upcoming = $derived(today ? nextPlan(data.plans, today) : undefined);
 	const day = $derived(plan?.schedule.find((d) => d.date === today));
-	const missed = $derived(plan ? catchUp(plan, progress.read, today) : []);
-	const streak = $derived(plan ? currentStreak(plan, progress.read, today) : 0);
-	const pct = $derived(plan ? planProgress(plan, progress.read, today) : null);
+	const read = $derived(plan ? readIn(plan.id) : new Set<number>());
+	const missed = $derived(plan ? catchUp(plan, read, today) : []);
+	const streak = $derived(plan ? currentStreak(plan, read, today) : 0);
+	const pct = $derived(plan ? planProgress(plan, read, today) : null);
 	const shortDay = (iso: string) =>
 		new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
 
@@ -32,7 +49,7 @@
 		const s = planForDate(data.plans, today);
 		if (!s) return;
 		try {
-			plan = await loadPlan(s.id);
+			loaded = await loadPlan(s.id);
 		} catch {
 			failed = true;
 		}
@@ -62,18 +79,26 @@
 			{#if upcoming}<p>The next plan, <a href="/plan/{upcoming.id}/">{upcoming.title}</a>, starts {longDate(upcoming.start!)}.</p>{/if}
 			<p><a href="/plans/">Browse all plans</a></p>
 		</section>
+	{:else if !churchShown}
+		<section class="card">
+			<p class="meta">{longDate(today)}</p>
+			<p>You’re not following the church’s plan, <a href="/plan/{summary.id}/">{summary.title}</a>.</p>
+			<FollowButton plan={summary} church={summary} />
+		</section>
 	{:else}
 		<div>
 			<p class="meta">{longDate(today)}</p>
-			<p class="meta">{summary.title}{#if day}{` · Day ${day.n} of ${summary.days}`}{/if}</p>
+			<p class="meta">{summary.title}{#if day}{` · Day ${day.n} of ${summary.days}`}{/if}{#if plan?.personal}{' · your own dates'}{/if}</p>
 		</div>
 
 		<section class="card today" aria-labelledby="today-heading">
 			<h1 id="today-heading" class="eyebrow">Today’s reading</h1>
 			{#if failed}
 				<p>Couldn’t load today’s reading. Check your connection and try again.</p>
-			{:else if !day}
+			{:else if !plan}
 				<p class="muted">Loading…</p>
+			{:else if !day}
+				<p>{plan.start && today < plan.start ? `Your dates for this plan start ${longDate(plan.start)}.` : 'You’ve finished this plan. Well done!'}</p>
 			{:else if day.type !== 'reading'}
 				<p class="rest">{day.label}</p>
 				<p class="muted">A day to rest and worship with your church.</p>
@@ -90,12 +115,12 @@
 				</ul>
 				{#if day.refs.length === 0}<p class="ref">{day.label}</p>{/if}
 				{#if day.alt}<p class="alt">Alternate: {day.alt.label}</p>{/if}
-				<ReadToggle big date={today} plan={summary.id} label="Today’s reading" />
+				<ReadToggle big {day} {plan} label="Today’s reading" />
 			{/if}
 		</section>
 
 		{#if plan}
-			<WeekStrip schedule={plan.schedule} {today} />
+			<WeekStrip plan={plan.id} schedule={plan.schedule} {today} />
 
 			{#if missed.length}
 				<section class="card catchup" aria-labelledby="catchup-heading">
@@ -109,10 +134,11 @@
 										{#each m.refs as ref, i (i)}<a href={passageUrl(ref, prefs)} target="_blank" rel="noopener">{refLabel(ref)}</a>{i < m.refs.length - 1 ? ', ' : ''}{/each}
 									</p>
 								</div>
-								<ReadToggle date={m.date!} plan={summary.id} label={shortDay(m.date!)} />
+								<ReadToggle day={m} {plan} label={shortDay(m.date!)} />
 							</li>
 						{/each}
 					</ul>
+					<div class="reset"><PaceControls compact {plan} own={summary} {today} /></div>
 				</section>
 			{/if}
 
@@ -127,10 +153,17 @@
 				</a>
 			</div>
 
-			{#if progress.ready && !progress.session && progress.read.size}
+			{#if progress.ready && !progress.session && hasProgress()}
 				<p class="note">Your progress is saved on this device. <a href="/settings/#account">Sign in</a> to keep it on all your devices.</p>
 			{/if}
 		{/if}
+	{/if}
+
+	{#if today}
+		{#each extras as p (p.id)}
+			{#if extraPlans[p.id]}<ExtraPlanCard plan={withDates(extraPlans[p.id], startOf(p.id))} own={p} {today} />{/if}
+		{/each}
+		<p class="more"><a href="/plans/">{extras.length ? 'Add another plan' : 'Add a plan alongside the church’s'}</a></p>
 	{/if}
 
 	<InstallPrompt />
@@ -280,6 +313,13 @@
 	}
 	.big.streak {
 		color: var(--streak);
+	}
+	.reset {
+		margin-top: 10px;
+	}
+	.more {
+		margin: 0 4px;
+		font-size: 14px;
 	}
 	.note {
 		margin: 0;

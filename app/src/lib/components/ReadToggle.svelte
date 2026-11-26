@@ -1,13 +1,20 @@
 <script lang="ts">
-	import { progress, setRead } from '#lib/reader/progress.svelte.ts';
+	import { isRead, setRead } from '#lib/reader/progress.svelte.ts';
+	import type { Day, PlanSummary } from '#lib/today.ts';
 
-	/** A round check button for one day. `big` is the full-width "Mark as read" button. */
-	let { date, plan, label, big = false }: { date: string; plan?: string; label: string; big?: boolean } = $props();
-	const done = $derived(progress.read.has(date));
+	/** A round check button for one plan day. `big` is the full-width "Mark as read" button. */
+	let {
+		plan,
+		day,
+		label,
+		big = false
+	}: { plan: Pick<PlanSummary, 'id' | 'mode' | 'supplemental' | 'personal'>; day: Pick<Day, 'n' | 'date'>; label: string; big?: boolean } = $props();
+	const done = $derived(isRead(plan.id, day.n));
+	const toggle = () => setRead(plan, day.n, !done, day.date);
 </script>
 
 {#if big}
-	<button class="big" class:done aria-pressed={done} onclick={() => setRead(date, !done, plan)}>
+	<button class="big" class:done aria-pressed={done} onclick={toggle}>
 		{#if done}
 			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7" /></svg>
 			Read · tap to undo
@@ -16,7 +23,7 @@
 		{/if}
 	</button>
 {:else}
-	<button class="dot" class:done aria-pressed={done} aria-label="{label}: {done ? 'read' : 'not read'}" onclick={() => setRead(date, !done, plan)}>
+	<button class="dot" class:done aria-pressed={done} aria-label="{label}: {done ? 'read' : 'not read'}" onclick={toggle}>
 		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7" /></svg>
 	</button>
 {/if}

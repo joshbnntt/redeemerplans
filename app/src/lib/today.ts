@@ -17,20 +17,68 @@ export function addDays(iso: string, days: number): string {
 	return new Date(Date.UTC(y, m - 1, d + days)).toISOString().slice(0, 10);
 }
 
+/** Whole days from `a` to `b` (both YYYY-MM-DD). */
+export const daysBetween = (a: string, b: string) => Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86400000);
+
+/** Day number (1-based) of a date in a dated plan, or undefined if the plan doesn't run that day. */
+export function dayNumber(plan: Pick<PlanSummary, 'start' | 'end'>, iso: string): number | undefined {
+	if (!plan.start || !plan.end || iso < plan.start || iso > plan.end) return undefined;
+	return daysBetween(plan.start, iso) + 1;
+}
+
+/** The scheduled date of day `n` in a dated plan. */
+export const dayDate = (plan: Pick<PlanSummary, 'start'>, n: number) => (plan.start ? addDays(plan.start, n - 1) : undefined);
+
+/**
+ * Whether check-offs in this plan are also written to the old date-only `haveread` table, which the
+ * current site and the admin Readers page read. Only the church plan on its own dates is.
+ */
+export const isLegacyPlan = (p: Pick<PlanSummary, 'mode' | 'supplemental' | 'personal'>) => p.mode === 'church' && !p.supplemental && !p.personal;
+
+/**
+ * Which plan day an old date-only check-off belongs to: the plan it was tagged with when that plan
+ * ran on the date, otherwise the church plan for that date.
+ */
+export function locateDate(plans: PlanSummary[], iso: string, slug?: string | null): { plan: PlanSummary; n: number } | undefined {
+	const tagged = slug ? plans.find((p) => p.id === slug && isLegacyPlan(p) && dayNumber(p, iso)) : undefined;
+	const plan = tagged ?? planForDate(plans, iso);
+	const n = plan && dayNumber(plan, iso);
+	return plan && n ? { plan, n } : undefined;
+}
+
+/**
+ * A plan on the reader's dates: counted from `start` when the reader has their own start date (for
+ * a plan without dates, or one they've moved to their own pace), otherwise the plan's own dates.
+ */
+export function withDates(plan: PlanV2, start?: string): PlanV2 {
+	if (!start || start === plan.start) return plan;
+	return {
+		...plan,
+		start,
+		end: addDays(start, plan.schedule.length - 1),
+		personal: true,
+		schedule: plan.schedule.map((d) => ({ ...d, date: addDays(start, d.n - 1) }))
+	};
+}
+
 /** Day of week (0 = Sunday) of a YYYY-MM-DD date. */
 export const weekday = (iso: string) => new Date(`${iso}T00:00:00Z`).getUTCDay();
 
-/** The church plan whose dates include `today`; when two overlap, the newest one. */
+/**
+ * The church plan for `today`: the current plan (the one the church app shows) while its dates
+ * include today; otherwise, when two church plans overlap, the newest one. Extra plans are skipped.
+ */
 export function planForDate(plans: PlanSummary[], today: string): PlanSummary | undefined {
-	return plans
-		.filter((p) => p.mode === 'church' && p.start && p.end && p.start <= today && today <= p.end)
-		.sort((a, b) => (a.start! < b.start! ? 1 : -1))[0];
+	const live = plans
+		.filter((p) => p.mode === 'church' && !p.supplemental && p.start && p.end && p.start <= today && today <= p.end)
+		.sort((a, b) => (a.start! < b.start! ? 1 : a.start! > b.start! ? -1 : a.id < b.id ? -1 : 1));
+	return live.find((p) => p.current) ?? live[0];
 }
 
 /** The next church plan that hasn't started yet. */
 export function nextPlan(plans: PlanSummary[], today: string): PlanSummary | undefined {
 	return plans
-		.filter((p) => p.mode === 'church' && p.start && p.start > today)
+		.filter((p) => p.mode === 'church' && !p.supplemental && p.start && p.start > today)
 		.sort((a, b) => (a.start! < b.start! ? -1 : 1))[0];
 }
 

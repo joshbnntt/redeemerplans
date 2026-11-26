@@ -61,6 +61,22 @@ describe('publishPlan', () => {
 		expect(after).toContain('current: false');
 	});
 
+	it('refuses an extra plan marked current, and leaves the current plan alone', async () => {
+		const { gh, commits, files } = fakeGitHub({ 'src/plan/2026-january-december.md': plan2026 });
+		const r = await publishPlan(gh, { source: source({ title: 'Advent', current: true, extra: { supplemental: true } }) }, []);
+		expect(r).toMatchObject({ ok: false, status: 422 });
+		expect(commits).toHaveLength(0);
+		expect(files['src/plan/2026-january-december.md']).toBe(plan2026);
+	});
+
+	it('publishes an extra plan without touching the current plan', async () => {
+		const { gh, files } = fakeGitHub({ 'src/plan/2026-january-december.md': plan2026 });
+		const r = await publishPlan(gh, { source: source({ title: 'Advent 2026', start: '2026-12-01', extra: { supplemental: true } }) }, []);
+		expect(r).toMatchObject({ ok: true, alsoUpdated: [] });
+		expect(files['src/plan/advent-2026.md']).toContain('current: false\nsupplemental: true\n');
+		expect(files['src/plan/2026-january-december.md']).toBe(plan2026);
+	});
+
 	it('refuses a title another plan already uses', async () => {
 		const { gh, commits } = fakeGitHub({});
 		const r = await publishPlan(gh, { source: source({ title: '2026 Bible Reading Plan' }) }, ['2026-bible-reading-plan']);
