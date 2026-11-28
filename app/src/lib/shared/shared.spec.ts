@@ -150,5 +150,11 @@ describe('links', () => {
 		expect(passageUrl(ref, { app: 'biblegateway', translation: 'NIV' })).toBe(
 			'https://www.biblegateway.com/passage/?search=Psalm%20119%3A1-32&version=NIV'
 		);
+		expect(passageUrl(ref, { app: 'blueletterbible' })).toBe(
+			'https://www.blueletterbible.org/search/preSearch.cfm?Criteria=Psalm+119%3A1-32&t=ESV'
+		);
+		expect(passageUrl({ book: 'JHN', name: 'John', chapter: 3 }, { app: 'blueletterbible', translation: 'NASB' })).toBe(
+			'https://www.blueletterbible.org/search/preSearch.cfm?Criteria=John+3&t=NASB20'
+		);
 	});
 });
