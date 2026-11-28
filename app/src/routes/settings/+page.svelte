@@ -23,7 +23,8 @@
 		{ value: 'youversion', label: 'YouVersion (Bible app)' },
 		{ value: 'esv', label: 'ESV.org' },
 		{ value: 'lsb', label: 'LSB (read.lsbible.org)' },
-		{ value: 'biblegateway', label: 'Bible Gateway' }
+		{ value: 'biblegateway', label: 'Bible Gateway' },
+		{ value: 'blueletterbible', label: 'Blue Letter Bible' }
 	];
 	const themes: { value: Theme; label: string }[] = [
 		{ value: 'system', label: 'Match this device' },
